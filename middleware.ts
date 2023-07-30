@@ -1,17 +1,12 @@
-import { createMiddlewareClient } from '@supabase/auth-helpers-nextjs'
-import { NextResponse } from 'next/server'
+import createMiddleware from 'next-intl/middleware';
 
-import type { NextRequest } from 'next/server'
+export default createMiddleware({
+   locales: ['he', 'en'],
+   defaultLocale: 'he'
+});
 
-export async function middleware(req: NextRequest) {
-  const res = NextResponse.next()
-
-  // Create a Supabase client configured to use cookies
-  const supabase = createMiddlewareClient({ req, res })
-
-  // Refresh session if expired - required for Server Components
-  // https://supabase.com/docs/guides/auth/auth-helpers/nextjs#managing-session-with-middleware
-  await supabase.auth.getSession()
-
-  return res
-}
+export const config = {
+   // Skip all paths that should not be internationalized. This example skips the
+   // folders "api", "_next" and all files with an extension (e.g. favicon.ico)
+   matcher: ['/((?!api|_next|.*\\..*).*)']
+};
