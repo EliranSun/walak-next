@@ -1,8 +1,8 @@
 'use client';
 import {useTranslations} from 'next-intl';
 
-export const Logo = ({withTitle = true}) => {
-   const t = useTranslations('header.logo');
+export const Logo = ({withTitle = false}: { withTitle?: boolean }) => {
+   const t = useTranslations('Header.logo');
    return (
       <div className="flex flex-col">
          <img

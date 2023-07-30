@@ -25,7 +25,7 @@ export default async function RootLayout({
    return (
       <html lang={locale}>
       <body>
-      <main className="min-h-screen bg-background flex flex-col items-center">
+      <main>
          <NextIntlClientProvider locale={locale} messages={messages}>
             {children}
          </NextIntlClientProvider>

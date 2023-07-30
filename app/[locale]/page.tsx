@@ -3,6 +3,9 @@ import {cookies} from 'next/headers';
 import {Header} from "@/components/organisms/Header";
 import {PostsList} from "@/components/organisms/PostsList";
 import {calculateReadingTime} from "@/utils/posts";
+import {AboutParagraph} from "@/components/atoms/AboutParagraph";
+import {NewsLetterSubscribe} from "@/components/molecules/NewsLetterSubscribe";
+import {Footer} from "@/components/organisms/Footer";
 
 export default async function Index() {
    const supabase = createServerComponentClient({cookies})
@@ -26,9 +29,17 @@ export default async function Index() {
    }
 
    return (
-      <div className="w-full flex flex-col items-center" dir="rtl">
+      <div className="w-full flex flex-col items-center box-border" dir="rtl">
          <Header/>
-         <PostsList posts={posts}/>
+         <div className="flex">
+            <PostsList posts={posts}/>
+            <div className="border-r border-gray-300 my-8"/>
+            <div className="my-8 p-8 flex flex-col gap-8">
+               <AboutParagraph/>
+               <NewsLetterSubscribe/>
+            </div>
+         </div>
+         <Footer/>
       </div>
    )
 }
