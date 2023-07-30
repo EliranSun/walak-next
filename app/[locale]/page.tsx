@@ -1,12 +1,20 @@
 import {createServerComponentClient} from '@supabase/auth-helpers-nextjs'
 import {cookies} from 'next/headers';
-import Post from "@/types/Post";
 import {Header} from "@/components/organisms/Header";
-import {PostCard} from "@/components/molecules/PostCard";
+import {PostsList} from "@/components/organisms/PostsList";
+import {calculateReadingTime} from "@/utils/posts";
 
 export default async function Index() {
    const supabase = createServerComponentClient({cookies})
-   const {data: posts, error} = await supabase.from('posts').select();
+   const {data, error} = await supabase.from('posts').select();
+
+   const posts = (data || []).map((post: any) => {
+      return {
+         ...post,
+         timeToRead: calculateReadingTime(post.content)
+      }
+   });
+
    if (error) {
       console.log(error);
 
@@ -20,14 +28,7 @@ export default async function Index() {
    return (
       <div className="w-full flex flex-col items-center" dir="rtl">
          <Header/>
-         {(posts || []).map((post: Post) => {
-            return (
-               <PostCard
-                  title={post.title}
-                  imgSrc={post.imageSrc}
-                  excerpt={post.excerpt}/>
-            );
-         })}
+         <PostsList posts={posts}/>
       </div>
    )
 }

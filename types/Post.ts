@@ -6,4 +6,5 @@ export default interface Post {
    authorId: number;
    excerpt?: string;
    imageSrc: string;
+   timeToRead?: number;
 }
