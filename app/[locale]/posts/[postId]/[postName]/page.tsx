@@ -2,28 +2,22 @@ import {createServerComponentClient} from "@supabase/auth-helpers-nextjs";
 import {cookies} from "next/headers";
 import Post from "@/types/Post";
 import {calculateReadingTime} from "@/utils/posts";
+import {Tags} from "@/components/molecules/Tags";
+import Author from "@/components/molecules/Author";
 
 const replaceDashesWithSpaces = (str: string) => str.replace(/-/g, ' ');
-const generateRandomColorByText = (text: string) => {
-    let hash = 0;
-    for (let i = 0; i < text.length; i++) {
-        hash = text.charCodeAt(i) + ((hash << 5) - hash);
-    }
-
-    let color = '#';
-    for (let i = 0; i < 3; i++) {
-        let value = (hash >> (i * 8)) & 0xFF;
-        color += ('00' + value.toString(16)).substr(-2);
-    }
-
-    return color;
-};
 
 export default async function Index({params}: { params: { postId: string, postName: string } }) {
     const supabase = createServerComponentClient({cookies})
-    const title = replaceDashesWithSpaces(decodeURI(params.postName));
-    const {data, error} = await supabase.from('posts').select().eq('id', Number(params.postId));
+    const {data, error} = await supabase
+        .from('posts')
+        .select(`* , authors (*)`)
+        .eq('id', Number(params.postId));
+
     let post = data?.[0] as Post;
+    const author = post?.authors;
+
+    console.log({data});
 
     if (error || !post) {
         console.log(error, post);
@@ -65,25 +59,22 @@ export default async function Index({params}: { params: { postId: string, postNa
                  style={{
                      backgroundImage: `url(${post.upscaledImageSrc || post.imageSrc})`
                  }}>
-                <div className="w-full bg-yellow-500 text-center py-8 text-white">
+                <div className="w-full bg-yellow-500 text-center py-8 text-white z-10">
                     <h1 className="text-6xl open-sans">{post.title}</h1>
                     <h2 className="text-xl open-sans">{post.excerpt}</h2>
                 </div>
             </div>
-            <div className="flex items-start">
-                <div className="w-1/4"></div>
+            <div className="flex items-start my-8">
+                <div className="w-1/4 flex justify-end">
+                    {author &&
+                        // @ts-ignore TODO: fix this
+                        <Author author={author} postDate={post.createdAt} postTags={post.tags || []}/>}
+                </div>
                 <div
                     className="my-4 max-w-2xl text-xl leading-relaxed bg-white p-16 box-content content"
                     dangerouslySetInnerHTML={{__html: post.content}}/>
                 <div className="flex flex-wrap w-1/4 m-4">
-                    {(post.tags || []).map(tag => (
-                        <span
-                            key={tag}
-                            style={{backgroundColor: generateRandomColorByText(tag)}}
-                            className="text-sm text-white rounded p-1 m-1 grayscale">
-                            {tag}
-                        </span>
-                    ))}
+                    <Tags tags={post.tags || []}/>
                 </div>
             </div>
             <hr/>

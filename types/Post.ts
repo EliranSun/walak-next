@@ -1,3 +1,5 @@
+import Author from "@/types/Author";
+
 export default interface Post {
     id: number;
     title: string;
@@ -11,4 +13,5 @@ export default interface Post {
     viewsCount?: number;
     upscaledImageSrc?: string;
     tags?: string[];
+    authors?: Author[];
 }

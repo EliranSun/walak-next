@@ -31,6 +31,7 @@ export const TopPosts = async ({posts}: { posts: Post[] }) => {
         <div className="w-full flex flex-col box-border" dir="rtl">
             <h2 className="open-sans text-2xl font-bold mb-4">הכי נקראים</h2>
             <div className="flex flex-col gap-4">
+                {/* @ts-ignore TODO: */}
                 {data?.map((item: { postId: number, count: number, posts: Post }) => {
                     return (
                         <PostCard isLean post={item.posts} key={item.postId}/>

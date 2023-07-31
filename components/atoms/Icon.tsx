@@ -1,6 +1,15 @@
 'use client';
 import {useCallback} from 'react';
-import {Clock, List, MagnifyingGlass, FacebookLogo, TwitterLogo, Envelope} from "@phosphor-icons/react";
+import {
+    Clock,
+    List,
+    MagnifyingGlass,
+    FacebookLogo,
+    TwitterLogo,
+    Envelope,
+    Printer,
+    ArrowLeft
+} from "@phosphor-icons/react";
 
 const DEFAULT_ICON_SIZE = 22;
 
@@ -48,6 +57,12 @@ const Icon = ({name, size}: { name: string, size?: IconSizes }) => {
 
             case 'Email':
                 return <Envelope size={iconSize}/>;
+
+            case 'Printer':
+                return <Printer size={iconSize}/>;
+
+            case 'ArrowLeft':
+                return <ArrowLeft size={iconSize}/>;
 
             default:
                 return null;

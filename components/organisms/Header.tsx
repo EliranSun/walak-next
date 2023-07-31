@@ -6,7 +6,7 @@ export const Header = () => {
     return (
         <div
             dir="rtl"
-            className="w-full py-4 px-16 flex flex-row justify-between items-center bg-slate-200 shadow-sm sticky top-0">
+            className="w-full py-4 px-16 flex flex-row justify-between items-center bg-slate-200 shadow-sm sticky top-0 z-10">
             <div className="flex items-center gap-6">
                 <Logo withTitle/>
                 <NavigationLinks/>
