@@ -79,6 +79,20 @@
     .rubik {
         font-family: "Rubik 80s Fade", sans-serif;
     }
+
+    .content h4:first-of-type:first-letter {
+        font-size: 9em;
+        font-weight: bold;
+        margin-left: 12px;
+        float: right;
+        line-height: 0.7;
+        font-family: "Rubik 80s Fade", sans-serif;
+    }
+
+    a {
+        color: deepskyblue;
+        text-decoration: underline;
+    }
 }
 
 

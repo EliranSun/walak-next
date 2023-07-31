@@ -1,15 +1,14 @@
 import {createServerComponentClient} from '@supabase/auth-helpers-nextjs'
 import {cookies} from 'next/headers';
-import {Header} from "@/components/organisms/Header";
 import {PostsList} from "@/components/organisms/PostsList";
 import {calculateReadingTime} from "@/utils/posts";
 import {AboutParagraph} from "@/components/atoms/AboutParagraph";
 import {NewsLetterSubscribe} from "@/components/molecules/NewsLetterSubscribe";
-import {Footer} from "@/components/organisms/Footer";
+import {TopPosts} from "@/components/organisms/TopPosts";
 
 export default async function Index() {
     const supabase = createServerComponentClient({cookies})
-    const {data, error} = await supabase.from('posts').select();
+    const {data, error} = await supabase.from('posts').select().order('createdAt', {ascending: false});
 
     const posts = (data || []).map((post: any) => {
         return {
@@ -38,7 +37,7 @@ export default async function Index() {
                 <div className="my-8 p-8 flex flex-col gap-8">
                     <AboutParagraph/>
                     <NewsLetterSubscribe/>
-                    <h2 className="open-sans text-xl font-bold">הכי נקראים</h2>
+                    <TopPosts posts={posts}/>
                 </div>
             </div>
         </div>

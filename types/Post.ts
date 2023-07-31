@@ -10,4 +10,5 @@ export default interface Post {
     isInteractive?: boolean;
     viewsCount?: number;
     upscaledImageSrc?: string;
+    tags?: string[];
 }
