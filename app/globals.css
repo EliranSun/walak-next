@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Alef:wght@400;700&family=Open+Sans:wght@300;400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Alef:wght@400;700&family=Open+Sans:wght@300;400;500;700&display=swap&family=Rubik+80s+Fade&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -42,8 +42,30 @@
         bottom: 0;
         right: 0;
         position: fixed;
+        z-index: -2;
+    }
+
+    .post::after {
+        content: "";
+        background-image: url("/bg.webp");
+        opacity: 0.4;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        position: fixed;
         z-index: -1;
     }
+
+    h4 {
+        margin: 8px 0;
+    }
+
+    em::before {
+        content: "\a";
+        white-space: pre;
+    }
+
 
     code {
         font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
@@ -52,6 +74,10 @@
 
     .open-sans {
         font-family: "Open Sans", sans-serif;
+    }
+
+    .rubik {
+        font-family: "Rubik 80s Fade", sans-serif;
     }
 }
 

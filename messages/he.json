@@ -6,7 +6,8 @@
     }
   },
   "PostCard": {
-    "minRead": "דקות קריאה"
+    "minRead": "דקות קריאה",
+    "interactive": "אינטראקטיבי"
   },
   "NavigationLinks": {
     "about": "הכותבים",
