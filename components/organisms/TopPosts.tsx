@@ -31,10 +31,18 @@ export const TopPosts = async ({posts}: { posts: Post[] }) => {
         <div className="w-full flex flex-col box-border" dir="rtl">
             <h2 className="open-sans text-2xl font-bold mb-4">הכי נקראים</h2>
             <div className="flex flex-col gap-4">
-                {/* @ts-ignore TODO: */}
-                {data?.map((item: { postId: number, count: number, posts: Post }) => {
+                {data?.map((item: { postId: number, count: number, posts: Post }, index: number) => {
                     return (
-                        <PostCard isLean post={item.posts} key={item.postId}/>
+                        // <li key={item.postId} className="open-sans">
+                        //     <h1 className="font-bold text-lg">
+                        //         {index + 1}. {item.posts.title}
+                        //     </h1>
+                        //     <img
+                        //         className="w-60"
+                        //         src={item.posts.imageSrc}
+                        //         alt={item.posts.title}/>
+                        // </li>
+                        <PostCard post={item.posts} key={item.postId} isLean/>
                     );
                 })}
             </div>

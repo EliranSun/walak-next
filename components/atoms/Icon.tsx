@@ -8,7 +8,8 @@ import {
     TwitterLogo,
     Envelope,
     Printer,
-    ArrowLeft
+    ArrowLeft,
+    Share
 } from "@phosphor-icons/react";
 
 const DEFAULT_ICON_SIZE = 22;
@@ -63,6 +64,9 @@ const Icon = ({name, size}: { name: string, size?: IconSizes }) => {
 
             case 'ArrowLeft':
                 return <ArrowLeft size={iconSize}/>;
+
+            case 'Share':
+                return <Share size={iconSize}/>;
 
             default:
                 return null;

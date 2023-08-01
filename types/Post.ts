@@ -1,5 +1,7 @@
 import Author from "@/types/Author";
 
+type Category = 1 | 2 | 3 | 4;
+
 export default interface Post {
     id: number;
     title: string;
@@ -14,4 +16,7 @@ export default interface Post {
     upscaledImageSrc?: string;
     tags?: string[];
     authors?: Author[];
+    hasVideo?: boolean;
+    categoryId: Category;
+    highlights: string[];
 }

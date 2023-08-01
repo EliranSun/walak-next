@@ -4,6 +4,11 @@ import Post from "@/types/Post";
 import {calculateReadingTime} from "@/utils/posts";
 import {Tags} from "@/components/molecules/Tags";
 import Author from "@/components/molecules/Author";
+import Icon from "@/components/atoms/Icon";
+import {PostFooterMessage} from "@/components/atoms/PostFooterMessage";
+import {PrintViewButton} from "@/components/molecules/PrintViewButton";
+import {ShareButton} from "@/components/molecules/ShareButton";
+import {PostContent} from "@/components/organisms/PostContent";
 
 const replaceDashesWithSpaces = (str: string) => str.replace(/-/g, ' ');
 
@@ -16,8 +21,6 @@ export default async function Index({params}: { params: { postId: string, postNa
 
     let post = data?.[0] as Post;
     const author = post?.authors;
-
-    console.log({data});
 
     if (error || !post) {
         console.log(error, post);
@@ -60,27 +63,32 @@ export default async function Index({params}: { params: { postId: string, postNa
                      backgroundImage: `url(${post.upscaledImageSrc || post.imageSrc})`
                  }}>
                 <div className="w-full bg-yellow-500 text-center py-8 text-white z-10">
-                    <h1 className="text-6xl open-sans">{post.title}</h1>
+                    <h1 className="text-6xl open-sans tracking-wider">{post.title}</h1>
                     <h2 className="text-xl open-sans">{post.excerpt}</h2>
                 </div>
             </div>
-            <div className="flex items-start my-8">
-                <div className="w-1/4 flex justify-end">
-                    {author &&
-                        // @ts-ignore TODO: fix this
-                        <Author author={author} postDate={post.createdAt} postTags={post.tags || []}/>}
+            <div className="flex items-start my-8 justify-center">
+                <div className="w-1/6 px-4 flex justify-end flex flex-col box-border items-center">
+                    {author && <Author author={author} post={post}/>}
                 </div>
-                <div
-                    className="my-4 max-w-2xl text-xl leading-relaxed bg-white p-16 box-content content"
-                    dangerouslySetInnerHTML={{__html: post.content}}/>
-                <div className="flex flex-wrap w-1/4 m-4">
-                    <Tags tags={post.tags || []}/>
+                <PostContent post={post}/>
+                <div className="flex flex-wrap w-1/6 m-4 px-4 gap-2">
+                    <Tags tags={post.tags || []} isInteractive={post.isInteractive} hasVideo={post.hasVideo}/>
+                    <div className="border-b border-dotted border-gray-400 w-full h-1"/>
+                    <div className="flex flex-col gap-2 my-2">
+                        <PrintViewButton/>
+                        <ShareButton/>
+                    </div>
+                    <div className="border-b border-dotted border-gray-400 w-full h-1"/>
+                    {/*<img*/}
+                    {/*    className="mt-10 w-40"*/}
+                    {/*    alt="Advertisement"*/}
+                    {/*    src="https://d2r55xnwy6nx47.cloudfront.net/uploads/2021/09/2021PodcastAd_Article_160.jpg"*/}
+                    {/*/>*/}
                 </div>
             </div>
             <hr/>
-            <p>
-                אהבתם? תשתפו! לא אהבתם? תנו ב"לייק" תפרגנו מה קרה?!
-            </p>
+            <PostFooterMessage/>
         </div>
     );
 };

@@ -2,18 +2,19 @@ import Icon from "@/components/atoms/Icon";
 import {useTranslations} from "next-intl";
 import Author from "@/types/Author";
 import {Tags} from "@/components/molecules/Tags";
+import Post from "@/types/Post";
 
-const Author = ({author, postDate, postTags}: { author: Author, postDate: Date, postTags: string[] }) => {
+const Author = ({author, post}: { author: Author, post: Post }) => {
     const t = useTranslations('Author');
 
     return (
-        <div className="px-8 py-4 flex flex-col items-center w-80">
+        <div className="px-8 py-4 flex flex-col items-center w-full box-border">
             <div>
-                <div className="w-24 h-24 rounded-full overflow-hidden bg-red-400">
+                <div className="w-24 h-24 rounded-full overflow-hidden">
                     <img
                         className="grayscale bright"
                         src={author.imageSrc}
-                        alt={t("author.image")}
+                        alt={t("image.alt", {name: author.name})}
                     />
                 </div>
             </div>
@@ -23,10 +24,10 @@ const Author = ({author, postDate, postTags}: { author: Author, postDate: Date, 
                 </h3>
                 <div className="opacity-70 mb-2">{author.title}</div>
             </div>
-            {postDate && (
+            {post.createdAt && (
                 <div className="border-b border-gray-300 w-full text-center">
                     <div className="py-2 opacity-60 text-xs">
-                        {new Date(postDate).toLocaleString("he-IL", {
+                        {new Date(post.createdAt).toLocaleString("he-IL", {
                             weekday: "long",
                             year: "numeric",
                             month: "long",
@@ -35,17 +36,6 @@ const Author = ({author, postDate, postTags}: { author: Author, postDate: Date, 
                     </div>
                 </div>
             )}
-            <div className="flex m-t-8 m-b-8">
-                <Icon name="Printer"/>
-                {t('print')}
-            </div>
-            <div className="divider-dotted"/>
-            <Tags tags={postTags}/>
-            <img
-                className="mt-10 w-40"
-                alt="Advertisement"
-                src="https://d2r55xnwy6nx47.cloudfront.net/uploads/2021/09/2021PodcastAd_Article_160.jpg"
-            />
         </div>
     );
 };

@@ -10,7 +10,9 @@ export const NavigationLinks = () => {
             <span>•</span>
             <li className="cursor-pointer hover:text-blue-500">{t('stories')}</li>
             <span>•</span>
-            <li className="cursor-pointer hover:text-blue-500">{t('thoughts')}</li>
+            <li className="cursor-pointer hover:text-blue-500">{t('opinions')}</li>
+            <span>•</span>
+            <li className="cursor-pointer hover:text-blue-500">{t('ideas')}</li>
             <span>•</span>
             <li className="cursor-pointer hover:text-blue-500">{t('writers')}</li>
             <span>•</span>
