@@ -4,9 +4,9 @@ import Icon from "@/components/atoms/Icon";
 import Link from "next/link";
 import Post from "@/types/Post";
 import classNames from "classnames";
-import {className} from "postcss-selector-parser";
 import {InteractiveTag} from "@/components/atoms/InteractiveTag";
 import {VideoTag} from "@/components/atoms/VideoTag";
+import {useMemo} from "react";
 
 const replaceAllSpacesWithDashes = (str: string) => str.replace(/\s/g, '-');
 
@@ -21,39 +21,50 @@ export const PostCard = ({
 }) => {
    const t = useTranslations('PostCard');
    const {id, title, excerpt, imageSrc, timeToRead, isInteractive, hasVideo} = post;
+   const cardContainerClasses = classNames("flex flex-col items-center text-right hover:text-blue-500 cursor-pointer", {
+      "bg-white shadow-sm max-w-[288px] w-full": !isLean && !isLarge,
+      "w-60": isLean,
+      "border-b border-gray-300": isLarge
+   });
+
+   const imageContainerClasses = classNames("overflow-hidden", {
+      "h-[50vh]": isLarge,
+      "aspect-[9/5] h-40": !isLarge
+   });
+
+   const textContainerClasses = classNames("text-right w-full flex justify-between py-2", {
+      "flex-col": !isLarge,
+      "px-4": !isLean && !isLarge,
+      "items-center h-full": isLarge
+   });
+
+   const titleContainerClasses = classNames({
+      "my-4": isLarge,
+      "mb-2": !isLarge
+   });
+
+   const titleClasses = classNames("font-bold open-sans", {
+      "text-3xl": isLarge,
+      "text-lg": !isLarge
+   });
+
+   const tagContainerClasses = classNames("flex", {
+      "items-center gap-2": isLarge,
+      "gap-1": !isLarge
+   });
 
    return (
       <Link href={`/posts/${id}/${replaceAllSpacesWithDashes(title)}`}>
-         <div className={classNames("flex flex-col items-center text-right hover:text-blue-500 cursor-pointer", {
-            "bg-white shadow-sm max-w-[288px] w-full": !isLean && !isLarge,
-            "w-60": isLean,
-            "border-b border-gray-300": isLarge
-         })}>
-            <div className={classNames("overflow-hidden", {
-               "h-[50vh]": isLarge,
-               "aspect-[9/5] h-40": !isLarge
-            })}>
+         <div className={cardContainerClasses}>
+            <div className={imageContainerClasses}>
                <img src={imageSrc} alt={title} className="object-cover object-center w-full"/>
             </div>
-            <div className={classNames("text-right w-full flex  justify-between py-2", {
-               "flex-col": !isLarge,
-               "px-4 h-24": !isLean && !isLarge,
-               "items-center h-full": isLarge
-            })}>
-               <div className={classNames({
-                  "my-4": isLarge,
-                  "mb-2": !isLarge
-               })}>
-                  <h1 className={classNames("font-bold open-sans", {
-                     "text-3xl": isLarge,
-                     "text-lg": !isLarge
-                  })}>{title}</h1>
+            <div className={textContainerClasses}>
+               <div className={titleContainerClasses}>
+                  <h1 className={titleClasses}>{title}</h1>
                   <p className="text-base leading-4">{excerpt}</p>
                </div>
-               <div className={classNames("flex", {
-                  "items-center gap-2": isLarge,
-                  "gap-1": !isLarge
-               })}>
+               <div className={tagContainerClasses}>
                   {isInteractive && <InteractiveTag/>}
                   {hasVideo && <VideoTag/>}
                   <p className="text-xs text-gray-400 flex items-center gap-1">

@@ -1,35 +1,49 @@
-import {createServerComponentClient} from '@supabase/auth-helpers-nextjs'
-import {cookies} from 'next/headers';
 import {PostsList} from "@/components/organisms/PostsList";
-import {calculateReadingTime} from "@/utils/posts";
 import {AboutParagraph} from "@/components/atoms/AboutParagraph";
 import {NewsLetterSubscribe} from "@/components/molecules/NewsLetterSubscribe";
 import {TopPosts} from "@/components/organisms/TopPosts";
 import Post from "@/types/Post";
 import {PostCard} from "@/components/molecules/PostCard";
 import {useLocale} from "next-intl";
-import {SocialFeed} from "@/components/organisms/SocialFeed";
+import {getPosts} from "@/utils/posts";
 import {Categories} from "@/constants/categories";
 
 export default async function Index() {
    const locale = useLocale();
    const dir = locale === 'he' ? 'rtl' : 'ltr';
-   const supabase = createServerComponentClient({cookies})
-   const {data, error} = await supabase.from('posts').select().order('createdAt', {ascending: false});
-
-   const posts = (data || []).map((post: any) => {
-      return {
-         ...post,
-         timeToRead: calculateReadingTime(post.content)
-      }
-   });
+   const {posts, error} = await getPosts();
    const firstPost = posts[0];
    const restOfPosts = posts.slice(1);
+   
+   // TODO: category id in supabase
+   const articles = [] as Post[];
+   const stories = [] as Post[];
+   const opinions = [] as Post[];
+   const ideas = [] as Post[];
 
-   const articles = restOfPosts.filter((post: Post) => post.categoryId === Categories.ARTICLE).slice(0, 6);
-   const stories = restOfPosts.filter((post: Post) => post.categoryId === Categories.STORY).slice(0, 6);
-   const opinions = restOfPosts.filter((post: Post) => post.categoryId === Categories.OPINION).slice(0, 3);
-   const ideas = restOfPosts.filter((post: Post) => post.categoryId === Categories.IDEA).slice(0, 3);
+   restOfPosts.forEach((post: Post) => {
+      switch (post.categoryId) {
+         case Categories.ARTICLE:
+            if (articles.length >= 6) break;
+            articles.push(post);
+            break;
+
+         case Categories.STORY:
+            if (articles.length >= 6) break;
+            stories.push(post);
+            break;
+
+         case Categories.OPINION:
+            if (articles.length >= 6) break;
+            opinions.push(post);
+            break;
+
+         case Categories.IDEA:
+            if (articles.length >= 6) break;
+            ideas.push(post);
+            break;
+      }
+   })
 
    if (error) {
       console.log(error);
