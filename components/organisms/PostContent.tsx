@@ -4,7 +4,7 @@ export const PostContent = ({post}: { post: Post }) => {
     return (
         <div className="relative">
             <div
-                className="my-4 max-w-2xl text-xl leading-relaxed bg-white p-16 box-content content"
+                className="max-w-2xl text-xl leading-relaxed bg-white p-16 box-content content"
                 dangerouslySetInnerHTML={{__html: post.content}}/>
             {(post.highlights || []).map((highlight, index) => {
                 return (
