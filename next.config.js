@@ -4,10 +4,18 @@ const withNextIntl = require('next-intl/plugin')(
     './i18n.ts'
 );
 
-const nextConfig = withNextIntl({
+const nextConfig = {
   experimental: {
     serverActions: false,
   },
-});
+  // async rewrites() {
+  //   return [
+  //     {
+  //       source: '/',
+  //       destination: '/he'
+  //     },
+  //   ];
+  // }
+};
 
-module.exports = nextConfig;
+module.exports = withNextIntl(nextConfig);

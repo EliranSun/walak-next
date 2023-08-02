@@ -59,5 +59,13 @@
   },
   "ShareButton": {
     "label": "שיתוף"
+  },
+  "Footer": {
+    "terms": "תנאי שימוש",
+    "contact": "צרו קשר",
+    "buy_coffee": "קנו לנו קפה ☕"
+  },
+  "Titles": {
+    "articles": "מאמרים"
   }
 }

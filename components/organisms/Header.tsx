@@ -12,7 +12,7 @@ export const Header = () => {
    return (
       <div
          dir={isRtl ? "rtl" : "ltr"}
-         className="w-full py-4 flex flex-row justify-center items-center bg-slate-100 shadow-sm sticky top-0 z-10">
+         className="w-full py-4 flex flex-row justify-center items-center bg-slate-100 shadow-sm sticky top-0 z-10 border-b-2 border-yellow-950/10">
          <div className="max-w-7xl flex justify-between items-center w-full">
             <div className="flex items-center gap-6">
                <Logo withTitle/>

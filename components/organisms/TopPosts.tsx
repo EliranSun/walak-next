@@ -4,48 +4,38 @@ import Post from "@/types/Post";
 import {PostCard} from "@/components/molecules/PostCard";
 
 export const TopPosts = async ({posts}: { posts: Post[] }) => {
-    const supabase = createServerComponentClient({cookies})
+   const supabase = createServerComponentClient({cookies})
 
-    // select postViews and join with posts
-    const {data, error} = await supabase
-        .from('postsViews')
-        .select(`
-            postId,
-            count,
-            posts (*)
-        `)
-        .order('count', {ascending: false})
-        .limit(3);
+   const {data, error} = await supabase
+      .from('postsViews')
+      .select(`postId, count`)
+      .order('count', {ascending: false})
+      .limit(3);
 
-    if (error) {
-        console.log(error);
+   const topPosts = posts.filter(post => {
+      return data?.some(postView => postView.postId === post.id);
+   });
 
-        return (
-            <div className="w-full flex flex-col items-center">
-                <p className="text-2xl">Error</p>
-            </div>
-        );
-    }
+   if (error) {
+      console.log(error);
 
-    return (
-        <div className="w-full flex flex-col box-border" dir="rtl">
-            <h2 className="open-sans text-2xl font-bold mb-4">הכי נקראים</h2>
-            <div className="flex flex-col gap-4">
-                {data?.map((item: { postId: number, count: number, posts: Post }, index: number) => {
-                    return (
-                        // <li key={item.postId} className="open-sans">
-                        //     <h1 className="font-bold text-lg">
-                        //         {index + 1}. {item.posts.title}
-                        //     </h1>
-                        //     <img
-                        //         className="w-60"
-                        //         src={item.posts.imageSrc}
-                        //         alt={item.posts.title}/>
-                        // </li>
-                        <PostCard post={item.posts} key={item.postId} isLean/>
-                    );
-                })}
-            </div>
-        </div>
-    );
+      return (
+         <div className="w-full flex flex-col items-center">
+            <p className="text-2xl">Error</p>
+         </div>
+      );
+   }
+
+   return (
+      <div className="w-full flex flex-col box-border" dir="rtl">
+         <h2 className="open-sans text-2xl font-bold mb-4">הכי נקראים</h2>
+         <div className="flex flex-col gap-4">
+            {topPosts?.map((post: Post) => {
+               return (
+                  <PostCard post={post} key={post.id} isLean/>
+               );
+            })}
+         </div>
+      </div>
+   );
 }
