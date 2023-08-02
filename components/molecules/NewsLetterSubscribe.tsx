@@ -2,7 +2,7 @@
 import {useTranslations} from "next-intl";
 import classNames from "classnames";
 
-export const NewsLetterSubscribe = ({isBordered}: { isBordered: boolean }) => {
+export const NewsLetterSubscribe = ({isBordered}: { isBordered?: boolean }) => {
     const t = useTranslations('NewsLetterSubscribe');
 
     return (

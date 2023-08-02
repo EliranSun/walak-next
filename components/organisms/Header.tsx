@@ -1,6 +1,7 @@
 import {Logo} from "@/components/atoms/Logo";
 import Icon from "@/components/atoms/Icon";
 import {NavigationLinks} from "@/components/molecules/NavigationLinks";
+import {DarkModeToggle} from "@/components/atoms/DarkModeToggle";
 
 export const Header = () => {
     return (
@@ -14,6 +15,7 @@ export const Header = () => {
                 </div>
                 <div className="flex gap-4">
                     <Icon name="MagnifyingGlass"/>
+                    <DarkModeToggle/>
                     <Icon name="List"/>
                 </div>
             </div>

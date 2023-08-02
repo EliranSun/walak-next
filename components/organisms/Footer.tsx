@@ -2,11 +2,12 @@ import {Logo} from "@/components/atoms/Logo";
 import {AboutParagraph} from "@/components/atoms/AboutParagraph";
 import {NewsLetterSubscribe} from "@/components/molecules/NewsLetterSubscribe";
 import {SocialStrip} from "@/components/molecules/SocialStrip";
+import {Link} from "@/components/atoms/Link";
 
 export const Footer = () => {
     return (
         <footer className="border-t border-gray-300 w-full p-4" dir="rtl">
-            <div className="flex gap-8">
+            <div className="flex gap-8 mb-4 border-b border-gray-400">
                 <div className="w-1/3 flex items-start gap-4">
                     <Logo/>
                     <AboutParagraph isShort/>
@@ -16,10 +17,11 @@ export const Footer = () => {
                     <SocialStrip/>
                 </div>
             </div>
-            <hr/>
-            <div className="flex w-full justify-between">
+            <div className="flex w-full justify-between my">
                 <ul className="flex text-xs gap-1">
-                    <li>תנאי שימוש</li>
+                    <Link href="/">
+                        <li>תנאי שימוש</li>
+                    </Link>
                     <span>•</span>
                     <li>צרו קשר</li>
                     <span>•</span>

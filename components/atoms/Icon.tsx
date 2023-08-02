@@ -9,8 +9,13 @@ import {
     Envelope,
     Printer,
     ArrowLeft,
-    Share
+    Share,
+    Sun,
+    Moon
 } from "@phosphor-icons/react";
+// import Darkmode from 'darkmode-js';
+//
+// new Darkmode().showWidget();
 
 const DEFAULT_ICON_SIZE = 22;
 
@@ -68,15 +73,21 @@ const Icon = ({name, size}: { name: string, size?: IconSizes }) => {
             case 'Share':
                 return <Share size={iconSize}/>;
 
+            case 'Sun':
+                return <Sun size={iconSize}/>;
+
+            case 'Moon':
+                return <Moon size={iconSize}/>;
+
             default:
                 return null;
         }
     }, [name]);
 
     return (
-        <span>
-         <MarkdownIcon/>
-      </span>
+        <span className="cursor-pointer select-none">
+            <MarkdownIcon/>
+        </span>
     )
 }
 
