@@ -1,8 +1,8 @@
 {
   "Header": {
     "logo": {
-      "title": "What's on your mind?",
-      "alt": "Walak - What's on your mind?"
+      "title": "speak your mind",
+      "alt": "Walak - speak your mind"
     }
   },
   "PostsList": {
@@ -27,7 +27,7 @@
   },
   "NewsLetterSubscribe": {
     "title": "Want updates?",
-    "titleAttention": "Talk with us!",
+    "titleAttention": "Talk to us!",
     "description": "Subscribe and get updates about whatever is on our mind",
     "input": {
       "placeholder": "Your Email"
