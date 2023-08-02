@@ -1,8 +1,63 @@
 {
   "Header": {
-    "title": "Walak",
     "logo": {
-      "alt": "Walak - what's on your mind?"
+      "title": "What's on your mind?",
+      "alt": "Walak - What's on your mind?"
     }
+  },
+  "PostsList": {
+    "articles": "Articles",
+    "opinions": "Opinions",
+    "stories": "Stories",
+    "ideas": "Ideas"
+  },
+  "PostCard": {
+    "minRead": "min read",
+    "interactive": "interactive",
+    "video": "clip"
+  },
+  "NavigationLinks": {
+    "writers": "Writers",
+    "about": "About",
+    "articles": "Articles",
+    "opinions": "Opinions",
+    "ideas": "Ideas",
+    "thoughts": "Thoughts",
+    "stories": "Stories"
+  },
+  "NewsLetterSubscribe": {
+    "title": "Want updates?",
+    "titleAttention": "Talk with us!",
+    "description": "Subscribe and get updates about whatever is on our mind",
+    "input": {
+      "placeholder": "Your Email"
+    }
+  },
+  "About": {
+    "full": "<div><p><strong>וואלק</strong>, אתר שכל מטרתו היא להוות פלטפורמה לפרסום מאמרים, סיפורים קצרים, דעות ובעיקר <strong>רעיונות.</strong></p><p>אנחנו חושבים שיש מחסור מסוים בתכנים וברעיונות מעניינים ואיכותיים שהם גם קלילים ונגישים לכל; רעיונות אותם אפשר לקרוא להנאתכם ברכבת ובאוטובוס, לפני השינה או בכל זמן פנוי אחר שאתם מצליחים לגייס. התכנים הינם תכנים לא אקדמיים, אך לדעתנו אין בכך כל חסרון אלא חוזקה, מאחר ולכל אדם בר-דעת ניתנת הזכות להפיץ את רעיונותיו!</p><p>אנו מאמינים כי את התוכן יש לשפוט ולהעריך לפי איכותו האינטלקטואלית, ולא על סמך תעודה מנייר או 'טייטל' כלשהו; לאף אדם ולאף ממסד אין בעלות על הידע. אנחנו חיים בעידן המידע - עידן בו הידע נגיש לכל, ולכן גם לנו 'פשוטי העם בולעי הספרים המשכילים והאוטודידקטים' מגיעה הזכות להישמע בעין אובייקטיבית לפי איכות התוכן גרידא!</p><p>מי שמעוניין לכתוב לאתר או ליצור קשר לכל מטרה, שאלה, הצעה, או בקיצור, <strong>מה שעולה לכם לראש,</strong> יותר ממוזמן. תראו את זה בתור שליחות!</p></div>",
+    "short": "<p>אתר שכל מטרתו היא להוות פלטפורמה לפרסום מאמרים, סיפורים קצרים, דעות ובעיקר <strong>רעיונות.</strong></p>"
+  },
+  "Author": {
+    "print": "Print view",
+    "by": {
+      "anon": "Anonymous"
+    },
+    "image": {
+      "alt": "Profile picture of {name}"
+    }
+  },
+  "Tags": {
+    "more": "more tags"
+  },
+  "interactive": "interactive",
+  "video": "clip",
+  "PostFooterMessage": {
+    "message": "אהבתם? תשתפו! לא אהבתם? תנו ב\"לייק\" תפרגנו מה קרה?!"
+  },
+  "PrintViewButton": {
+    "label": "Print view"
+  },
+  "ShareButton": {
+    "label": "Share"
   }
 }
