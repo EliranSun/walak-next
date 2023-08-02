@@ -29,7 +29,8 @@ export const PostCard = ({
 
    const imageContainerClasses = classNames("overflow-hidden", {
       "h-[50vh]": isLarge,
-      "aspect-[9/5] h-40": !isLarge
+      "aspect-[9/5]": !isLarge,
+      "h-40": !isLean && !isLarge
    });
 
    const textContainerClasses = classNames("text-right w-full flex justify-between py-2", {

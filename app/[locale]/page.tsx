@@ -14,8 +14,8 @@ export default async function Index() {
    const {posts, error} = await getPosts();
    const firstPost = posts[0];
    const restOfPosts = posts.slice(1);
-   
-   // TODO: category id in supabase
+
+   // TODO: a query that returns 6 posts of each category? is it possible? and not complex?
    const articles = [] as Post[];
    const stories = [] as Post[];
    const opinions = [] as Post[];
@@ -29,17 +29,17 @@ export default async function Index() {
             break;
 
          case Categories.STORY:
-            if (articles.length >= 6) break;
+            if (stories.length >= 6) break;
             stories.push(post);
             break;
 
          case Categories.OPINION:
-            if (articles.length >= 6) break;
+            if (opinions.length >= 6) break;
             opinions.push(post);
             break;
 
          case Categories.IDEA:
-            if (articles.length >= 6) break;
+            if (ideas.length >= 6) break;
             ideas.push(post);
             break;
       }

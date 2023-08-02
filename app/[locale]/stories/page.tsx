@@ -2,5 +2,5 @@ import {Categories} from "@/constants/categories";
 import {PostsPageTemplate} from "@/components/templates/PostsPageTemplate";
 
 export default async function Index() {
-   return <PostsPageTemplate categoryId={Categories.ARTICLE} categoryKey="articles"/>;
+   return <PostsPageTemplate categoryId={Categories.STORY} categoryKey="stories"/>;
 };

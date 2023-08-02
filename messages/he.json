@@ -66,6 +66,10 @@
     "buy_coffee": "קנו לנו קפה ☕"
   },
   "Titles": {
-    "articles": "מאמרים"
+    "articles": "מאמרים",
+    "opinions": "דעות",
+    "ideas": "רעיונות",
+    "thoughts": "מחשבות",
+    "stories": "סיפורים"
   }
 }
