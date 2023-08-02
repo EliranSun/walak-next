@@ -20,13 +20,13 @@ export default async function Index() {
       );
    }
 
-   // return (
-   //    <div className="flex flex-col items-center text-center">
-   //       {/*<img src="/loading.gif" className="w-40 h-auto grayscale" alt="Loading..."/>*/}
-   //       <MainTitle translationKey="articles"/>
-   //       <PostsListSkeleton/>
-   //    </div>
-   // );
+   return (
+      <div className="flex flex-col items-center text-center">
+         {/*<img src="/loading.gif" className="w-40 h-auto grayscale" alt="Loading..."/>*/}
+         <MainTitle translationKey="articles"/>
+         <PostsListSkeleton/>
+      </div>
+   );
 
    return (
       <section className="flex flex-col items-center text-center">
