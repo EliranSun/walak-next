@@ -3,13 +3,15 @@ import NextIntlLink from 'next-intl/link';
 
 export const Link = ({
    href,
-   children
+   children,
+   locale
 }: {
    href: string,
    children: React.ReactNode,
+   locale?: string
 }) => {
    return (
-      <NextIntlLink href={href}>
+      <NextIntlLink href={href} locale={locale}>
             <span className="cursor-pointer hover:text-blue-500">
                 {children}
             </span>
