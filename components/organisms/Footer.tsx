@@ -36,8 +36,8 @@ export const Footer = () => {
                </Link>
             </ul>
             <span className="text-xs">
-                    Made with 💛 by the OC Team © 2016-{new Date().getFullYear()}
-                </span>
+                 Made with 💛 by the OC Team © 2016-{new Date().getFullYear()}
+             </span>
          </div>
       </footer>
    )
