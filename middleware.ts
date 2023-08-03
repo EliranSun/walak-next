@@ -2,7 +2,9 @@ import createMiddleware from 'next-intl/middleware';
 
 export default createMiddleware({
    locales: ['he', 'en'],
-   defaultLocale: 'he'
+   defaultLocale: 'he',
+   localePrefix: 'always',
+   localeDetection: false
 });
 
 export const config = {

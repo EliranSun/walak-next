@@ -1,12 +1,11 @@
 'use client';
 import {useTranslations} from "next-intl";
 import Icon from "@/components/atoms/Icon";
-import Link from "next/link";
 import Post from "@/types/Post";
 import classNames from "classnames";
 import {InteractiveTag} from "@/components/atoms/InteractiveTag";
 import {VideoTag} from "@/components/atoms/VideoTag";
-import {useMemo} from "react";
+import {Link} from "@/components/atoms/Link";
 
 const replaceAllSpacesWithDashes = (str: string) => str.replace(/\s/g, '-');
 
