@@ -10,7 +10,7 @@ export const PostsList = ({posts, type}: { posts: Post[], type?: "articles" | "s
 
    return (
       <section className="p-10 pb-0">
-         {type && <h1 className="text-2xl open-sans my-4 font-bold">{t(type)}</h1>}
+         {type && <h1 className="text-3xl open-sans my-4 font-bold">{t(type)}</h1>}
          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {posts.map((post: Post) => {
                return (

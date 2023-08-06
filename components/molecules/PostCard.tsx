@@ -45,7 +45,7 @@ export const PostCard = ({
    });
 
    const titleClasses = classNames("font-bold open-sans", {
-      "text-3xl": isLarge,
+      "text-4xl": isLarge,
       "text-lg": !isLarge
    });
 
