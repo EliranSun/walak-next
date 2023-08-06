@@ -6,6 +6,7 @@ import classNames from "classnames";
 import {InteractiveTag} from "@/components/atoms/InteractiveTag";
 import {VideoTag} from "@/components/atoms/VideoTag";
 import {Link} from "@/components/atoms/Link";
+import {CoopTag} from "@/components/atoms/CoopTag";
 
 const replaceAllSpacesWithDashes = (str: string) => str.replace(/\s/g, '-');
 
@@ -67,6 +68,7 @@ export const PostCard = ({
                <div className={tagContainerClasses}>
                   {isInteractive && <InteractiveTag/>}
                   {hasVideo && <VideoTag/>}
+                  {post.tags?.includes("שת\"פ") && <CoopTag/>}
                   <p className="text-xs text-gray-400 flex items-center gap-1">
                      <Icon name="Clock" size={Icon.Sizes.SMALL}/>
                      {timeToRead} {t('minRead')}

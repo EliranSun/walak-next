@@ -10,11 +10,18 @@ export const TopPosts = async ({posts}: { posts: Post[] }) => {
       .from('postsViews')
       .select(`postId, count`)
       .order('count', {ascending: false})
+      .neq('postId', posts[0].id)
       .limit(3);
 
-   const topPosts = posts.filter(post => {
-      return data?.some(postView => postView.postId === post.id);
-   });
+
+   const topPosts = (data || []).map(({postId, count}) => {
+      return {
+         ...posts.find(post => post.id === postId),
+         views: count || 0
+      }
+   }).sort((a, b) => b.views - a.views);
+
+   if (!topPosts.length) return null;
 
    if (error) {
       console.log(error);

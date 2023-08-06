@@ -43,4 +43,27 @@ export const getPost = async (id: number) => {
    };
 
    return {post, error};
+};
+
+export const trackPostViews = async (post: Post) => {
+   const supabase = createServerComponentClient({cookies})
+
+   supabase
+      .from('postsViews')
+      .select()
+      .eq('postId', post.id)
+      .then(({data}) => {
+         supabase
+            .from('postsViews')
+            .upsert({
+               count: (data && data[0]?.count || 0) + 1,
+               postId: post.id
+            })
+            .eq('postId', post.id)
+            .then(({data, error}) => {
+               if (error) {
+                  console.log(error);
+               }
+            })
+      });
 }

@@ -20,4 +20,5 @@ export default interface Post {
    hasVideo?: boolean;
    categoryId: Category;
    highlights: string[];
+   views?: number;
 }
