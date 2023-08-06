@@ -16,7 +16,7 @@ export const TopPosts = async ({posts}: { posts: Post[] }) => {
 
    const topPosts = (data || []).map(({postId, count}) => {
       return {
-         ...posts.find(post => post.id === postId),
+         ...posts.find(post => post.id === postId) as Post,
          views: count || 0
       }
    }).sort((a, b) => b.views - a.views);
