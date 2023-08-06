@@ -12,13 +12,35 @@ export const calculateReadingTime = (text: string) => {
 
 export const getPosts = async () => {
    const supabase = createServerComponentClient({cookies})
-   const {data, error} = await supabase.from('posts').select().order('createdAt', {ascending: false});
+   const {data, error} = await supabase
+      .from('posts')
+      .select('*, postAuthors:postAuthors!postId (authorId:authors!id(name))')
+      .order('createdAt', {ascending: false});
+
    const posts = (data || []).map((post: Post) => {
       return {
          ...post,
+         authors: post.postAuthors,
          timeToRead: calculateReadingTime(post.content)
       };
    });
 
    return {posts, error};
 };
+
+export const getPost = async (id: number) => {
+   const supabase = createServerComponentClient({cookies})
+   const {data, error} = await supabase
+      .from('posts')
+      .select('*, postAuthors(author:authors(*))')
+      .eq('id', id)
+      .single();
+
+   const post = {
+      ...data,
+      authors: data.postAuthors,
+      timeToRead: calculateReadingTime(data.content)
+   };
+
+   return {post, error};
+}
