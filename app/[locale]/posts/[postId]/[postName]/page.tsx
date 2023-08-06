@@ -55,7 +55,7 @@ export default async function Index({params}: { params: { postId: string, postNa
                <div className="w-44 mr-8 flex justify-end flex gap-2 flex-col box-border items-center">
                   {post.authors.length > 1
                      ? <Authors authors={post.authors}/>
-                     : <Author author={post.authors[0]}/>}
+                     : <Author author={post.authors[0].author}/>}
                   {post.createdAt && (
                      <div className="border-b border-gray-300 w-full pb-2 opacity-60 text-xs">
                         {new Date(post.createdAt).toLocaleString("he-IL", {
