@@ -40,14 +40,19 @@ export default async function Index({params}: { params: { postId: string, postNa
       <>
          <head>
             <title>{post.title}</title>
+            <meta property="description" content={post.excerpt}/>
             <meta property="og:title" content={post.title}/>
             <meta property="og:description" content={post.excerpt}/>
             <meta property="og:image" content={post.imageSrc}/>
+            <meta property="og:image:width" content="1200"/>
+            <meta property="og:image:height" content="630"/>
+            <meta property="og:image:type" content="image/png"/>
             <meta property="og:url" content={`https://walak-next.vercel.app/he/posts/${post.id}/${post.name}`}/>
             <meta property="og:site_name" content="וואלק"/>
             <meta property="og:locale" content="he_IL"/>
-            <meta property="og:type" content="website"/>
+            <meta property="og:type" content="article"/>
             <meta property="twitter:site" content="@Walak"/>
+            <meta property="twitter:creator" content="@Walak"/>
             <meta property="twitter:card" content="summary_large_image"/>
          </head>
          <div className="w-full flex flex-col items-center post" dir="rtl">
