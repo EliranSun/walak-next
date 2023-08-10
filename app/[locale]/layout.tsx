@@ -5,10 +5,10 @@ import {Header} from "@/components/organisms/Header";
 import {Footer} from "@/components/organisms/Footer";
 import {notFound} from "next/navigation";
 
-export const metadata = {
-   title: 'וואלק - מה שעולה לראש',
-   description: 'וואלק',
-};
+// export const metadata = {
+//    title: 'וואלק - מה שעולה לראש',
+//    description: 'וואלק',
+// };
 
 export default async function RootLayout({
    children,

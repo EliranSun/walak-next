@@ -1,5 +1,5 @@
 import React from "react";
-import {Metadata} from 'next';
+// import {Metadata} from 'next';
 import {trackPostViews, getPost} from "@/utils/posts";
 import {Tags} from "@/components/molecules/Tags";
 import Author from "@/components/molecules/Author";
@@ -43,9 +43,12 @@ export default async function Index({params}: { params: { postId: string, postNa
             <meta property="og:title" content={post.title}/>
             <meta property="og:description" content={post.excerpt}/>
             <meta property="og:image" content={post.imageSrc}/>
-            <meta property="twitter:title" content={post.title}/>
-            <meta property="twitter:description" content={post.excerpt}/>
-            <meta property="twitter:image" content={post.imageSrc}/>
+            <meta property="og:url" content={`https://walak-next.vercel.app/he/posts/${post.id}/${post.name}`}/>
+            <meta property="og:site_name" content="וואלק"/>
+            <meta property="og:locale" content="he_IL"/>
+            <meta property="og:type" content="website"/>
+            <meta property="twitter:site" content="@Walak"/>
+            <meta property="twitter:card" content="summary_large_image"/>
          </head>
          <div className="w-full flex flex-col items-center post" dir="rtl">
             <div
