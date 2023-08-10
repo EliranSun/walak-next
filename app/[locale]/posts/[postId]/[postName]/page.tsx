@@ -45,8 +45,8 @@ export default async function Index({params}: { params: { postId: string, postNa
             <meta property="og:description" content={post.excerpt}/>
             <meta property="og:image" content={post.metadataImageSrc || post.imageSrc}/>
             <meta property="og:image:width" content="1200"/>
-            <meta property="og:image:height" content="630"/>
-            <meta property="og:image:type" content="image/png"/>
+            <meta property="og:image:height" content="666"/>
+            <meta property="og:image:type" content="image/jpeg"/>
             <meta property="og:url" content={`https://walak-next.vercel.app/he/posts/${post.id}/the-swiss-watch`}/>
             <meta property="og:site_name" content="וואלק"/>
             <meta property="og:locale" content="he_IL"/>
