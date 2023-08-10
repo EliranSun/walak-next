@@ -54,6 +54,7 @@ export default async function Index({params}: { params: { postId: string, postNa
             <meta property="twitter:site" content="@Walak"/>
             <meta property="twitter:creator" content="@Walak"/>
             <meta property="twitter:card" content="summary_large_image"/>
+            <meta name="twitter:image" content={post.metadataImageSrc || post.imageSrc}/>
             <meta name="twitter:label1" content="Written by"/>
             <meta name="twitter:data1" content="Eliran Shemesh & Ofir Cohen"/>
             <meta name="twitter:label2" content="Est. reading time"/>
