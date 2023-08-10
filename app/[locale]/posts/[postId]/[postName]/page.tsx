@@ -10,16 +10,16 @@ import {PostContent} from "@/components/organisms/PostContent";
 import Authors from "@/components/molecules/Authors";
 import {SocialFeed} from "@/components/organisms/SocialFeed";
 
-export async function generateMetadata(
-   {params}: { params: { postId: string, postName: string } },
-): Promise<Metadata> {
-   const postName = decodeURI(params.postName).replace(/-/g, ' ');
-
-   return {
-      title: `וואלק | ${postName}`,
-      description: `פלטפורמה לפרסום מאמרים, סיפורים קצרים, דעות ובעיקר רעיונות.`,
-   }
-}
+// export async function generateMetadata(
+//    {params}: { params: { postId: string, postName: string } },
+// ): Promise<Metadata> {
+//    const postName = decodeURI(params.postName).replace(/-/g, ' ');
+//
+//    return {
+//       title: `וואלק | ${postName}`,
+//       description: `פלטפורמה לפרסום מאמרים, סיפורים קצרים, דעות ובעיקר רעיונות.`,
+//    }
+// }
 
 export default async function Index({params}: { params: { postId: string, postName: string } }) {
    const {post, error} = await getPost(Number(params.postId));
@@ -39,6 +39,7 @@ export default async function Index({params}: { params: { postId: string, postNa
    return (
       <>
          <head>
+            <title>{post.title}</title>
             <meta property="og:title" content={post.title}/>
             <meta property="og:description" content={post.excerpt}/>
             <meta property="og:image" content={post.imageSrc}/>
