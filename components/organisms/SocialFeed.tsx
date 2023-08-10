@@ -1,15 +1,15 @@
 'use client';
-import {TwitterTweetEmbed} from "react-twitter-embed";
+import {TwitterTweetEmbed, TwitterTimelineEmbed} from "react-twitter-embed";
 import {Comments, EmbeddedPost, FacebookProvider, ShareButton} from "react-facebook";
 
 export const SocialFeed = () => {
    return (
       <div>
-         {/*<TwitterTimelineEmbed*/}
-         {/*   sourceType="profile"*/}
-         {/*   screenName="WalakOffical"*/}
-         {/*   options={{height: 600, width: 700}}*/}
-         {/*/>*/}
+         <TwitterTimelineEmbed
+            sourceType="profile"
+            screenName="WalakOffical"
+            options={{height: 600, width: 700}}
+         />
          <TwitterTweetEmbed
             tweetId="1686674308855181312"
             options={{width: "700px"}}

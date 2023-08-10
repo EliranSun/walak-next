@@ -8,6 +8,8 @@ import {PrintViewButton} from "@/components/molecules/PrintViewButton";
 import {ShareButton} from "@/components/molecules/ShareButton";
 import {PostContent} from "@/components/organisms/PostContent";
 import Authors from "@/components/molecules/Authors";
+import {SocialFeed} from "@/components/organisms/SocialFeed";
+import Head from "next/head";
 
 export async function generateMetadata(
    {params}: { params: { postId: string, postName: string } },
@@ -15,7 +17,8 @@ export async function generateMetadata(
    const postName = decodeURI(params.postName).replace(/-/g, ' ');
 
    return {
-      title: `וואלק | ${postName}`
+      title: `וואלק | ${postName}`,
+      description: `פלטפורמה לפרסום מאמרים, סיפורים קצרים, דעות ובעיקר רעיונות.`,
    }
 }
 
@@ -36,6 +39,11 @@ export default async function Index({params}: { params: { postId: string, postNa
 
    return (
       <>
+         <Head>
+            <meta property="og:title" content={post.title}/>
+            <meta property="og:description" content={post.excerpt}/>
+            <meta property="og:image" content={post.imageSrc}/>
+         </Head>
          <div className="w-full flex flex-col items-center post" dir="rtl">
             <div
                className="w-full h-[70vh] overflow-hidden relative bg-cover bg-fixed bg-[center_bottom_5rem] flex items-end justify-center"
@@ -48,9 +56,6 @@ export default async function Index({params}: { params: { postId: string, postNa
                </div>
             </div>
             <div className="flex items-start my-8 justify-center">
-               {/*<div className="flex flex-wrap w-1/6 m-4 px-4 gap-2">*/}
-
-               {/*</div>*/}
                <PostContent post={post}/>
                <div className="w-44 mr-8 flex justify-end flex gap-2 flex-col box-border items-center">
                   {post.authors.length > 1
@@ -76,6 +81,7 @@ export default async function Index({params}: { params: { postId: string, postNa
             </div>
             <hr/>
             <PostFooterMessage/>
+            <SocialFeed/>
          </div>
       </>
    );
