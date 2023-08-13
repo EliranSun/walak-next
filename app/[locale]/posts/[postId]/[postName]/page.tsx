@@ -45,7 +45,7 @@ export default async function Index({params}: { params: { postId: string, postNa
             <meta property="og:title" content={post.title}/>
             <meta property="og:description" content={post.excerpt}/>
             <meta property="og:image"
-                  content="https://cdn.discordapp.com/attachments/1139097640848601141/1140245118272684144/IHL-Phase-2-trial-1.jpg"/>
+                  content="https://firebasestorage.googleapis.com/v0/b/walak-server-2.appspot.com/o/metadata%2FIHL-Phase-2-trial-1.jpg?alt=media&token=13d0067d-891b-4797-89d7-67a0e54056c5"/>
             <meta property="og:image:width" content="1200"/>
             <meta property="og:image:height" content="666"/>
             <meta property="og:image:type" content="image/jpeg"/>
@@ -57,7 +57,7 @@ export default async function Index({params}: { params: { postId: string, postNa
             <meta property="twitter:creator" content="@Walak"/>
             <meta property="twitter:card" content="summary_large_image"/>
             <meta name="twitter:image"
-                  content="https://cdn.discordapp.com/attachments/1139097640848601141/1140245118272684144/IHL-Phase-2-trial-1.jpg"/>
+                  content="https://firebasestorage.googleapis.com/v0/b/walak-server-2.appspot.com/o/metadata%2FIHL-Phase-2-trial-1.jpg?alt=media&token=13d0067d-891b-4797-89d7-67a0e54056c5"/>
             <meta name="twitter:label1" content="Written by"/>
             <meta name="twitter:data1" content="Eliran Shemesh & Ofir Cohen"/>
             <meta name="twitter:label2" content="Est. reading time"/>
