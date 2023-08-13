@@ -14,6 +14,7 @@ export default interface Post {
    isInteractive?: boolean;
    viewsCount?: number;
    upscaledImageSrc?: string;
+   metadataImageSrc?: string;
    tags?: string[];
    authors?: Author;
    postAuthors?: Author;
