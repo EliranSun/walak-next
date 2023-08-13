@@ -44,7 +44,8 @@ export default async function Index({params}: { params: { postId: string, postNa
             <meta property="description" content={post.excerpt}/>
             <meta property="og:title" content={post.title}/>
             <meta property="og:description" content={post.excerpt}/>
-            <meta property="og:image" content={post.metadataImageSrc || post.imageSrc}/>
+            <meta property="og:image"
+                  content="https://stockhead.com.au/wp-content/uploads/2023/07/IHL-Phase-2-trial-1.jpg"/>
             <meta property="og:image:width" content="1200"/>
             <meta property="og:image:height" content="666"/>
             <meta property="og:image:type" content="image/jpeg"/>
@@ -55,7 +56,8 @@ export default async function Index({params}: { params: { postId: string, postNa
             <meta property="twitter:site" content="@Walak"/>
             <meta property="twitter:creator" content="@Walak"/>
             <meta property="twitter:card" content="summary_large_image"/>
-            <meta name="twitter:image" content={post.metadataImageSrc || post.imageSrc}/>
+            <meta name="twitter:image"
+                  content="https://stockhead.com.au/wp-content/uploads/2023/07/IHL-Phase-2-trial-1.jpg"/>
             <meta name="twitter:label1" content="Written by"/>
             <meta name="twitter:data1" content="Eliran Shemesh & Ofir Cohen"/>
             <meta name="twitter:label2" content="Est. reading time"/>
