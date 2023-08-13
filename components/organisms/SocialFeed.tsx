@@ -17,14 +17,10 @@ export const SocialFeed = () => {
             options={{width: "100%", height: "400px"}}
          />
          <blockquote className="twitter-tweet">
-            <p lang="zxx" dir="ltr">
-               <a
-                  href="https://t.co/OWUhcoYSfT">https://t.co/OWUhcoYSfT</a>
-            </p>
+            <p lang="en" dir="ltr">Hello world</p>
             &mdash; Walak (@WalakOffical)
-            <a
-               href="https://twitter.com/WalakOffical/status/1690727206392135680?ref_src=twsrc%5Etfw">
-               August 13, 2023
+            <a href="https://twitter.com/WalakOffical/status/1686674308855181312?ref_src=twsrc%5Etfw">
+               August 2, 2023
             </a>
          </blockquote>
          <script async src="https://platform.twitter.com/widgets.js" charSet="utf-8"></script>
