@@ -4,6 +4,7 @@ import {TwitterTweetEmbed, TwitterTimelineEmbed, TwitterShareButton, TwitterFoll
 import {Comments, EmbeddedPost, FacebookProvider, ShareButton} from "react-facebook";
 
 export const SocialFeed = () => {
+
    return (
       <div className="w-full overflow-hidden px-4" dir="ltr">
          {/*<TwitterTimelineEmbed*/}
@@ -21,6 +22,7 @@ export const SocialFeed = () => {
             <ShareButton
                href="http://www.facebook.com"
                display="popup"
+               // @ts-ignore-next-line 
                className="bg-blue-500 text-white p-2 rounded flex items-center gap-2 h-10">
                Share on Facebook
                <FacebookLogo size={32} color="#fff"/>
