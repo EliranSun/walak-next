@@ -15,7 +15,7 @@ export const NavigationLinks = () => {
    const t = useTranslations('NavigationLinks');
 
    return (
-      <ul className="flex gap-4 open-sans text-sm">
+      <ul className="hidden md:flex gap-4 open-sans text-sm">
          {links.map((link, index) => {
             return (
                <>

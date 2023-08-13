@@ -40,6 +40,7 @@ export default async function Index({params}: { params: { postId: string, postNa
       <>
          <head>
             <title>{post.title}</title>
+            <meta name="theme-color" content="#f1f5f9"/>
             <meta property="description" content={post.excerpt}/>
             <meta property="og:title" content={post.title}/>
             <meta property="og:description" content={post.excerpt}/>
@@ -62,7 +63,7 @@ export default async function Index({params}: { params: { postId: string, postNa
          </head>
          <div className="w-full flex flex-col items-center post" dir="rtl">
             <div
-               className="w-full h-[70vh] overflow-hidden relative bg-cover bg-fixed bg-[center_bottom_5rem] flex items-end justify-center"
+               className="w-full h-[1000px] max-h-[66vh] md:h-[70vh] overflow-hidden relative bg-[length:auto_100%] bg-top bg-no-repeat md:bg-cover md:bg-fixed bg-[center_bottom_5rem] flex items-end justify-center"
                style={{
                   backgroundImage: `url(${post.upscaledImageSrc || post.imageSrc})`
                }}>
@@ -71,14 +72,14 @@ export default async function Index({params}: { params: { postId: string, postNa
                   <h2 className="text-xl open-sans">{post.excerpt}</h2>
                </div>
             </div>
-            <div className="flex items-start my-8 justify-center">
+            <div className="flex-col-reverse md:flex-row flex items-start my-8 justify-center">
                <PostContent post={post}/>
-               <div className="w-44 mr-8 flex justify-end flex gap-2 flex-col box-border items-center">
+               <div className="w-full md:w-44 mr-8 md:justify-end flex gap-2 md:flex-col box-border items-center">
                   {post.authors.length > 1
                      ? <Authors authors={post.authors}/>
                      : <Author author={post.authors[0].author}/>}
                   {post.createdAt && (
-                     <div className="border-b border-gray-300 w-full pb-2 opacity-60 text-xs">
+                     <div className="md:border-b border-r border-gray-300 md:w-full pr-2 md:pb-2 opacity-60 text-xs">
                         {new Date(post.createdAt).toLocaleString("he-IL", {
                            weekday: "long",
                            year: "numeric",
@@ -88,8 +89,8 @@ export default async function Index({params}: { params: { postId: string, postNa
                      </div>
                   )}
                   <Tags tags={post.tags || []} isInteractive={post.isInteractive} hasVideo={post.hasVideo}/>
-                  <div className="border-b border-dotted border-gray-400 w-full h-1"/>
-                  <div className="w-full flex flex-col gap-2">
+                  <div className="hidden md:inline border-b border-dotted border-gray-400 w-full h-1"/>
+                  <div className="hidden md:inline w-full flex flex-col gap-2">
                      <PrintViewButton/>
                      <ShareButton/>
                   </div>

@@ -5,15 +5,21 @@ export const Link = ({
    href,
    children,
    locale,
-   target
+   target,
+   className
 }: {
    href: string,
    children: React.ReactNode,
    locale?: string,
-   target?: string
+   target?: string,
+   className?: string
 }) => {
    return (
-      <NextIntlLink href={href} locale={locale} target={target}>
+      <NextIntlLink
+         className={className}
+         href={href}
+         locale={locale}
+         target={target}>
             <span className="cursor-pointer hover:text-blue-500">
                 {children}
             </span>

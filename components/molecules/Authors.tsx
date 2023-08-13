@@ -6,11 +6,11 @@ const Authors = ({authors}: { authors: { author: Author }[] }) => {
    const authorsNames = authors.map(({author}: { author: Author }) => author.name).join(', ');
 
    return (
-      <div className="flex flex-col justify-start pb-2 border-b border-gray-300">
+      <div className="flex flex-col justify-start pb-2 md:border-b border-gray-300">
          <div className="flex gap-2">
             {authors.map(({author}) => {
                return (
-                  <div className="w-16 h-16 rounded-full overflow-hidden">
+                  <div className="w-12 h-12 md:w-16 md:h-16 rounded-full overflow-hidden">
                      <img
                         className="grayscale bright"
                         src={author.imageSrc}
@@ -20,7 +20,7 @@ const Authors = ({authors}: { authors: { author: Author }[] }) => {
                );
             })}
          </div>
-         <h3 className="w-10/12 text-xl font-bold open-sans">
+         <h3 className="w-full md:w-10/12 md:text-xl font-bold open-sans">
             {authorsNames}
          </h3>
       </div>

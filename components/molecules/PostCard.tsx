@@ -22,21 +22,21 @@ export const PostCard = ({
    const t = useTranslations('PostCard');
    const {id, title, excerpt, imageSrc, timeToRead, isInteractive, hasVideo} = post;
    const cardContainerClasses = classNames("flex flex-col items-center text-right hover:text-blue-500 cursor-pointer", {
-      "bg-white shadow-sm max-w-[288px] w-full": !isLean && !isLarge,
+      "bg-white shadow-sm md:max-w-[288px] w-full": !isLean && !isLarge,
       "w-60": isLean,
       "border-b border-gray-300": isLarge
    });
 
    const imageContainerClasses = classNames("overflow-hidden", {
-      "h-[50vh]": isLarge,
-      "aspect-[9/5]": !isLarge,
-      "h-40": !isLean && !isLarge
+      "md:h-[50vh]": isLarge,
+      "md:aspect-[9/5]": !isLarge,
+      "md:h-40": !isLean && !isLarge
    });
 
    const textContainerClasses = classNames("text-right w-full flex justify-between py-2", {
       "flex-col": !isLarge,
       "px-4": !isLean && !isLarge,
-      "items-center h-full": isLarge
+      "h-full flex-col items-start md:flex-row md:items-center": isLarge
    });
 
    const titleContainerClasses = classNames({
