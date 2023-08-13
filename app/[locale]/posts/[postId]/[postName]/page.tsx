@@ -9,17 +9,18 @@ import {ShareButton} from "@/components/molecules/ShareButton";
 import {PostContent} from "@/components/organisms/PostContent";
 import Authors from "@/components/molecules/Authors";
 import {SocialFeed} from "@/components/organisms/SocialFeed";
+import {Metadata} from "next";
 
-// export async function generateMetadata(
-//    {params}: { params: { postId: string, postName: string } },
-// ): Promise<Metadata> {
-//    const postName = decodeURI(params.postName).replace(/-/g, ' ');
-//
-//    return {
-//       title: `וואלק | ${postName}`,
-//       description: `פלטפורמה לפרסום מאמרים, סיפורים קצרים, דעות ובעיקר רעיונות.`,
-//    }
-// }
+export async function generateMetadata(
+   {params}: { params: { postId: string, postName: string } },
+): Promise<Metadata> {
+   const postName = decodeURI(params.postName).replace(/-/g, ' ');
+
+   return {
+      title: `וואלק | ${postName}`,
+      description: `פלטפורמה לפרסום מאמרים, סיפורים קצרים, דעות ובעיקר רעיונות.`,
+   }
+}
 
 export default async function Index({params}: { params: { postId: string, postName: string } }) {
    const {post, error} = await getPost(Number(params.postId));
@@ -37,69 +38,44 @@ export default async function Index({params}: { params: { postId: string, postNa
    trackPostViews(post);
 
    return (
-      <>
-         <head>
-            <title>{post.title}</title>
-            <meta name="theme-color" content="#f1f5f9"/>
-            <meta property="description" content={post.excerpt}/>
-            <meta property="og:title" content={post.title}/>
-            <meta property="og:description" content={post.excerpt}/>
-            <meta property="og:image" content={post.metadataImageSrc || post.imageSrc}/>
-            <meta property="og:image:width" content="1200"/>
-            <meta property="og:image:height" content="666"/>
-            <meta property="og:image:type" content="image/jpeg"/>
-            <meta property="og:url" content={`https://walak-next.vercel.app/he/posts/${post.id}/the-swiss-watch`}/>
-            <meta property="og:site_name" content="וואלק"/>
-            <meta property="og:locale" content="he_IL"/>
-            <meta property="og:type" content="article"/>
-            <meta property="twitter:site" content="@Walak"/>
-            <meta property="twitter:creator" content="@Walak"/>
-            <meta property="twitter:card" content="summary_large_image"/>
-            <meta name="twitter:image" content={post.metadataImageSrc || post.imageSrc}/>
-            <meta name="twitter:label1" content="Written by"/>
-            <meta name="twitter:data1" content="Eliran Shemesh & Ofir Cohen"/>
-            <meta name="twitter:label2" content="Est. reading time"/>
-            <meta name="twitter:data2" content="3 minutes"/>
-         </head>
-         <div className="w-full flex flex-col items-center post" dir="rtl">
-            <div
-               className="w-full h-[1000px] max-h-[66vh] md:h-[70vh] overflow-hidden relative bg-[length:auto_100%] bg-top bg-no-repeat md:bg-cover md:bg-fixed bg-[center_bottom_5rem] flex items-end justify-center"
-               style={{
-                  backgroundImage: `url(${post.upscaledImageSrc || post.imageSrc})`
-               }}>
-               <div className="w-full bg-yellow-500 text-center py-8 text-white z-10">
-                  <h1 className="text-6xl open-sans tracking-wider">{post.title}</h1>
-                  <h2 className="text-xl open-sans">{post.excerpt}</h2>
-               </div>
+      <div className="w-full flex flex-col items-center post" dir="rtl">
+         <div
+            className="w-full h-[1000px] max-h-[66vh] md:h-[70vh] overflow-hidden relative bg-[length:auto_100%] bg-top bg-no-repeat md:bg-cover md:bg-fixed bg-[center_bottom_5rem] flex items-end justify-center"
+            style={{
+               backgroundImage: `url(${post.upscaledImageSrc || post.imageSrc})`
+            }}>
+            <div className="w-full bg-yellow-500 text-center py-8 text-white z-10">
+               <h1 className="text-6xl open-sans tracking-wider">{post.title}</h1>
+               <h2 className="text-xl open-sans">{post.excerpt}</h2>
             </div>
-            <div className="flex-col-reverse md:flex-row flex items-start my-8 justify-center">
-               <PostContent post={post}/>
-               <div className="w-full md:w-44 mr-8 md:justify-end flex gap-2 md:flex-col box-border items-center">
-                  {post.authors.length > 1
-                     ? <Authors authors={post.authors}/>
-                     : <Author author={post.authors[0].author}/>}
-                  {post.createdAt && (
-                     <div className="md:border-b border-r border-gray-300 md:w-full pr-2 md:pb-2 opacity-60 text-xs">
-                        {new Date(post.createdAt).toLocaleString("he-IL", {
-                           weekday: "long",
-                           year: "numeric",
-                           month: "long",
-                           day: "numeric",
-                        })}
-                     </div>
-                  )}
-                  <Tags tags={post.tags || []} isInteractive={post.isInteractive} hasVideo={post.hasVideo}/>
-                  <div className="hidden md:inline border-b border-dotted border-gray-400 w-full h-1"/>
-                  <div className="hidden md:inline w-full flex flex-col gap-2">
-                     <PrintViewButton/>
-                     <ShareButton/>
-                  </div>
-               </div>
-            </div>
-            <hr/>
-            <PostFooterMessage/>
-            <SocialFeed/>
          </div>
-      </>
+         <div className="flex-col-reverse md:flex-row flex items-start my-8 justify-center">
+            <PostContent post={post}/>
+            <div className="w-full md:w-44 mr-8 md:justify-end flex gap-2 md:flex-col box-border items-center">
+               {post.authors.length > 1
+                  ? <Authors authors={post.authors}/>
+                  : <Author author={post.authors[0].author}/>}
+               {post.createdAt && (
+                  <div className="md:border-b border-r border-gray-300 md:w-full pr-2 md:pb-2 opacity-60 text-xs">
+                     {new Date(post.createdAt).toLocaleString("he-IL", {
+                        weekday: "long",
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                     })}
+                  </div>
+               )}
+               <Tags tags={post.tags || []} isInteractive={post.isInteractive} hasVideo={post.hasVideo}/>
+               <div className="hidden md:inline border-b border-dotted border-gray-400 w-full h-1"/>
+               <div className="hidden md:inline w-full flex flex-col gap-2">
+                  <PrintViewButton/>
+                  <ShareButton/>
+               </div>
+            </div>
+         </div>
+         <hr/>
+         <PostFooterMessage/>
+         <SocialFeed/>
+      </div>
    );
 };

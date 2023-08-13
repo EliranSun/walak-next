@@ -13,10 +13,27 @@ export const SocialFeed = () => {
          {/*   options={{height: 600, width: '80%'}}*/}
          {/*/>*/}
          <TwitterTweetEmbed
-            tweetId="1686674308855181312"
-            options={{width: "100%"}}
+            tweetId="1690727206392135680"
+            options={{width: "100%", height: "400px"}}
          />
-         <TwitterShareButton url={"https://twitter.com/WalakOffical"}/>
+         <blockquote className="twitter-tweet">
+            <p lang="zxx" dir="ltr">
+               <a
+                  href="https://t.co/OWUhcoYSfT">https://t.co/OWUhcoYSfT</a>
+            </p>
+            &mdash; Walak (@WalakOffical)
+            <a
+               href="https://twitter.com/WalakOffical/status/1690727206392135680?ref_src=twsrc%5Etfw">
+               August 13, 2023
+            </a>
+         </blockquote>
+         <script async src="https://platform.twitter.com/widgets.js" charSet="utf-8"></script>
+         <TwitterShareButton
+            options={{
+               text: "קלטו את הסיפור המגניב הזה בוואלק",
+               via: "WalakOffical",
+            }}
+            url={"https://walak-next.vercel.app/posts/30/the-swiss-watch"}/>
          <TwitterFollowButton screenName={"WalakOffical"}/>
          <FacebookProvider appId="476469699198928">
             <ShareButton
@@ -28,13 +45,13 @@ export const SocialFeed = () => {
                <FacebookLogo size={32} color="#fff"/>
             </ShareButton>
             {/*<EmbeddedPost href="https://fb.watch/m9UaEOxnZN/" width="80%"/>*/}
-            <iframe
-               src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fwalak.co.il%2Fposts%2F1072720786118597&show_text=true&width=500"
-               width="100%"
-               height="400px"
-               allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"/>
-            <Comments href="https://www.facebook.com/walak.co.il/"/>
+            <Comments href="https://www.facebook.com/walak.co.il"/>
          </FacebookProvider>
+         <iframe
+            src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fwalak.co.il%2Fposts%2F1072720786118597&show_text=true&width=500"
+            width="100%"
+            height="400px"
+            allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"/>
       </div>
    );
 };
