@@ -41,7 +41,15 @@ export async function POST(request: Request) {
     try {
         requestJSON = await request.json();
     } catch (error) {
-        return NextResponse.json({error: "Invalid request JSON"});
+        return NextResponse.json({
+            error: "Invalid request JSON"
+        }, {
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+                'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+            },
+        });
     }
 
     const {
