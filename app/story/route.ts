@@ -28,6 +28,7 @@ function getJerusalemTime() {
 }
 
 export async function GET(request: NextRequest) {
+   console.time("GET");
    const searchParams = request.nextUrl.searchParams;
    const feeling = searchParams.get("feeling");
    const genre = searchParams.get("genre");
@@ -156,7 +157,8 @@ export async function GET(request: NextRequest) {
          let completion = await openai.chat.completions.create({
             messages: [{role: "system", content: nthChapterPrompt(title, chapterNumber, previousChapter)}],
             // model: "gpt-3.5-turbo",
-            model: "gpt-4-1106-preview",
+            // model: "gpt-4-1106-preview",
+            model: "gpt-4",
          });
 
          const newChapter = completion.choices[0]?.message?.content || "";
@@ -175,6 +177,8 @@ export async function GET(request: NextRequest) {
          translations[HEBREW_TARGET_LANGUAGE] = newTranslation;
          chapterContent = newChapter;
       }
+
+      console.timeEnd("GET");
 
       return NextResponse.json({
          title,
