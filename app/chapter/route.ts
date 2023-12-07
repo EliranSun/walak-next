@@ -57,19 +57,19 @@ export async function POST(request: Request) {
         title,
         chapterId,
         chapterNumber,
-        siblingType,
         siblingName,
         currentTime
     } = requestJSON;
 
-    if (!chapterId || !chapterNumber || !siblingType || !siblingName || !currentTime) {
-        return NextResponse.json({error: "chapterId, chapterNumber, siblingType, siblingName, and currentTime are required"})
+    if (!chapterId || !chapterNumber || !siblingName || !currentTime) {
+        return NextResponse.json({error: "chapterId, chapterNumber, siblingName, and currentTime are required"})
     }
 
     const {rows: existingChapter} = await sql`
         SELECT * FROM chapters WHERE id = ${chapterId} AND chapter_number = ${chapterNumber}
     `;
 
+    const siblingType = ["or", "yahel"].includes(siblingName.toLowerCase()) ? "brother" : "sister";
     let completion = await openai.chat.completions.create({
         model: "gpt-4",
         messages: [{
