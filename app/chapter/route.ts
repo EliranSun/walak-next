@@ -55,7 +55,6 @@ export async function POST(request: Request) {
 
     const {
         title,
-        chapterId,
         chapterNumber,
         siblingName,
         currentTime
@@ -66,7 +65,7 @@ export async function POST(request: Request) {
     }
 
     const {rows: existingChapter} = await sql`
-        SELECT * FROM chapters WHERE id = ${chapterId} AND chapter_number = ${chapterNumber}
+        SELECT * FROM chapters WHERE chapter_number = ${chapterNumber}
     `;
 
     const siblingType = ["or", "yahel"].includes(siblingName.toLowerCase()) ? "brother" : "sister";
