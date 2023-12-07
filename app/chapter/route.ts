@@ -1,5 +1,6 @@
-import {NextRequest, NextResponse} from "next/server";
+import {NextResponse} from "next/server";
 import OpenAI from "openai";
+import {sql} from "@vercel/postgres";
 
 const openai = new OpenAI({
     apiKey: "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",
@@ -54,35 +55,48 @@ export async function POST(request: Request) {
 
     const {
         title,
+        chapterId,
         chapterNumber,
-        previousChapter,
         siblingType,
         siblingName,
         currentTime
     } = requestJSON;
 
-    if (!title || !chapterNumber || !siblingType || !siblingName || !currentTime) {
-        return NextResponse.json({error: "title, chapterNumber, siblingType, siblingName, and currentTime are required"})
+    if (!chapterId || !chapterNumber || !siblingType || !siblingName || !currentTime) {
+        return NextResponse.json({error: "chapterId, chapterNumber, siblingType, siblingName, and currentTime are required"})
     }
 
+    const {rows: existingChapter} = await sql`
+        SELECT * FROM chapters WHERE id = ${chapterId} AND chapter_number = ${chapterNumber}
+    `;
+
     let completion = await openai.chat.completions.create({
+        model: "gpt-4",
         messages: [{
             role: "system",
-            content: nthChapterPrompt({
-                title,
-                chapterNumber,
-                previousChapter,
-                siblingType,
-                siblingName,
-                currentTime
-            })
+            content: existingChapter ?
+                nthChapterPrompt({
+                    title,
+                    chapterNumber,
+                    previousChapter: existingChapter[0].content,
+                    siblingType,
+                    siblingName,
+                    currentTime
+                }) :
+                firstChapterPrompt(title, siblingName, siblingType)
         }],
-        // model: "gpt-3.5-turbo",
-        // model: "gpt-4-1106-preview",
-        model: "gpt-4",
     });
 
+
+    const client = await sql.connect();
     const newChapter = completion.choices[0]?.message?.content || "";
+
+    await client.sql`
+        INSERT INTO chapters (title, chapter_number, content, sibling)
+        VALUES (${title}, ${chapterNumber}, ${newChapter}, ${siblingName})
+    `;
+
+    client.release();
 
     return NextResponse.json({
         content: newChapter
