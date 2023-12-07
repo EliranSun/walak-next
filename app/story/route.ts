@@ -164,11 +164,11 @@ export async function GET(request: NextRequest) {
          console.info("newChapter", newChapter);
          const [newTranslation] = await translate.translate(newChapter, HEBREW_TARGET_LANGUAGE);
 
-         await client.sql`
+         client.sql`
              INSERT INTO chapters (chapter_number, title, sibling, content, hebrew_translation)
              VALUES (${chapterNumber}, ${title}, ${siblingName}, ${newChapter}, ${newTranslation})
          `
-         await client.sql`
+         client.sql`
              UPDATE titles SET active_chapter_number = ${chapterNumber} WHERE title = ${title}
          `
 
