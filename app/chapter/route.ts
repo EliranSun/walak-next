@@ -61,8 +61,8 @@ export async function POST(request: Request) {
         currentTime
     } = requestJSON;
 
-    if (!chapterId || !chapterNumber || !siblingName || !currentTime) {
-        return NextResponse.json({error: "chapterId, chapterNumber, siblingName, and currentTime are required"})
+    if (!chapterNumber || !siblingName || !currentTime) {
+        return NextResponse.json({error: "chapterNumber, siblingName, and currentTime are required"})
     }
 
     const {rows: existingChapter} = await sql`
