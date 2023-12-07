@@ -61,7 +61,7 @@ export async function POST(request: Request) {
         currentTime
     } = requestJSON;
 
-    if (!chapterNumber || !siblingName || !currentTime) {
+    if (!siblingName || !currentTime) {
         return NextResponse.json({error: "chapterNumber, siblingName, and currentTime are required"})
     }
 
@@ -78,7 +78,7 @@ export async function POST(request: Request) {
                 nthChapterPrompt({
                     title,
                     chapterNumber,
-                    previousChapter: existingChapter[0].content,
+                    previousChapter: existingChapter[0]?.content,
                     siblingType,
                     siblingName,
                     currentTime
