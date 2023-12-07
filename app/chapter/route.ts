@@ -53,8 +53,8 @@ export async function POST(request: Request) {
         currentTime
     } = requestJSON;
 
-    if (!title || !chapterNumber || !previousChapter || !siblingType || !siblingName || !currentTime) {
-        return NextResponse.json({error: "title, chapterNumber, previousChapter, siblingType, siblingName, and currentTime are required"})
+    if (!title || !chapterNumber || !siblingType || !siblingName || !currentTime) {
+        return NextResponse.json({error: "title, chapterNumber, siblingType, siblingName, and currentTime are required"})
     }
 
     let completion = await openai.chat.completions.create({
