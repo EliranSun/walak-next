@@ -5,6 +5,15 @@ const openai = new OpenAI({
    apiKey: "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",
 });
 
+const firstChapterPrompt = (title: string, siblingName: string, siblingType: string) => `
+   You are a professional storyteller.
+   Create a short first chapter for a story with a title of "${title}".
+   This is chapter 1 out of 7.
+   The story will include me, Eliran, and my ${siblingType} ${siblingName}.
+   Limit the chapter to around 500 characters.
+   Use simple language/terminology!
+   Output nothing but the story chapter!`;
+
 const nthChapterPrompt = ({
    title, chapterNumber, previousChapter, siblingType, siblingName, currentTime
 }: {
