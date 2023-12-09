@@ -107,22 +107,9 @@ export async function POST(request: Request) {
         return NextResponse.json({error: "Final chapter number reached, call /reset to generate a new story"});
     }
 
-    if (!existingChapter[0] && (!genre || !feeling)) {
+    if (!lastChapter && (!genre || !feeling)) {
         return NextResponse.json({error: "genre and feeling are required for first time chapter generation"});
     }
-
-    console.info({
-        existingTitle,
-        previousChapter,
-        existingFeeling,
-        existingGenre,
-        title,
-        siblingName,
-        currentTime,
-        genre,
-        feeling,
-        nextChapterNumber
-    });
 
     const siblingType = ["or", "yahel"].includes(siblingName.toLowerCase()) ? "brother" : "sister";
     let completion = await openai.chat.completions.create({
