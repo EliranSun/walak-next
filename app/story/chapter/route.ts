@@ -116,7 +116,7 @@ export async function POST(request: Request) {
         model: "gpt-4",
         messages: [{
             role: "system",
-            content: existingChapter ?
+            content: lastChapter ?
                 nthChapterPrompt({
                     siblingType,
                     siblingName,
