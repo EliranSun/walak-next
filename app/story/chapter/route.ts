@@ -24,7 +24,11 @@ const firstChapterPrompt = ({
    This is chapter 1 out of 7.
    The chapter will include me, Eliran, and my ${siblingType} ${siblingName}.
    The chapter should encapsulate the feeling of being ${feeling} and the genre should be ${genre}.
-   Limit the chapter to around 500 characters.
+   Most importantly - at the end of the chapter present two options for the reader to choose from. 
+   These choices will affect the rest of the story. Return these options in the following format:
+    [*option 1*] [*option 2*]
+   
+   Limit the chapter to around 400 characters.
    Use simple language/terminology!
    Output nothing but the story chapter!`;
 
@@ -53,6 +57,11 @@ const nthChapterPrompt = ({
     This chapter should include me, Eliran, and my ${siblingType} ${siblingName}.
     The chapter should encapsulate the feeling of being ${feeling} and the genre should be ${genre}.
     In addition include the current time - ${currentTime} - somehow in the chapter.
+    
+    Most importantly - at the end of the chapter present two options for the reader to choose from. 
+    These choices will affect the rest of the story. Return these options in the following format:
+    [*option 1*] [*option 2*]
+    
     Limit the chapter to around 400 characters.
     Use simple language/terminology!
     Output nothing but the story chapter!
@@ -94,7 +103,7 @@ export async function POST(request: Request) {
     const nextChapterNumber = currentChapterNumber ? currentChapterNumber + 1 : 1;
 
     if (nextChapterNumber > 7) {
-        return NextResponse.json({error: "Final chapter number reached, call /reset-story to generate a new story"});
+        return NextResponse.json({error: "Final chapter number reached, call /reset to generate a new story"});
     }
 
     if (!existingChapter[0] && (!genre || !feeling)) {
