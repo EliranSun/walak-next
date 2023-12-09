@@ -26,7 +26,8 @@ const firstChapterPrompt = ({
    The chapter should encapsulate the feeling of being ${feeling} and the genre should be ${genre}.
    Most importantly - at the end of the chapter present two options for the reader to choose from. 
    These choices will affect the rest of the story. Return these options in the following format:
-    [*option 1*] [*option 2*]
+      [*option 1*] 
+      [*option 2*]
    
    Limit the chapter to around 400 characters.
    Use simple language/terminology!
@@ -60,7 +61,8 @@ const nthChapterPrompt = ({
     
     Most importantly - at the end of the chapter present two options for the reader to choose from. 
     These choices will affect the rest of the story. Return these options in the following format:
-    [*option 1*] [*option 2*]
+      [*option 1*] 
+      [*option 2*]
     
     Limit the chapter to around 400 characters.
     Use simple language/terminology!
