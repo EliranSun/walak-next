@@ -95,7 +95,7 @@ export async function POST(request: Request) {
         SELECT * FROM chapters WHERE title = ${title} AND sibling = ${siblingName}
     `;
 
-    const lastChapter = exisitingChapters.at(-1);
+    const lastChapter = existingChapters.at(-1);
     const existingTitle = lastChapter?.title;
     const previousChapter = lastChapter?.content;
     const existingFeeling = lastChapter?.feeling;
