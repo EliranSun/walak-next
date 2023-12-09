@@ -91,15 +91,16 @@ export async function POST(request: Request) {
         return NextResponse.json({error: "chapterNumber, siblingName, and currentTime are required"})
     }
 
-    const {rows: existingChapter} = await sql`
+    const {rows: existingChapters} = await sql`
         SELECT * FROM chapters WHERE title = ${title} AND sibling = ${siblingName}
     `;
 
-    const existingTitle = existingChapter[0]?.title;
-    const previousChapter = existingChapter[0]?.content;
-    const existingFeeling = existingChapter[0]?.feeling;
-    const existingGenre = existingChapter[0]?.genre;
-    const currentChapterNumber = existingChapter[0]?.chapter_number;
+    const lastChapter = exisitingChapters.at(-1);
+    const existingTitle = lastChapter?.title;
+    const previousChapter = lastChapter?.content;
+    const existingFeeling = lastChapter?.feeling;
+    const existingGenre = lastChapter?.genre;
+    const currentChapterNumber = lastChapter?.chapter_number;
     const nextChapterNumber = currentChapterNumber ? currentChapterNumber + 1 : 1;
 
     if (nextChapterNumber > 7) {
