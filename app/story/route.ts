@@ -48,8 +48,8 @@ export async function GET(request: NextRequest) {
 
         const title = completion.choices[0]?.message?.content || "";
         await client.sql`
-            INSERT INTO stories (title, sibling, active_chapter_number, genre, emotion)
-            VALUES (${title}, ${siblingName}, 1, ${genre}, ${feeling})
+            INSERT INTO stories (title, sibling, genre, emotion)
+            VALUES (${title}, ${siblingName}, ${genre}, ${feeling})
         `;
 
         return NextResponse.json({
