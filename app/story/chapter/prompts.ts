@@ -1,24 +1,23 @@
 export const firstChapterPrompt = ({
-   title,
-   siblingName,
-   siblingType,
-   feeling,
-   genre,
-   currentTime
+    title,
+    siblingName,
+    siblingType,
+    feeling,
+    genre,
+    currentTime
 }: {
-   title: string,
-   siblingName: string,
-   siblingType: string,
-   feeling: string,
-   genre: string,
-   currentTime: string
+    title: string,
+    siblingName: string,
+    siblingType: string,
+    feeling: string,
+    genre: string,
+    currentTime: string
 }) => {
-   const timeHour = currentTime.split(":")[0];
-   const isMorning = Number(timeHour) < 12 && Number(timeHour) > 6;
-   const timeMessage = `In addition include the current time - ${currentTime} - somehow in the chapter.`;
+    const timeHour = currentTime.split(":")[0];
+    const isMorning = Number(timeHour) < 12 && Number(timeHour) > 6;
+    // const timeMessage = `In addition include the current time - ${currentTime} - somehow in the chapter.`;
 
-   return `
-   You are a professional storyteller.
+    return `
    Create a short first chapter for a story with a title of "${title}".
    This is chapter 1 out of 7.
    The chapter will include me, Eliran, and my ${siblingType} ${siblingName}.
@@ -36,54 +35,52 @@ export const firstChapterPrompt = ({
    Output nothing but the story chapter!`;
 };
 export const nthChapterPrompt = ({
-   title,
-   chapterNumber,
-   theStoryThusFar,
-   siblingType,
-   siblingName,
-   currentTime,
-   feeling,
-   genre,
-   chosenOption
+    title,
+    chapterNumber,
+    theStoryThusFar,
+    siblingType,
+    siblingName,
+    currentTime,
+    feeling,
+    genre,
+    chosenOption
 }: {
-   title: string,
-   chapterNumber: number,
-   theStoryThusFar: string,
-   siblingType: string,
-   siblingName: string,
-   currentTime: string,
-   feeling: string,
-   genre: string,
-   chosenOption: number
+    title: string,
+    chapterNumber: number,
+    theStoryThusFar: string,
+    siblingType: string,
+    siblingName: string,
+    currentTime: string,
+    feeling: string,
+    genre: string,
+    chosenOption: number
 }) => {
-   const timeHour = currentTime.split(":")[0];
-   const isMorning = Number(timeHour) < 12 && Number(timeHour) > 6;
-   let storyExtraDirection = "";
-   switch (chapterNumber) {
-      case 5:
-         storyExtraDirection = "The story is past the middle point now. It should present a conflict or a problem.";
-         break;
+    const timeHour = currentTime.split(":")[0];
+    const isMorning = Number(timeHour) < 12 && Number(timeHour) > 6;
+    let storyExtraDirection = "";
+    switch (chapterNumber) {
+        case 5:
+            storyExtraDirection = "The story is past the middle point now. It should present a conflict or a problem.";
+            break;
 
-      case 6:
-         storyExtraDirection = "The story will be resolved in the next chapter. Start to wrap things up.";
-         break;
+        case 6:
+            storyExtraDirection = "The story will be resolved in the next chapter. Start to wrap things up.";
+            break;
 
-      case 7:
-         storyExtraDirection = "This is the final chapter. The story should be resolved now.";
-         break;
-   }
+        case 7:
+            storyExtraDirection = "This is the final chapter. The story should be resolved now.";
+            break;
+    }
 
-   const timeMessage = `In addition include the current time - ${currentTime} - somehow in the chapter.`;
-   const optionsMessage = `
+    // const timeMessage = `In addition include the current time - ${currentTime} - somehow in the chapter.`;
+    const optionsMessage = `
     Most importantly - at the end of the chapter present two options for the reader to choose from. 
     These choices will affect the rest of the story. Return these options in the following format:
       [*option 1*] 
       [*option 2*]
    `;
 
-   return `
-    You are a professional storyteller.
-    
+    return `
     Create a chapter for a story based on the title "${title}", based of the story thus far below, and based on a previous
    choice made by the reader. The reader chose option number ${chosenOption}. The choice is out of two options from the 
    previous chapter, written below. Based on the given choice, continue the story and write this current chapter.
