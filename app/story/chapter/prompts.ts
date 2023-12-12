@@ -18,13 +18,14 @@ export const firstChapterPrompt = ({
     // const timeMessage = `In addition include the current time - ${currentTime} - somehow in the chapter.`;
 
     return `
-   You are a storyteller. 
-   Create a short first chapter for a story with a title of "${title}".
+   You are a professional storyteller.
+    
+   Write a short first chapter for a story using simple and clear English with a title of "${title}".
    This is chapter 1 out of 7.
    The chapter will include me, Eliran, and my ${siblingType} ${siblingName}.
    The chapter should encapsulate the feeling of being ${feeling} and the genre should be ${genre}.
    
-   The chapter should take place in the ${isMorning ? "morning" : "night"}.
+   The story should start in the ${isMorning ? "morning" : "night"}.
 
    Most importantly - at the end of the chapter present two options for the reader to choose from. 
    These choices will affect the rest of the story. Return these options in the following format:
@@ -32,7 +33,8 @@ export const firstChapterPrompt = ({
       [*option 2*]
    
    Limit the chapter to around 400 characters.
-   Use simple language/terminology!
+   The language should be easy to understand, avoiding complex sentences and idioms, making it accessible for people who are learning English.
+   
    Output nothing but the story chapter!`;
 };
 export const nthChapterPrompt = ({
@@ -74,6 +76,7 @@ export const nthChapterPrompt = ({
     }
 
     // const timeMessage = `In addition include the current time - ${currentTime} - somehow in the chapter.`;
+
     const optionsMessage = `
     Most importantly - at the end of the chapter present two options for the reader to choose from. 
     These choices will affect the rest of the story. Return these options in the following format:
@@ -81,25 +84,28 @@ export const nthChapterPrompt = ({
       [*option 2*]
    `;
 
-const timeBasedMessage = `The chapter should take place in the ${isMorning ? "morning of the following day." : "night of the same day"} and
+    const timeBasedMessage = `The chapter should take place in the ${isMorning ? "morning of the following day." : "night of the same day"} and
    the events occurring in this chapter should make sense based on the time passed since the previous chapter.`;
 
     return `
-   You are a storyteller.
-   Create a chapter for a story based on the title "${title}", based of the story thus far below, and based on a previous
-   choice made by the reader. The reader chose option number ${chosenOption}. The choice is out of two options from the 
-   previous chapter, written below. Based on the given choice, continue the story and write this current chapter. 
-Do not mention the choice or the reader - just continue the story as usual. 
+   You are a professional storyteller.
+   Write a chapter for a story using simple and clear English, based on the title "${title}", based of the story thus far below, and based on a previous
+   choice made by the reader. 
    
-    This chapter should include me, Eliran, and my ${siblingType} ${siblingName}.
-    The chapter should encapsulate the feeling of being ${feeling} and the genre should be ${genre}.
-    This is chapter number ${chapterNumber} out of 7.
+   The reader chose option number ${chosenOption}. The choice is out of two options from the 
+   previous chapter, written below. Based on the given choice, continue the story and write this current chapter. 
+   Do not mention the choice or the reader - just continue the story as usual.
+   
+   This chapter should include me, Eliran, and my ${siblingType} ${siblingName}.
+   The chapter should encapsulate the feeling of being ${feeling} and the genre should be ${genre}.
+   This is chapter number ${chapterNumber} out of 7.
    ${storyExtraDirection}
-    
-     ${chapterNumber < 7 && optionsMessage}
+   
+   ${chapterNumber < 7 && optionsMessage}
     
     Limit the chapter to around 400 characters.
-    Use simple language/terminology!
+    The language should be easy to understand, avoiding complex sentences and idioms, making it accessible for people who are learning English.
+
     Output nothing but the story chapter!
    
     The story thus far:
