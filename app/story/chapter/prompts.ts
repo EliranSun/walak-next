@@ -81,6 +81,9 @@ export const nthChapterPrompt = ({
       [*option 2*]
    `;
 
+const timeBasedMessage = `The chapter should take place in the ${isMorning ? "morning of the following day." : "night of the same day"} and
+   the events occurring in this chapter should make sense based on the time passed since the previous chapter.`;
+
     return `
    You are a storyteller.
    Create a chapter for a story based on the title "${title}", based of the story thus far below, and based on a previous
@@ -88,9 +91,6 @@ export const nthChapterPrompt = ({
    previous chapter, written below. Based on the given choice, continue the story and write this current chapter. 
 Do not mention the choice or the reader - just continue the story as usual. 
    
-   The chapter should take place in the ${isMorning ? "morning of the following day." : "night of the same day"} and
-   the events occurring in this chapter should make sense based on the time passed since the previous chapter.   
-
     This chapter should include me, Eliran, and my ${siblingType} ${siblingName}.
     The chapter should encapsulate the feeling of being ${feeling} and the genre should be ${genre}.
     This is chapter number ${chapterNumber} out of 7.
