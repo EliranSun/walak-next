@@ -18,6 +18,7 @@ export const firstChapterPrompt = ({
     // const timeMessage = `In addition include the current time - ${currentTime} - somehow in the chapter.`;
 
     return `
+   You are a storyteller. 
    Create a short first chapter for a story with a title of "${title}".
    This is chapter 1 out of 7.
    The chapter will include me, Eliran, and my ${siblingType} ${siblingName}.
@@ -81,7 +82,8 @@ export const nthChapterPrompt = ({
    `;
 
     return `
-    Create a chapter for a story based on the title "${title}", based of the story thus far below, and based on a previous
+   You are a storyteller.
+   Create a chapter for a story based on the title "${title}", based of the story thus far below, and based on a previous
    choice made by the reader. The reader chose option number ${chosenOption}. The choice is out of two options from the 
    previous chapter, written below. Based on the given choice, continue the story and write this current chapter.
    
