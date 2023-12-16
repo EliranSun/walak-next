@@ -116,10 +116,11 @@ export const getFirstChapterPrompt = ({
     theme: string,
     siblingName: string
 }) => {
+    const relation = siblingName.toLowerCase() === 'nofar' ? 'girlfriend' : 'sibling';
     return `
 You are a professional storyteller.
 Create a first short chapter in a story that will have 7 chapters. The genre of the chapter should be ${genre} and the theme of the story should be ${theme}. 
-The story should involve me, Eliran and my sibling ${siblingName} The story should be told from the perspective of SiblingName. 
+The story should involve me, Eliran and my ${relation} ${siblingName} The story should be told from the perspective of ${siblingName}. 
 Limit the chapter to around 500 characters. 
 Most importantly - at the end of the chapter, Generate two options for the story to follow the reader will have to choose from.
 Output nothing but the story chapter!
@@ -135,7 +136,7 @@ export const getNewChapterPrompt = ({
     siblingName: string,
     genre: string,
     theme: string,
-    previousChapters: string[],
+    previousChapters: string,
     readerChoice: string,
 }) => {
     return `
@@ -148,7 +149,7 @@ Most importantly - at the end of the chapter, Generate two options for the story
 Output nothing but the story chapter! 
 
 === Previous chapters=== 
-${previousChapters.join("\n")}
+${previousChapters.trim()}
 
 Reader's choice: 
 ${readerChoice}
