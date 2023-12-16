@@ -151,7 +151,7 @@ Output nothing but the story chapter!
 === Previous chapters=== 
 ${previousChapters.trim()}
 
-Reader's choice: 
-${readerChoice}
+===
+Reader's choose option number: ${readerChoice}
     `
 };
