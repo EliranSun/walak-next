@@ -58,8 +58,6 @@ export const nthChapterPrompt = ({
     genre: string,
     chosenOption: number
 }) => {
-    const timeHour = currentTime.split(":")[0];
-    const isMorning = Number(timeHour) < 12 && Number(timeHour) > 6;
     let storyExtraDirection = "";
     switch (chapterNumber) {
         case 5:
@@ -84,9 +82,6 @@ export const nthChapterPrompt = ({
       [*option 2*]
    `;
 
-    const timeBasedMessage = `The chapter should take place in the ${isMorning ? "morning of the following day." : "night of the same day"} and
-   the events occurring in this chapter should make sense based on the time passed since the previous chapter.`;
-
     return `
    You are a professional storyteller.
    Write a chapter for a story using simple and clear English, based on the title "${title}", based of the story thus far below, and based on a previous
@@ -110,4 +105,52 @@ export const nthChapterPrompt = ({
    
     The story thus far:
     ${theStoryThusFar}`
+};
+
+export const getFirstChapterPrompt = ({
+    genre = 'sci-fi',
+    theme = 'betrayal',
+    siblingName = ''
+}: {
+    genre: string,
+    theme: string,
+    siblingName: string
+}) => {
+    return `
+You are a professional storyteller.
+Create a first short chapter in a story that will have 7 chapters. The genre of the chapter should be ${genre} and the theme of the story should be ${theme}. 
+The story should involve me, Eliran and my sibling ${siblingName} The story should be told from the perspective of SiblingName. 
+Limit the chapter to around 500 characters. 
+Most importantly - at the end of the chapter, Generate two options for the story to follow the reader will have to choose from.
+Output nothing but the story chapter!
+    `;
+};
+
+export const getNewChapterPrompt = ({
+    genre = 'sci-fi',
+    theme = 'betrayal',
+    previousChapters,
+    readerChoice,
+}: {
+    siblingName: string,
+    genre: string,
+    theme: string,
+    previousChapters: string[],
+    readerChoice: string,
+}) => {
+    return `
+You are a professional storyteller. 
+Continue a short story by creating a new chapter for it, based on the previous chapters, and based on the reader's choice provided. 
+The story should conclude at chapter 7. This is chapter number ${previousChapters.length + 1}.
+The story genre is ${genre}, and the theme of the story is ${theme}. Limit the chapter to around 500 characters.
+Most importantly - at the end of the chapter, Generate two options for the story to follow the reader will have to choose from.
+
+Output nothing but the story chapter! 
+
+=== Previous chapters=== 
+${previousChapters.join("\n")}
+
+Reader's choice: 
+${readerChoice}
+    `
 };
