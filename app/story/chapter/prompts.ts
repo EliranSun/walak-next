@@ -121,7 +121,7 @@ export const getFirstChapterPrompt = ({
 You are a professional storyteller.
 Create a first short chapter in a story that will have 7 chapters. The genre of the chapter should be ${genre} and the theme of the story should be ${theme}. 
 The story should involve me, Eliran and my ${relation} ${siblingName} The story should be told from the perspective of ${siblingName}. 
-Limit the chapter to around 500 characters. 
+Limit the chapter to around 600 characters. 
 Most importantly - at the end of the chapter, Generate two options for the story to follow the reader will have to choose from.
 Output nothing but the story chapter!
     `;
@@ -143,7 +143,7 @@ export const getNewChapterPrompt = ({
 You are a professional storyteller. 
 Continue a short story by creating a new chapter for it, based on the previous chapters, and based on the reader's choice provided. 
 The story should conclude at chapter 7. This is chapter number ${previousChapters.length + 1}.
-The story genre is ${genre}, and the theme of the story is ${theme}. Limit the chapter to around 500 characters.
+The story genre is ${genre}, and the theme of the story is ${theme}. Limit the chapter to around 600 characters.
 Most importantly - at the end of the chapter, Generate two options for the story to follow the reader will have to choose from.
 
 Output nothing but the story chapter! 
