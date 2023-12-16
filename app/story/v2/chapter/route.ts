@@ -13,6 +13,14 @@ export async function POST(request: NextRequest) {
             readerChoice,
         } = await request.json();
 
+        console.log({
+            siblingName,
+            genre,
+            theme,
+            previousChapters,
+            readerChoice,
+        });
+        
         if (!siblingName || !genre || !theme) {
             return NextResponse.json({
                 error: "Missing required fields."
