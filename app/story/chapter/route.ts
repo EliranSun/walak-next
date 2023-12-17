@@ -1,7 +1,7 @@
 import {NextResponse} from "next/server";
 import OpenAI from "openai";
 import {sql} from "@vercel/postgres";
-import {firstChapterPrompt, nthChapterPrompt} from "@/app/story/chapter/prompts";
+import {firstChapterPrompt, nthChapterPrompt} from "@/utils/prompts";
 
 const openai = new OpenAI({
    apiKey: "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",
