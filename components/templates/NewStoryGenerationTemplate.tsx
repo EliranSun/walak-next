@@ -1,7 +1,7 @@
 'use client';
 import {useRouter, usePathname, useSearchParams} from "next/navigation";
 import {RadioButton} from "@/components/atoms/RadioButton";
-import {useState, useEffect} from "react";
+import {useState} from "react";
 import {Spinner} from "@phosphor-icons/react";
 import {generateNewChapter} from "@/utils/chapter";
 
@@ -38,32 +38,18 @@ const Genres = [
 ];
 
 export const NewStoryGenerationTemplate = ({personName}: { personName: string }) => {
+    const searchParams = useSearchParams();
     const router = useRouter();
     const pathname = usePathname();
-    const searchParams = useSearchParams();
 
     const [title, setTitle] = useState<string>(searchParams.get("title") || "");
     const [selectedGenre, setSelectedGenre] = useState<string>(searchParams.get("genre") || "");
     const [selectedTheme, setSelectedTheme] = useState<string>(searchParams.get("theme") || "");
-    const [storyThusFar, setStoryThusFar] = useState<string>(searchParams.get("storyThusFar") || "");
+    const [storyThusFar, setStoryThusFar] = useState<string>("");
     const [lastReaderChoice, setLastReaderChoice] = useState<number>(parseInt(searchParams.get("lastReaderChoice") || "0"));
     const [newChapter, setNewChapter] = useState<string>("");
     const [newTranslation, setNewTranslation] = useState<string>("");
     const [isLoading, setIsLoading] = useState<boolean>(false);
-
-    useEffect(() => {
-        const params = new URLSearchParams();
-        params.set("genre", selectedGenre);
-        params.set("theme", selectedTheme);
-        params.set("storyThusFar", storyThusFar);
-        params.set("lastReaderChoice", lastReaderChoice.toString());
-        params.set("title", title);
-
-        router.replace(`${pathname}?${params.toString()}`, {
-            // @ts-ignore-next-line
-            scroll: false,
-        });
-    }, [selectedGenre, selectedTheme, storyThusFar, lastReaderChoice, title]);
 
     return (
         <>
@@ -116,7 +102,15 @@ export const NewStoryGenerationTemplate = ({personName}: { personName: string })
                         <input type="text"
                                placeholder="TITLE"
                                value={title}
-                               onChange={event => setTitle(event.target.value)}/>
+                               onChange={event => {
+                                   setTitle(event.target.value);
+                                   const params = new URLSearchParams();
+                                   params.set("title", event.target.value);
+                                   router.replace(`${pathname}?${params.toString()}`, {
+                                       // @ts-ignore-next-line
+                                       scroll: false,
+                                   });
+                               }}/>
                         <div className="flex flex-col">
                             <button
                                 className="bg-black text-white p-4 rounded-lg hover:bg-white hover:text-black border border-black"
