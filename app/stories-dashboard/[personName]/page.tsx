@@ -1,6 +1,6 @@
 import {ArrowCircleLeft} from "@phosphor-icons/react/dist/ssr";
 import Link from "next/link";
-import {sql} from "@vercel/postgres";
+import {db} from "@vercel/postgres";
 import {ChaptersByTitles} from "@/components/molecules/ChaptersByTitles";
 import {getRelation} from "@/utils/relations";
 import {upperFirst} from "lodash";
@@ -11,7 +11,8 @@ const revalidate = 0;
 export default async function Page({params}: { params: { personName: string } }) {
     const {personName} = params;
     console.log({personName});
-    const {rows: chapters} = await sql`SELECT * FROM chapters WHERE sibling=${personName} ORDER BY id ASC`;
+    const client = await db.connect();
+    const {rows: chapters} = await client.sql`SELECT * FROM chapters WHERE sibling = ${personName} ORDER BY id ASC`;
     const lastTitle = chapters.at(0)?.title;
     const theStoryThusFar = chapters.reduce((acc, chapter) => {
         return acc + '\n\n----\n\n' + chapter.content;
@@ -37,7 +38,6 @@ export default async function Page({params}: { params: { personName: string } })
                     </button>
                 </Link>
             </div>
-            {/* @ts-ignore */}
             <ChaptersByTitles chapters={chapters}/>
             <NewChapter
                 title={lastTitle}
