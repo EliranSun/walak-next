@@ -1,8 +1,8 @@
 'use client';
-import { useState, useRef, useEffect } from "react";
-import { ContentType } from "@/enums/Content";
-import { ContentActionButtons } from "@/components/molecules/ContentActionButtons";
-import { Spinner } from "@phosphor-icons/react";
+import {useState, useRef, useEffect} from "react";
+import {ContentType} from "@/enums/Content";
+import {ContentActionButtons} from "@/components/molecules/ContentActionButtons";
+import {Spinner} from "@phosphor-icons/react";
 
 export const Chapter = ({
         id,
@@ -62,7 +62,7 @@ export const Chapter = ({
                                             method: "POST",
                                             body: JSON.stringify({
                                                 chapterId: id,
-                                                translation
+                                                content: translation
                                             })
                                         });
 

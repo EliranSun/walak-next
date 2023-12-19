@@ -1,7 +1,7 @@
-import { TranslateButton } from "@/components/atoms/TranslateButton";
-import { EditButton } from "@/components/atoms/EditButton";
-import { ContentType } from "@/enums/Content";
-import { ButtonPosition } from "@/enums/ButtonPosition";
+import {TranslateButton} from "@/components/atoms/TranslateButton";
+import {EditButton} from "@/components/atoms/EditButton";
+import {ContentType} from "@/enums/Content";
+import {ButtonPosition} from "@/enums/ButtonPosition";
 import classNames from "classnames";
 
 export const ContentActionButtons = ({
@@ -22,6 +22,24 @@ export const ContentActionButtons = ({
                 content={content} type={type} isDisabled={!content}/>
             {type !== ContentType.TRANSLATION ?
                 <TranslateButton content={content} onTranslate={setTranslation}/> : null}
+            {type === ContentType.TRANSLATION ?
+                <button className="hover:bg-green-500 hover:text-white bg-white text-black border border-black">
+                    WHATSAPP
+                </button> : null}
+            {type === ContentType.ORIGINAL ?
+                <button
+                    onClick={async () => {
+                        await fetch(`/story/v2/chapter`, {
+                            method: "DELETE",
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify({chapterId}),
+                        });
+                    }}
+                    className="hover:bg-red-500 hover:text-white bg-white text-black border border-black">
+                    DELETE
+                </button> : null}
         </div>
     )
 }
