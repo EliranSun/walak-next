@@ -2,7 +2,7 @@ import {NextRequest, NextResponse} from "next/server";
 import {getFirstChapterPrompt, getNewChapterPrompt} from "@/utils/prompts";
 import {chat} from "@/utils/openAI";
 import {getTranslation} from "@/utils/translate";
-import {sql} from "@vercel/postgres";
+import {db} from "@vercel/postgres";
 
 export async function POST(request: NextRequest) {
     try {
@@ -59,6 +59,7 @@ type Chapter = {
 
 export async function PUT(request: NextRequest) {
     try {
+        const client = await db.connect();
         const requestJSON = await request.json();
         const {
             personName,
@@ -92,7 +93,7 @@ export async function PUT(request: NextRequest) {
                 content
             });
 
-            await sql`INSERT INTO chapters (chapter_number, sibling, title, content, translation, genre, theme) VALUES (${chapterNumber}, ${personName}, ${title}, ${content}, ${translation}, ${genre}, ${theme});`;
+            await client.sql`INSERT INTO chapters (chapter_number, sibling, title, content, translation, genre, theme) VALUES (${chapterNumber}, ${personName}, ${title}, ${content}, ${translation}, ${genre}, ${theme});`;
 
             chapterNumber++;
         }
@@ -106,6 +107,7 @@ export async function PUT(request: NextRequest) {
 
 export async function DELETE(request: NextRequest) {
     try {
+        const client = await db.connect();
         const requestJson = await request.json();
         const {chapterId} = requestJson;
 
@@ -113,7 +115,7 @@ export async function DELETE(request: NextRequest) {
             return NextResponse.json({error: "Missing required fields."});
         }
 
-        await sql`DELETE FROM chapters WHERE id = ${chapterId};`;
+        await client.sql`DELETE FROM chapters WHERE id = ${chapterId};`;
 
         return NextResponse.json({success: true});
     } catch (error: any) {

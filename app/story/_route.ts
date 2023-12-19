@@ -1,6 +1,6 @@
 import {NextRequest, NextResponse} from 'next/server';
 import OpenAI from "openai";
-import {sql} from "@vercel/postgres";
+import {db} from "@vercel/postgres";
 import {DateTimeFormatOptions} from "next-intl";
 
 const {Translate} = require('@google-cloud/translate').v2;
@@ -71,7 +71,7 @@ export async function GET(request: NextRequest) {
    Previous chapter:
    ${previousChapter}`;
 
-    const client = await sql.connect();
+    const client = await db.connect();
 
     try {
         console.info("Init title query");

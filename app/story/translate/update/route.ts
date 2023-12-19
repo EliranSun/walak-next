@@ -1,8 +1,9 @@
 import {NextResponse} from "next/server";
-import {sql} from "@vercel/postgres";
+import {db} from "@vercel/postgres";
 
 export async function POST(request: Request) {
     try {
+        const client = await db.connect();
         const requestJSON = await request.json();
         const {chapterId, content}: { chapterId: string, content: string } = requestJSON;
 
@@ -11,7 +12,7 @@ export async function POST(request: Request) {
         }
 
         console.log("Updating chapter translation...", {chapterId, content});
-        await sql`
+        await client.sql`
             UPDATE chapters SET translation = ${content} WHERE id = ${chapterId}
         `;
 

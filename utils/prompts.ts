@@ -1,4 +1,4 @@
-const CHAPTER_CHARACTER_LIMIT = 1200;
+const CHAPTER_CHARACTER_LIMIT = 1000;
 
 export const firstChapterPrompt = ({
     title,

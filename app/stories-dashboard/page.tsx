@@ -1,9 +1,10 @@
 import Link from "next/link";
 import {relatives} from "@/utils/relations";
-import {sql} from "@vercel/postgres";
+import {db} from "@vercel/postgres";
 
 export default async function Index() {
-    const {rows: chapters} = await sql`SELECT * FROM chapters ORDER BY id DESC LIMIT 50`;
+    const client = await db.connect();
+    const {rows: chapters} = await client.sql`SELECT * FROM chapters ORDER BY id DESC LIMIT 50`;
 
     return (
         <div className="w-screen flex flex-col items-center justify-center p-8">
