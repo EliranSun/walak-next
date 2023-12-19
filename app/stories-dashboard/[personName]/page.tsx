@@ -35,6 +35,7 @@ export default async function Page({params}: { params: { personName: string } })
                     </button>
                 </Link>
             </div>
+            {/* @ts-ignore */}
             <ChaptersByTitles chapters={chapters}/>
             <NewChapter
                 title={lastTitle}
