@@ -25,7 +25,7 @@ export const RadioButton = ({
                 name={name}
                 defaultChecked={isChecked}
                 type="radio"
-                className="scale-[2] m-8"/>
+                className="md:scale-[2] m-8"/>
             <label>{label}</label>
         </div>
     );

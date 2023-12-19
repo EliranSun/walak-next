@@ -9,7 +9,7 @@ export const TranslateButton = ({
 }) => {
     return (
         <button
-            className={"my-4 p-2 bg-white hover:bg-black hover:text-white border border-black text-sm"}
+            className={"p-2 bg-white hover:bg-black hover:text-white border border-black text-sm"}
             onClick={async () => {
                 const translationResponse = await fetch("/story/translate", {
                     method: "POST",

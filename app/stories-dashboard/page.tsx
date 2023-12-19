@@ -6,7 +6,7 @@ export default async function Index() {
     const {rows: chapters} = await sql`SELECT * FROM chapters ORDER BY id DESC LIMIT 50`;
 
     return (
-        <div className="flex flex-col items-center justify-center p-8">
+        <div className="w-screen flex flex-col items-center justify-center p-8">
             <h1 className="font-black text-9xl text-yellow-500 font-black">☀</h1>
             <section className="py-8 flex gap-8 flex-wrap justify-center items-center">
                 {relatives.map((relative) => {

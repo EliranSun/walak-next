@@ -21,7 +21,7 @@ export default async function Page({params}: { params: { personName: string } })
 
     return (
         <div className="flex flex-col">
-            <div className="flex gap-8 items-center bg-white w-full p-10">
+            <div className="flex flex-col md:flex-row gap-8 items-center bg-white w-full p-10">
                 <Link href="/stories-dashboard">
                     <ArrowCircleLeft size={42}/>
                 </Link>

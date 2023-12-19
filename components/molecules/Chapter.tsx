@@ -30,7 +30,7 @@ export const Chapter = ({
             return null;
 
         return (
-            <div key={`${id}-${type.toLowerCase()}`} className="bg-white p-8 w-fit">
+            <div key={`${id}-${type.toLowerCase()}`} className="bg-white py-10 px-8 w-full h-fit md:w-fit">
                 <div>
                     <div className="relative">
                         <h4>{chapterNumber} ~ {id}</h4>
@@ -39,7 +39,7 @@ export const Chapter = ({
                             ref={ref}
                             onChange={(e) => setEditedContent(e.target.value || "")}
                             dir={type === ContentType.ORIGINAL ? "auto" : "rtl"}
-                            className="w-[40vw] max-w-full py-8 whitespace-pre-wrap"/>
+                            className="w-full md:w-[40vw] max-w-full py-8 whitespace-pre-wrap"/>
                         <ContentActionButtons
                             chapterId={id}
                             type={type} content={editedContent} setTranslation={setTranslation}/>

@@ -1,12 +1,12 @@
-import { ContentType } from "@/enums/Content";
-import { ChaptersOfTitle } from "@/components/molecules/ChaptersOfTItle";
-import { Chapter } from "@/types/Chapter";
+import {ContentType} from "@/enums/Content";
+import {ChaptersOfTitle} from "@/components/molecules/ChaptersOfTItle";
+import {Chapter} from "@/types/Chapter";
 
-export const ChaptersByTitles = ({ chapters }: { chapters: Chapter[] }) => {
+export const ChaptersByTitles = ({chapters}: { chapters: Chapter[] }) => {
         const chaptersByTitle = {} as { [title: string]: Chapter[] };
 
         for (const chapter of chapters) {
-            const { title, content, sibling, translation, id } = chapter;
+            const {title, content, sibling, translation, id} = chapter;
             if (!chaptersByTitle[title]) {
                 chaptersByTitle[title] = [{
                     title,
@@ -29,7 +29,7 @@ export const ChaptersByTitles = ({ chapters }: { chapters: Chapter[] }) => {
         }
 
         return (
-            <div className="flex gap-4 p-10 overflow-y-auto h-2/3">
+            <div className="flex flex-col md:flex-row md:gap-4 md:p-10 overflow-y-auto md:h-2/3">
                 <ChaptersOfTitle chaptersByTitle={chaptersByTitle} type={ContentType.ORIGINAL}/>
                 <ChaptersOfTitle chaptersByTitle={chaptersByTitle} type={ContentType.TRANSLATION}/>
             </div>

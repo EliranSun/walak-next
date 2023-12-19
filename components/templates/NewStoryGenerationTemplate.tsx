@@ -59,8 +59,8 @@ export const NewStoryGenerationTemplate = ({personName}: { personName: string })
         params.set("lastReaderChoice", lastReaderChoice.toString());
         params.set("title", title);
 
-        // silent replace
         router.replace(`${pathname}?${params.toString()}`, {
+            // @ts-ignore-next-line
             scroll: false,
         });
     }, [selectedGenre, selectedTheme, storyThusFar, lastReaderChoice, title]);
@@ -68,10 +68,10 @@ export const NewStoryGenerationTemplate = ({personName}: { personName: string })
     return (
         <>
             <div className="p-10">
-                <div className="flex gap-4">
-                    <div className="w-1/3">
+                <div className="flex flex-col md:flex-row gap-4">
+                    <div className="w-full md:w-1/3">
                         <h2 className="text-4xl">Choose story genre:</h2>
-                        <div className="flex flex-wrap text-3xl">
+                        <div className="flex flex-wrap md:text-3xl">
                             {Genres.map((genre) => {
                                 return (
                                     <RadioButton
@@ -85,9 +85,9 @@ export const NewStoryGenerationTemplate = ({personName}: { personName: string })
                             })}
                         </div>
                     </div>
-                    <div className="w-2/3">
+                    <div className="w-full md:w-2/3">
                         <h2 className="text-4xl">Choose story theme:</h2>
-                        <div className="flex flex-wrap text-3xl">
+                        <div className="flex flex-wrap md:text-3xl">
                             {Themes.map((theme) => {
                                 return (
                                     <RadioButton

@@ -13,7 +13,7 @@ export const ContentActionButtons = ({
     const buttonPosition = type === ContentType.ORIGINAL ? ButtonPosition.Right : ButtonPosition.Left;
 
     return (
-        <div className={classNames("flex gap-4 absolute bottom-0", {
+        <div className={classNames("flex items-end gap-4 absolute bottom-0", {
             "right-0": buttonPosition === ButtonPosition.Right,
             "left-0": buttonPosition === ButtonPosition.Left
         })}>

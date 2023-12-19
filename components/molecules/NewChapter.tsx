@@ -5,10 +5,10 @@ import {useState} from "react";
 
 export const NewChapter = ({
     personName,
-    theStoryThusFar,
-    theme,
-    genre,
-    title
+    theStoryThusFar = "",
+    theme = "",
+    genre = "",
+    title = ""
 }: {
     personName: string,
     theStoryThusFar: string,

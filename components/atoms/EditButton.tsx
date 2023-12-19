@@ -1,8 +1,8 @@
-import { ContentType } from "@/enums/Content";
-import { noop } from "lodash";
+import {ContentType} from "@/enums/Content";
+import {noop} from "lodash";
 import classNames from "classnames";
-import { useState } from "react";
-import { Spinner } from "@phosphor-icons/react";
+import {useState} from "react";
+import {Spinner} from "@phosphor-icons/react";
 
 export const EditButton = ({
     content,
@@ -17,7 +17,7 @@ export const EditButton = ({
     onSuccess?: () => void,
     onError?: () => void,
     isDisabled?: boolean,
-    chapterId: number
+    chapterId?: number
 }) => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [isError, setIsError] = useState<boolean>(false);
@@ -26,11 +26,11 @@ export const EditButton = ({
     return (
         <button
             disabled={notAllowed}
-            className={classNames("my-4 p-2 bg-white hover:bg-black hover:text-white border border-black text-sm", {
+            className={classNames("p-2 bg-white hover:bg-black hover:text-white border border-black text-sm", {
                 "cursor-not-allowed opacity-30": notAllowed
             })}
             onClick={async () => {
-                console.log({ content });
+                console.log({content});
                 setIsLoading(true);
                 const path = type === ContentType.ORIGINAL ? "/story/update" : "/story/translate/update";
                 try {
