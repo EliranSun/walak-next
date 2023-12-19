@@ -14,7 +14,7 @@ export const ChaptersByTitles = ({chapters}: { chapters: Chapter[] }) => {
                     sibling,
                     translation,
                     id,
-                    chapterNumber: chapter.chapter_number
+                    chapterNumber: chapter.chapter_number || 0
                 }];
             } else {
                 chaptersByTitle[title].push({
@@ -23,7 +23,7 @@ export const ChaptersByTitles = ({chapters}: { chapters: Chapter[] }) => {
                     sibling,
                     translation,
                     id,
-                    chapterNumber: chapter.chapter_number
+                    chapterNumber: chapter.chapter_number || 0
                 });
             }
         }
