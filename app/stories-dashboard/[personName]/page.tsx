@@ -6,6 +6,8 @@ import {getRelation} from "@/utils/relations";
 import {upperFirst} from "lodash";
 import {NewChapter} from "@/components/molecules/NewChapter";
 
+const dynamic = 'force-dynamic';
+const revalidate = 0;
 export default async function Page({params}: { params: { personName: string } }) {
     const {personName} = params;
     console.log({personName});
