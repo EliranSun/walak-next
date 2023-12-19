@@ -5,6 +5,7 @@ import {ChaptersByTitles} from "@/components/molecules/ChaptersByTitles";
 import {getRelation} from "@/utils/relations";
 import {upperFirst} from "lodash";
 import {NewChapter} from "@/components/molecules/NewChapter";
+import {Chapter} from "@/types/Chapter";
 
 const dynamic = 'force-dynamic';
 const revalidate = 0;
@@ -21,6 +22,7 @@ export default async function Page({params}: { params: { personName: string } })
     const genre = chapters.at(0)?.genre;
 
     console.log({chapter: chapters.at(0)});
+    const foo = chapters as Chapter[];
 
     return (
         <div className="flex flex-col">
@@ -38,7 +40,7 @@ export default async function Page({params}: { params: { personName: string } })
                     </button>
                 </Link>
             </div>
-            <ChaptersByTitles chapters={chapters}/>
+            <ChaptersByTitles chapters={foo}/>
             <NewChapter
                 title={lastTitle}
                 personName={personName}
