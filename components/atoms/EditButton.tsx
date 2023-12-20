@@ -2,56 +2,52 @@ import {ContentType} from "@/enums/Content";
 import {noop} from "lodash";
 import classNames from "classnames";
 import {useState} from "react";
-import {Spinner} from "@phosphor-icons/react";
+import {FloppyDisk, Spinner} from "@phosphor-icons/react";
+import {ActionButton} from "@/components/atoms/ActionButton";
 
 export const EditButton = ({
-    content,
-    chapterId,
-    onSuccess = noop,
-    onError = noop,
-    type,
-    isDisabled = false
+   content,
+   translation,
+   chapterId,
+   onSuccess = noop,
+   type,
+   isDisabled = false
 }: {
-    content: string,
-    type: ContentType,
-    onSuccess?: () => void,
-    onError?: () => void,
-    isDisabled?: boolean,
-    chapterId?: number
+   content: string,
+   translation?: string,
+   type: ContentType,
+   onSuccess?: () => void,
+   onError?: () => void,
+   isDisabled?: boolean,
+   chapterId?: number
 }) => {
-    const [isLoading, setIsLoading] = useState<boolean>(false);
-    const [isError, setIsError] = useState<boolean>(false);
-    const notAllowed = isDisabled || isLoading || !content || !chapterId;
+   const notAllowed = isDisabled || !content || !chapterId;
 
-    return (
-        <button
-            disabled={notAllowed}
-            className={classNames("p-2 bg-white hover:bg-black hover:text-white border border-black text-sm", {
-                "cursor-not-allowed opacity-30": notAllowed
-            })}
-            onClick={async () => {
-                console.log({content});
-                setIsLoading(true);
-                const path = type === ContentType.ORIGINAL ? "/story/update" : "/story/translate/update";
-                try {
-                    await fetch(path, {
-                        method: "POST", body: JSON.stringify({
-                            content: content,
-                            chapterId: chapterId,
-                        })
-                    }).then(res => res.json());
+   return (
+      <ActionButton
+         label={<FloppyDisk size={24}/>}
+         isDisabled={notAllowed}
+         action={async () => {
+            if (content) {
+               await fetch("/story/update", {
+                  method: "POST", body: JSON.stringify({
+                     chapterId: chapterId,
+                     content: content,
+                  })
+               });
+            }
 
-                    onSuccess();
-                } catch (e) {
-                    console.error(e);
-                    setIsError(true);
-                    onError();
-                } finally {
-                    setIsLoading(false);
-                }
-            }}>
-            {isLoading ? <Spinner size={16} className="animate-spin"/> : "EDIT"}
-            {isError ? "ERROR" : null}
-        </button>
-    )
+            if (translation) {
+               await fetch("/story/translate/update", {
+                  method: "POST",
+                  body: JSON.stringify({
+                     chapterId,
+                     content: translation
+                  })
+               });
+            }
+
+            onSuccess();
+         }}/>
+   )
 }

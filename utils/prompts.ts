@@ -1,4 +1,7 @@
-const CHAPTER_CHARACTER_LIMIT = 1000;
+const CHAPTER_CHARACTER_LIMIT_MAX = 1200;
+const CHAPTER_CHARACTER_LIMIT_MIN = 800;
+
+const storyLimitMessage = `The chapter must be between ${CHAPTER_CHARACTER_LIMIT_MIN} and ${CHAPTER_CHARACTER_LIMIT_MAX} characters long!`;
 
 export const firstChapterPrompt = ({
    title,
@@ -34,7 +37,8 @@ export const firstChapterPrompt = ({
       [*option 1*] 
       [*option 2*]
    
-   The chapter length should be around ${CHAPTER_CHARACTER_LIMIT} characters.
+   ${storyLimitMessage}
+   
    The language should be easy to understand, avoiding complex sentences and idioms, making it accessible for people who are learning English.
    
    Output nothing but the story chapter!`;
@@ -99,7 +103,8 @@ export const nthChapterPrompt = ({
    
    ${chapterNumber < 7 && optionsMessage}
     
-    The chapter length should be around ${CHAPTER_CHARACTER_LIMIT} characters.
+   ${storyLimitMessage}
+
     The language should be easy to understand, avoiding complex sentences and idioms, making it accessible for people who are learning English.
 
     Output nothing but the story chapter!
@@ -122,8 +127,8 @@ export const getFirstChapterPrompt = ({
 You are a professional storyteller.
 Create a first short chapter in a story that will have 7 chapters. The genre of the chapter should be ${genre} and the theme of the story should be ${theme}. 
 The story should involve me, Eliran and my ${relation} ${siblingName} The story should be told from the perspective of ${siblingName}. 
-Make sure the chapter length is around ${CHAPTER_CHARACTER_LIMIT} character! The chapter should not
-be too short.
+
+${storyLimitMessage}
 
 Most importantly - at the end of the chapter, Generate two options for the story to follow the reader will have to choose from.
 
@@ -148,8 +153,8 @@ You are a professional storyteller.
 Continue a short story by creating a new chapter for it, based on the previous chapters, and based on the reader's choice provided. 
 The story should conclude at chapter 7. This is chapter number ${previousChapters.length + 1}.
 The story genre is ${genre}, and the theme of the story is ${theme}. 
-Make sure the chapter length is around ${CHAPTER_CHARACTER_LIMIT} character! The chapter should not
-be too short.
+
+${storyLimitMessage}
 
 Most importantly - at the end of the chapter, Generate two options for the story to follow the reader will have to choose from.
 
