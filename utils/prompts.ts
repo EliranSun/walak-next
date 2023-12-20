@@ -1,25 +1,25 @@
 const CHAPTER_CHARACTER_LIMIT = 1000;
 
 export const firstChapterPrompt = ({
-    title,
-    siblingName,
-    siblingType,
-    feeling,
-    genre,
-    currentTime
+   title,
+   siblingName,
+   siblingType,
+   feeling,
+   genre,
+   currentTime
 }: {
-    title: string,
-    siblingName: string,
-    siblingType: string,
-    feeling: string,
-    genre: string,
-    currentTime: string
+   title: string,
+   siblingName: string,
+   siblingType: string,
+   feeling: string,
+   genre: string,
+   currentTime: string
 }) => {
-    const timeHour = currentTime.split(":")[0];
-    const isMorning = Number(timeHour) < 12 && Number(timeHour) > 6;
-    // const timeMessage = `In addition include the current time - ${currentTime} - somehow in the chapter.`;
+   const timeHour = currentTime.split(":")[0];
+   const isMorning = Number(timeHour) < 12 && Number(timeHour) > 6;
+   // const timeMessage = `In addition include the current time - ${currentTime} - somehow in the chapter.`;
 
-    return `
+   return `
    You are a professional storyteller.
     
    Write a short first chapter for a story using simple and clear English with a title of "${title}".
@@ -34,56 +34,56 @@ export const firstChapterPrompt = ({
       [*option 1*] 
       [*option 2*]
    
-   Limit the chapter to around ${CHAPTER_CHARACTER_LIMIT} characters.
+   The chapter length should be around ${CHAPTER_CHARACTER_LIMIT} characters.
    The language should be easy to understand, avoiding complex sentences and idioms, making it accessible for people who are learning English.
    
    Output nothing but the story chapter!`;
 };
 export const nthChapterPrompt = ({
-    title,
-    chapterNumber,
-    theStoryThusFar,
-    siblingType,
-    siblingName,
-    feeling,
-    genre,
-    chosenOption
+   title,
+   chapterNumber,
+   theStoryThusFar,
+   siblingType,
+   siblingName,
+   feeling,
+   genre,
+   chosenOption
 }: {
-    title: string,
-    chapterNumber: number,
-    theStoryThusFar: string,
-    siblingType: string,
-    siblingName: string,
-    currentTime: string,
-    feeling: string,
-    genre: string,
-    chosenOption: number
+   title: string,
+   chapterNumber: number,
+   theStoryThusFar: string,
+   siblingType: string,
+   siblingName: string,
+   currentTime: string,
+   feeling: string,
+   genre: string,
+   chosenOption: number
 }) => {
-    let storyExtraDirection = "";
-    switch (chapterNumber) {
-        case 5:
-            storyExtraDirection = "The story is past the middle point now. It should present a conflict or a problem.";
-            break;
+   let storyExtraDirection = "";
+   switch (chapterNumber) {
+      case 5:
+         storyExtraDirection = "The story is past the middle point now. It should present a conflict or a problem.";
+         break;
 
-        case 6:
-            storyExtraDirection = "The story will be resolved in the next chapter. Start to wrap things up.";
-            break;
+      case 6:
+         storyExtraDirection = "The story will be resolved in the next chapter. Start to wrap things up.";
+         break;
 
-        case 7:
-            storyExtraDirection = "This is the final chapter. The story should be resolved now.";
-            break;
-    }
+      case 7:
+         storyExtraDirection = "This is the final chapter. The story should be resolved now.";
+         break;
+   }
 
-    // const timeMessage = `In addition include the current time - ${currentTime} - somehow in the chapter.`;
+   // const timeMessage = `In addition include the current time - ${currentTime} - somehow in the chapter.`;
 
-    const optionsMessage = `
+   const optionsMessage = `
     Most importantly - at the end of the chapter present two options for the reader to choose from. 
     These choices will affect the rest of the story. Return these options in the following format:
       [*option 1*] 
       [*option 2*]
    `;
 
-    return `
+   return `
    You are a professional storyteller.
    Write a chapter for a story using simple and clear English, based on the title "${title}", based of the story thus far below, and based on a previous
    choice made by the reader. 
@@ -99,7 +99,7 @@ export const nthChapterPrompt = ({
    
    ${chapterNumber < 7 && optionsMessage}
     
-    Limit the chapter to around ${CHAPTER_CHARACTER_LIMIT} characters.
+    The chapter length should be around ${CHAPTER_CHARACTER_LIMIT} characters.
     The language should be easy to understand, avoiding complex sentences and idioms, making it accessible for people who are learning English.
 
     Output nothing but the story chapter!
@@ -109,20 +109,20 @@ export const nthChapterPrompt = ({
 };
 
 export const getFirstChapterPrompt = ({
-    genre = 'sci-fi',
-    theme = 'betrayal',
-    siblingName = ''
+   genre = 'sci-fi',
+   theme = 'betrayal',
+   siblingName = ''
 }: {
-    genre: string,
-    theme: string,
-    siblingName: string
+   genre: string,
+   theme: string,
+   siblingName: string
 }) => {
-    const relation = siblingName.toLowerCase() === 'nofar' ? 'girlfriend' : 'sibling';
-    return `
+   const relation = siblingName.toLowerCase() === 'nofar' ? 'girlfriend' : 'sibling';
+   return `
 You are a professional storyteller.
 Create a first short chapter in a story that will have 7 chapters. The genre of the chapter should be ${genre} and the theme of the story should be ${theme}. 
 The story should involve me, Eliran and my ${relation} ${siblingName} The story should be told from the perspective of ${siblingName}. 
-Limit the chapter to around ${CHAPTER_CHARACTER_LIMIT} characters. 
+The chapter length should be around ${CHAPTER_CHARACTER_LIMIT} characters. 
 
 Most importantly - at the end of the chapter, Generate two options for the story to follow the reader will have to choose from.
 
@@ -131,22 +131,22 @@ Output nothing but the story chapter!
 };
 
 export const getNewChapterPrompt = ({
-    genre = 'sci-fi',
-    theme = 'betrayal',
-    previousChapters,
-    readerChoice,
+   genre = 'sci-fi',
+   theme = 'betrayal',
+   previousChapters,
+   readerChoice,
 }: {
-    siblingName: string,
-    genre: string,
-    theme: string,
-    previousChapters: string,
-    readerChoice: string,
+   siblingName: string,
+   genre: string,
+   theme: string,
+   previousChapters: string,
+   readerChoice: string,
 }) => {
-    return `
+   return `
 You are a professional storyteller. 
 Continue a short story by creating a new chapter for it, based on the previous chapters, and based on the reader's choice provided. 
 The story should conclude at chapter 7. This is chapter number ${previousChapters.length + 1}.
-The story genre is ${genre}, and the theme of the story is ${theme}. Limit the chapter to around ${CHAPTER_CHARACTER_LIMIT} characters.
+The story genre is ${genre}, and the theme of the story is ${theme}. The chapter length should be around ${CHAPTER_CHARACTER_LIMIT} characters.
 
 Most importantly - at the end of the chapter, Generate two options for the story to follow the reader will have to choose from.
 
