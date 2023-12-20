@@ -1,5 +1,5 @@
-const CHAPTER_CHARACTER_LIMIT_MAX = 1200;
-const CHAPTER_CHARACTER_LIMIT_MIN = 800;
+const CHAPTER_CHARACTER_LIMIT_MAX = 800;
+const CHAPTER_CHARACTER_LIMIT_MIN = 600;
 
 const storyLimitMessage = `The chapter must be between ${CHAPTER_CHARACTER_LIMIT_MIN} and ${CHAPTER_CHARACTER_LIMIT_MAX} characters long!`;
 
