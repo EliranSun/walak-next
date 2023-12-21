@@ -1,7 +1,0 @@
-{
-  "functions": {
-    "app/story/**/*.ts": {
-      "maxDuration": 60
-    }
-  }
-}
