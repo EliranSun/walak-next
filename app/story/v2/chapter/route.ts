@@ -4,6 +4,7 @@ import {chat} from "@/utils/openAI";
 import {getTranslation} from "@/utils/translate";
 import {db} from "@vercel/postgres";
 
+export const runtime = 'edge';
 export async function POST(request: NextRequest) {
    try {
       const {
