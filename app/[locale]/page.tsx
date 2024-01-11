@@ -7,7 +7,7 @@ import {PostCard} from "@/components/molecules/PostCard";
 import {useLocale} from "next-intl";
 import {getPosts} from "@/utils/posts";
 import {Categories} from "@/constants/categories";
-import React from "react";
+import {SocialFeed} from "@/components/organisms/SocialFeed";
 
 export default async function Index() {
    const locale = useLocale();
@@ -57,10 +57,6 @@ export default async function Index() {
    }
 
    return (
-      <>
-         <head>
-            <meta name="theme-color" content="#f1f5f9"/>
-         </head>
          <div className="w-full flex items-start justify-center box-border" dir={dir}>
             <div className="md:max-w-5xl mb-28">
                <div className="mx-5 mt-5 md:mt-10 md:mx-10">
@@ -74,13 +70,12 @@ export default async function Index() {
                </div>
             </div>
             <div className="w-px h-[1900px] inline-block border-l border-gray-300"/>
-            <div className="hidden md:inline my-10 px-10 flex flex-col gap-8 md:w-96">
+            <div className="md:inline my-10 px-10 flex flex-col gap-8 md:w-96">
                <AboutParagraph/>
                <NewsLetterSubscribe isBordered/>
                <TopPosts posts={posts}/>
                {/*<SocialFeed/>*/}
             </div>
          </div>
-      </>
    );
 }
