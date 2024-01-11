@@ -2,7 +2,6 @@
 import {useState} from "react";
 import classNames from "classnames";
 import {usePathname, useRouter} from "next/navigation";
-import {noop} from "lodash";
 
 export const RadioButton = ({
    label,

@@ -11,17 +11,17 @@ export const Footer = () => {
 
    return (
       <footer className="border-t border-gray-400 w-full p-4" dir="rtl">
-         <div className="flex gap-8 pb-4 border-b border-gray-400">
-            <div className="w-1/3 flex items-start gap-4">
+         <div className="flex flex-col md:flex-row gap-8 pb-4 border-b border-gray-400">
+            <div className="md:w-1/3 flex flex-col md:flex-row items-start gap-4">
                <Logo/>
                <AboutParagraph isShort/>
             </div>
-            <div className="w-2/3 flex items-start justify-between">
+            <div className="w-2/3 flex flex-col md:flex-row items-start justify-between">
                <NewsLetterSubscribe/>
                <SocialStrip/>
             </div>
          </div>
-         <div className="flex w-full justify-between">
+         <div className="flex flex-col md:flex-row w-full justify-between">
             <ul className="flex text-xs gap-1">
                <Link href="/">
                   <li>תנאי שימוש</li>
@@ -35,7 +35,7 @@ export const Footer = () => {
                   <li>{t('buy_coffee')}</li>
                </Link>
             </ul>
-            <span className="text-xs">
+            <span className="text-xs text-left md:text-right mt-8" dir="ltr">
                  Made with 💛 by the OC Team © 2016-{new Date().getFullYear()}
              </span>
          </div>

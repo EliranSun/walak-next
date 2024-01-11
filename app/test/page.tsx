@@ -9,7 +9,6 @@ const GOOGLE_API_KEY = 'AIzaSyAAvPKURW006tRB9dDW1Yjgl-fhS1AaJtI';
 const getPlaceProfile = async ({ locationId, mapId }: {
    locationId: string,
    mapId: string,
-   stepId: string,
 }) => {
    if (!locationId || !mapId) {
       throw new Error('missing params');
@@ -42,8 +41,10 @@ const photoByReference = async (photoReference: string): Promise<ArrayBuffer> =>
 };
 
 const addBinaryData = async (photos: any): Promise<any> => {
+   // @ts-ignore
    return await Promise.all(photos.data.map(async (photo) => {
       const arrayBuffer = await photoByReference(photo.photo_reference);
+      // @ts-ignore
       const binaryData = Buffer.from(arrayBuffer, 'binary').toString('base64');
       const imageSrc = `data:image/jpeg;base64,${binaryData}`;
       return { 
@@ -53,18 +54,11 @@ const addBinaryData = async (photos: any): Promise<any> => {
    }));
 }
 
+// @ts-ignore
 const Images = ({ images }) => {
    return (
       <ul className="flex gap-2">
-         {images.sort((a,b) => {
-            if (a.photo_reference > b.photo_reference) {
-               return -1;
-            }
-            if (a.photo_reference < b.photo_reference) {
-               return 1;
-            }
-            return 0;
-         }).map(({photo_reference, imageSrc}) => {
+         {images.map(({photo_reference, imageSrc}) => {
             return (
                <li key={photo_reference}>
                   <span className="flex text-xs overflow-x-scroll w-20">{photo_reference}</span>

@@ -69,8 +69,8 @@ export default async function Index() {
                   <PostsList posts={ideas} type="ideas"/>
                </div>
             </div>
-            <div className="w-px h-[1900px] inline-block border-l border-gray-300"/>
-            <div className="md:inline my-10 px-10 flex flex-col gap-8 md:w-96">
+            <div className="hidden md:inline-block w-px h-[1900px]  border-l border-gray-300"/>
+            <div className="hidden md:flex my-10 px-10  flex-col gap-8 md:w-96">
                <AboutParagraph/>
                <NewsLetterSubscribe isBordered/>
                <TopPosts posts={posts}/>
