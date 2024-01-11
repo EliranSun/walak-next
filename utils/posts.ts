@@ -15,6 +15,7 @@ export const getPosts = async () => {
    const {data, error} = await supabase
       .from('posts')
       .select('*, postAuthors:postAuthors!postId (authorId:authors!id(name))')
+      .eq('isDraft', false)
       .order('createdAt', {ascending: false});
 
    const posts = (data || []).map((post: Post) => {
@@ -24,6 +25,10 @@ export const getPosts = async () => {
          timeToRead: calculateReadingTime(post.content)
       };
    });
+   
+   if (error) {
+      console.log('getPosts error', error);
+   }
 
    return {posts, error};
 };
@@ -34,6 +39,7 @@ export const getPost = async (id: number) => {
       .from('posts')
       .select('*, postAuthors(author:authors(*))')
       .eq('id', id)
+      .eq('isDraft', false)
       .single();
 
    const post = {

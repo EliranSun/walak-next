@@ -7,8 +7,14 @@ import {InteractiveTag} from "@/components/atoms/InteractiveTag";
 import {VideoTag} from "@/components/atoms/VideoTag";
 import {Link} from "@/components/atoms/Link";
 import {CoopTag} from "@/components/atoms/CoopTag";
+import Image from "next/image";
 
-const replaceAllSpacesWithDashes = (str: string) => str.replace(/\s/g, '-');
+const replaceAllSpacesWithDashes = (str: string) => {
+   if (!str) 
+      return;
+   
+   return str.replace(/\s/g, '-');
+}
 
 export const PostCard = ({
    post,
@@ -58,7 +64,9 @@ export const PostCard = ({
       <Link href={`/posts/${id}/${replaceAllSpacesWithDashes(title)}`}>
          <div className={cardContainerClasses}>
             <div className={imageContainerClasses}>
-               <img src={imageSrc} alt={title} className="object-cover object-center w-full"/>
+               <Image 
+                  fill={true}
+                  src={imageSrc} alt={title} className="object-cover object-center w-full"/>
             </div>
             <div className={textContainerClasses}>
                <div className={titleContainerClasses}>

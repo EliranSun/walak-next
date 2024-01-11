@@ -8,14 +8,13 @@ const nextConfig = {
   experimental: {
     serverActions: false,
   },
-  // async rewrites() {
-  //   return [
-  //     {
-  //       source: '/',
-  //       destination: '/he'
-  //     },
-  //   ];
-  // }
+  images: {
+    domains: [
+      'res.cloudinary.com',
+      'firebasestorage.googleapis.com',
+      'cdn.discordapp.com'
+    ],
+  },
 };
 
 module.exports = withNextIntl(nextConfig);
