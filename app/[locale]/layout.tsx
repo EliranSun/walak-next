@@ -1,6 +1,6 @@
 import './globals.css'
 import React from "react";
-import {NextIntlClientProvider, useLocale} from "next-intl";
+// import {NextIntlClientProvider, useLocale} from "next-intl";
 import {Header} from "@/components/organisms/Header";
 import {Footer} from "@/components/organisms/Footer";
 import {notFound} from "next/navigation";
@@ -58,11 +58,11 @@ export default async function RootLayout({
       </head>
       <body>
       <main>
-         <NextIntlClientProvider locale={locale} messages={messages}>
+         {/*<NextIntlClientProvider locale={locale} messages={messages}>*/}
             <Header/>
             {children}
             <Footer/>
-         </NextIntlClientProvider>
+         {/*</NextIntlClientProvider>*/}
       </main>
       </body>
       </html>

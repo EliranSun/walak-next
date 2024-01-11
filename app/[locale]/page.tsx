@@ -4,14 +4,15 @@ import {NewsLetterSubscribe} from "@/components/molecules/NewsLetterSubscribe";
 import {TopPosts} from "@/components/organisms/TopPosts";
 import Post from "@/types/Post";
 import {PostCard} from "@/components/molecules/PostCard";
-import {useLocale} from "next-intl";
+// import {useLocale} from "next-intl";
 import {getPosts} from "@/utils/posts";
 import {Categories} from "@/constants/categories";
 import React from "react";
 
 export default async function Index() {
-   const locale = useLocale();
-   const dir = locale === 'he' ? 'rtl' : 'ltr';
+   // const locale = useLocale();
+   // const dir = locale === 'he' ? 'rtl' : 'ltr';
+   const dir = 'rtl';
    const {posts, error} = await getPosts();
    const firstPost = posts[0];
    const restOfPosts = posts.slice(1);
