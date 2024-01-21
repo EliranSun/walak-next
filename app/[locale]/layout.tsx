@@ -7,15 +7,11 @@ import {notFound} from "next/navigation";
 
 export const metadata = {
    title: 'וואלק - מה שעולה לראש',
-   description: 'וואלק',
+   description: 'פלטפורמה לפרסום מאמרים, סיפורים קצרים, דעות ובעיקר רעיונות.',
 };
 
-export default async function RootLayout({
-   children,
-   params,
-}: {
-   children: React.ReactNode,
-   params: { postId: string, postName: string },
+export default async function RootLayout({children}: {
+   children: React.ReactNode
 }) {
    let messages;
    const locale = useLocale();

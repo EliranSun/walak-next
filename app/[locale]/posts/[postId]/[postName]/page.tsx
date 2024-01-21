@@ -11,22 +11,39 @@ import {Metadata} from "next";
 import {DateLocaleString} from "@/components/atoms/DateLocaleString";
 import {PostCoverImage} from "@/components/atoms/PostCoverImage";
 
-const metadataCopies = {
-   title:  "וואלק",
-   description: "פלטפורמה לפרסום מאמרים, סיפורים קצרים, דעות ובעיקר רעיונות.",
-};
-
+// TODO: Layout here is a bit redundant, can be moved to page.tsx
 export async function generateMetadata(
    {params}: { params: { postId: string, postName: string } },
 ): Promise<Metadata> {
    const postName = decodeURI(params.postName).replace(/-/g, ' ');
+   const {post, error} = await getPost(Number(params.postId));
 
    return {
-      title: `${metadataCopies.title} | ${postName}`,
-      description: `${metadataCopies.description}`,
+      title: `וולאק | ${post.title}`,
+      description: `${post.excerpt}`,
+      openGraph: {
+         title: `וואלק | ${post.title}`,
+         description: `${post.excerpt}`,
+         locale: "he_IL",
+         type: "article",
+         images: [
+            {
+               url: post.metadataImageSrc || post.imageSrc,
+               width: 1200,
+               height: 666,
+               alt: post.title,
+            },
+         ],
+      },
+      twitter: {
+         site: "@Walak",
+         creator: "Eliran Shemesh & Ofir Cohen",
+         card: "summary_large_image",
+         description: "Est. reading time: 3 minutes",
+      },
+
    }
 }
-
 export default async function Index({params}: { params: { postId: string, postName: string } }) {
    const {post, error} = await getPost(Number(params.postId));
 
