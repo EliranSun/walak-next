@@ -1,7 +1,6 @@
 import React from "react";
 import {trackPostViews, getPost} from "@/utils/posts";
 import {Tags} from "@/components/molecules/Tags";
-import Author from "@/components/molecules/Author";
 import {PostFooterMessage} from "@/components/atoms/PostFooterMessage";
 import {PrintViewButton} from "@/components/molecules/PrintViewButton";
 import {ShareButton} from "@/components/molecules/ShareButton";
@@ -46,9 +45,9 @@ export default async function Index({params}: { params: { postId: string, postNa
    return (
       <div className="w-full flex flex-col items-center post" dir="rtl">
          <PostCoverImage imageSrc={post.upscaledImageSrc || post.imageSrc}>
-            <div className="w-full bg-yellow-500 text-center py-8 text-white z-10">
-               <h1 className="text-6xl open-sans tracking-wider">{post.title}</h1>
-               <h2 className="text-xl open-sans">{post.excerpt}</h2>
+            <div className="w-full bg-yellow-500 text-center py-8 text-white z-10 open-sans">
+               <h1 className="text-6xl tracking-wider">{post.title}</h1>
+               <h2 className="text-xl">{post.excerpt}</h2>
             </div>
          </PostCoverImage>
          <div className="flex-col-reverse md:flex-row flex items-start my-8 justify-center">

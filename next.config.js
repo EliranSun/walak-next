@@ -12,7 +12,8 @@ const nextConfig = {
     domains: [
       'res.cloudinary.com',
       'firebasestorage.googleapis.com',
-      'cdn.discordapp.com'
+      'cdn.discordapp.com',
+      'f7lpfsjxmvjp0zkr.public.blob.vercel-storage.com'
     ],
   },
 };

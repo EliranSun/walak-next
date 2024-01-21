@@ -24,7 +24,7 @@ export default async function Index() {
    } as Record<string, Post[]>;
    
    restOfPosts.forEach((post: Post) => {
-      postsByCategory[post.categoryId].push(post);
+      postsByCategory[post.categoryId]?.push(post);
    });
 
    if (error) {

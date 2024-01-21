@@ -1,6 +1,5 @@
 import {useTranslations} from "next-intl";
 import Author from "@/types/Author";
-import Post from "@/types/Post";
 
 const Author = ({author}: { author: Author }) => {
    const t = useTranslations('Author');
