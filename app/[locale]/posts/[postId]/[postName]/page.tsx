@@ -39,7 +39,7 @@ export default async function Index({params}: { params: { postId: string, postNa
       );
    }
 
-   trackPostViews(post);
+   await trackPostViews(post);
 
    return (
       <div className="w-full flex flex-col items-center post" dir="rtl">

@@ -10,41 +10,22 @@ import {Categories} from "@/constants/categories";
 import {SocialFeed} from "@/components/organisms/SocialFeed";
 
 export default async function Index() {
+   const {posts, error} = await getPosts();
    const locale = useLocale();
    const dir = locale === 'he' ? 'rtl' : 'ltr';
-   const {posts, error} = await getPosts();
    const firstPost = posts[0];
    const restOfPosts = posts.slice(1);
-
-   // TODO: a query that returns 6 posts of each category? is it possible? and not complex?
-   const articles = [] as Post[];
-   const stories = [] as Post[];
-   const opinions = [] as Post[];
-   const ideas = [] as Post[];
-
+   
+   const postsByCategory = {
+      [Categories.ARTICLE]: [] as Post[],
+      [Categories.STORY]: [] as Post[],
+      [Categories.OPINION]: [] as Post[],
+      [Categories.IDEA]: [] as Post[],
+   } as Record<string, Post[]>;
+   
    restOfPosts.forEach((post: Post) => {
-      switch (post.categoryId) {
-         case Categories.ARTICLE:
-            if (articles.length >= 6) break;
-            articles.push(post);
-            break;
-
-         case Categories.STORY:
-            if (stories.length >= 6) break;
-            stories.push(post);
-            break;
-
-         case Categories.OPINION:
-            if (opinions.length >= 6) break;
-            opinions.push(post);
-            break;
-
-         case Categories.IDEA:
-            if (ideas.length >= 6) break;
-            ideas.push(post);
-            break;
-      }
-   })
+      postsByCategory[post.categoryId].push(post);
+   });
 
    if (error) {
       console.log(error);
@@ -63,10 +44,10 @@ export default async function Index() {
                   <PostCard post={firstPost} isLarge/>
                </div>
                <div className="m-5 md:m-10 pb-0">
-                  <PostsList posts={articles} type="articles"/>
-                  <PostsList posts={stories} type="stories"/>
-                  <PostsList posts={opinions} type="opinions"/>
-                  <PostsList posts={ideas} type="ideas"/>
+                  <PostsList posts={postsByCategory[Categories.ARTICLE]} type="articles"/>
+                  <PostsList posts={postsByCategory[Categories.STORY]} type="stories"/>
+                  <PostsList posts={postsByCategory[Categories.OPINION]} type="opinions"/>
+                  <PostsList posts={postsByCategory[Categories.IDEA]} type="ideas"/>
                </div>
             </div>
             <div className="hidden md:inline-block w-px h-[1900px]  border-l border-gray-300"/>
