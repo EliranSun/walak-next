@@ -6,7 +6,7 @@ const withNextIntl = require('next-intl/plugin')(
 
 const nextConfig = {
   experimental: {
-    serverActions: false,
+    serverActions: true,
   },
   images: {
     domains: [
