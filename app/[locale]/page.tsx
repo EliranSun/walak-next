@@ -28,13 +28,7 @@ export default async function Index() {
    });
 
    if (error) {
-      console.log(error);
-
-      return (
-         <div className="w-full flex flex-col items-center">
-            <p className="text-2xl">Error</p>
-         </div>
-      );
+      throw error;
    }
 
    return (
@@ -51,7 +45,7 @@ export default async function Index() {
                </div>
             </div>
             <div className="hidden md:inline-block w-px h-[1900px]  border-l border-gray-300"/>
-            <div className="hidden md:flex my-10 px-10  flex-col gap-8 md:w-96">
+            <div className="hidden md:flex my-10 px-10 flex-col gap-8 md:w-96">
                <AboutParagraph/>
                <NewsLetterSubscribe isBordered/>
                <TopPosts posts={posts}/>

@@ -31,13 +31,7 @@ export default async function Index({params}: { params: { postId: string, postNa
    const {post, error} = await getPost(Number(params.postId));
 
    if (error || !post) {
-      console.log(error, post);
-
-      return (
-         <div className="w-full flex flex-col items-center">
-            <p className="text-2xl">Error</p>
-         </div>
-      );
+      throw error || new Error("Post not found");
    }
 
    await trackPostViews(post);

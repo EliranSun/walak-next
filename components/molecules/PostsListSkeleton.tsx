@@ -2,7 +2,7 @@ export const PostsListSkeleton = () => {
    const posts = new Array(10).fill(null);
 
    return (
-      <section className="p-10 pb-0 md:max-w-5xl">
+      <section className="md:p-10 pb-0 md:max-w-5xl">
          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {posts.map(() => {
                return (
@@ -15,9 +15,7 @@ export const PostsListSkeleton = () => {
                            <p className="text-base leading-tight"></p>
                         </div>
                         <div className="flex">
-                           <p className="text-xs text-gray-400 flex items-center gap-1">
-
-                           </p>
+                           <p className="text-xs text-gray-400 flex items-center gap-1"/>
                         </div>
                      </div>
                   </div>
