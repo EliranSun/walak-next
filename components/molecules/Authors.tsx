@@ -1,10 +1,15 @@
 import {useTranslations} from "next-intl";
-import Author from "@/types/Author";
+import Author from "@/components/molecules/Author";
+import React from "react";
 
 const Authors = ({authors}: { authors: { author: Author }[] }) => {
    const t = useTranslations('Author');
    const authorsNames = authors.map(({author}: { author: Author }) => author.name).join(', ');
 
+   if (authors.length === 1) {
+      return <Author author={authors[0].author}/>;
+   }
+   
    return (
       <div className="flex flex-col justify-start pb-2 md:border-b border-gray-300">
          <div className="flex gap-2">

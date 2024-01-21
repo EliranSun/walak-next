@@ -6,7 +6,8 @@ import {useTranslations} from "next-intl";
 export const PostsList = ({posts, type}: { posts: Post[], type?: "articles" | "stories" | "ideas" | "opinions" }) => {
    const t = useTranslations('PostsList');
 
-   if (!posts.length) return null;
+   if (!posts.length) 
+      return null;
 
    return (
       <section className="pb-5">

@@ -9,6 +9,8 @@ import {PostContent} from "@/components/organisms/PostContent";
 import Authors from "@/components/molecules/Authors";
 import {SocialFeed} from "@/components/organisms/SocialFeed";
 import {Metadata} from "next";
+import {DateLocaleString} from "@/components/atoms/DateLocaleString";
+import {PostCoverImage} from "@/components/atoms/PostCoverImage";
 
 const metadataCopies = {
    title:  "וואלק",
@@ -43,32 +45,17 @@ export default async function Index({params}: { params: { postId: string, postNa
 
    return (
       <div className="w-full flex flex-col items-center post" dir="rtl">
-         <div
-            className="w-full h-[1000px] max-h-[66vh] md:h-[70vh] overflow-hidden relative bg-[length:auto_100%] bg-no-repeat md:bg-cover md:bg-fixed bg-[center_bottom_5rem] flex items-end justify-center"
-            style={{
-               backgroundImage: `url(${post.upscaledImageSrc || post.imageSrc})`
-            }}>
+         <PostCoverImage imageSrc={post.upscaledImageSrc || post.imageSrc}>
             <div className="w-full bg-yellow-500 text-center py-8 text-white z-10">
                <h1 className="text-6xl open-sans tracking-wider">{post.title}</h1>
                <h2 className="text-xl open-sans">{post.excerpt}</h2>
             </div>
-         </div>
+         </PostCoverImage>
          <div className="flex-col-reverse md:flex-row flex items-start my-8 justify-center">
             <PostContent post={post}/>
             <div className="w-full md:w-44 mr-8 md:justify-end flex gap-2 md:flex-col box-border items-center">
-               {post.authors.length > 1
-                  ? <Authors authors={post.authors}/>
-                  : <Author author={post.authors[0].author}/>}
-               {post.createdAt && (
-                  <div className="md:border-b border-r border-gray-300 md:w-full pr-2 md:pb-2 opacity-60 text-xs">
-                     {new Date(post.createdAt).toLocaleString("he-IL", {
-                        weekday: "long",
-                        year: "numeric",
-                        month: "long",
-                        day: "numeric",
-                     })}
-                  </div>
-               )}
+               <Authors authors={post.authors}/>
+               <DateLocaleString date={post.createdAt}/>
                <Tags tags={post.tags || []} isInteractive={post.isInteractive} hasVideo={post.hasVideo}/>
                <div className="hidden md:inline border-b border-dotted border-gray-400 w-full h-1"/>
                <div className="hidden md:flex w-full flex-col gap-2">
