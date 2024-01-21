@@ -1,9 +1,5 @@
-import '@/app/[locale]/globals.css'
+import '@/app/[locale]/globals.css';
 import React from "react";
-import {NextIntlClientProvider, useLocale} from "next-intl";
-import {Header} from "@/components/organisms/Header";
-import {Footer} from "@/components/organisms/Footer";
-import {notFound} from "next/navigation";
 import {getPost} from "@/utils/posts";
 import {Metadata} from "next";
 
@@ -40,25 +36,12 @@ export async function generateMetadata(
    }
 }
 
-export default async function RootLayout({
+export default function RootLayout({
    children,
    params,
 }: {
    children: React.ReactNode,
    params: { postId: string, postName: string },
 }) {
-   let messages;
-   const locale = useLocale();
-   try {
-      messages = (await import(`@/messages/${locale}.json`)).default;
-   } catch (error) {
-      console.log("error", error);
-      notFound();
-   }
-   
-   return (
-      <div>
-         {children}
-      </div>
-   );
+   return children;
 }
