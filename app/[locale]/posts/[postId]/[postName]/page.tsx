@@ -56,7 +56,7 @@ export default async function Index({params}: { params: { postId: string, postNa
    return (
       <div className="w-full flex flex-col items-center post" dir="rtl">
          <PostCoverImage imageSrc={post.upscaledImageSrc || post.imageSrc}>
-            <div className="w-full bg-yellow-500 text-center py-8 text-white z-10 open-sans">
+            <div className="w-full bg-yellow-500 text-center py-8 text-white open-sans">
                <h1 className="text-6xl tracking-wider">{post.title}</h1>
                <h2 className="text-xl">{post.excerpt}</h2>
             </div>
@@ -76,7 +76,9 @@ export default async function Index({params}: { params: { postId: string, postNa
          </div>
          <hr/>
          <PostFooterMessage/>
-         <SocialFeed/>
+         <div className="m-auto">
+            <SocialFeed/>
+         </div>
       </div>
    );
 };

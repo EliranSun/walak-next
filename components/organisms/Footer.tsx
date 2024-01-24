@@ -10,18 +10,18 @@ export const Footer = () => {
    const t = useTranslations('Footer');
 
    return (
-      <footer className="border-t border-gray-400 w-full p-4" dir="rtl">
+      <footer className="border-t border-gray-400 w-full max-w-7xl py-4 m-auto" dir="rtl">
          <div className="flex flex-col md:flex-row gap-8 pb-4 border-b border-gray-400">
             <div className="md:w-1/3 flex flex-col md:flex-row items-start gap-4">
-               <Logo/>
+               <b className="font-sans text-2xl">{t('walak')}</b>
                <AboutParagraph isShort/>
             </div>
-            <div className="w-2/3 flex flex-col md:flex-row items-start justify-between">
+            <div className="w-2/3 flex flex-col md:flex-row items-center justify-between">
                <NewsLetterSubscribe/>
                <SocialStrip/>
             </div>
          </div>
-         <div className="flex flex-col md:flex-row w-full justify-between">
+         <div className="flex flex-col md:flex-row w-full justify-between mt-2">
             <ul className="flex text-xs gap-1">
                <Link href="/">
                   <li>תנאי שימוש</li>
@@ -35,7 +35,7 @@ export const Footer = () => {
                   <li>{t('buy_coffee')}</li>
                </Link>
             </ul>
-            <span className="text-xs text-left md:text-right mt-8" dir="ltr">
+            <span className="text-xs text-left md:text-right" dir="ltr">
                  Made with 💛 by the OC Team © 2016-{new Date().getFullYear()}
              </span>
          </div>

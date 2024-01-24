@@ -42,12 +42,12 @@ export const PostCard = ({
             <CardDetailsContainer 
                isLean={isLean} 
                isLarge={isLarge}>
-               <div className={classNames(isLarge ? "my-4": "mb-2")}>
+               <div className={classNames(isLarge ? "": "mb-2")}>
                   <CardTitle title={title} size={isLarge ? TextSize.Large : TextSize.Normal}/>
                   <p className="text-base leading-4">{excerpt}</p>
                </div>
                <div className={classNames("flex", {
-                  "items-center gap-2": isLarge,
+                  "items-center gap-2 p-4": isLarge,
                   "gap-1": !isLarge
                })}>
                   <InteractiveTag isActive={isInteractive}/>

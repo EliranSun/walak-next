@@ -21,7 +21,8 @@ export const TopPosts = async ({posts}: { posts: Post[] }) => {
       }
    }).sort((a, b) => b.views - a.views);
 
-   if (!topPosts.length) return null;
+   if (!topPosts.length) 
+      return null;
 
    if (error) {
       console.log(error);

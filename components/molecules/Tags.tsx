@@ -14,7 +14,7 @@ export const Tags = ({
    const t = useTranslations('Tags');
 
    return (
-      <div className="hidden md:inline w-full box-border flex flex-wrap gap-2">
+      <div className="hidden md:flex w-full box-border flex-wrap gap-2">
          {tags.map(tag => (
             <Tag key={tag}>{tag}</Tag>
          ))}

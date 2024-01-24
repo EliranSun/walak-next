@@ -18,7 +18,7 @@ export const NavigationLinks = () => {
       <ul className="hidden md:flex gap-4 open-sans text-sm">
          {links.map((link, index) => {
             return (
-               <div key={index}>
+               <div key={index} className="flex gap-4">
                   <li className="cursor-pointer hover:text-blue-500">
                      <Link href={`/${link}`}>{t(link)}</Link>
                   </li>
