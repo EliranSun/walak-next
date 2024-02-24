@@ -10,6 +10,18 @@ const MODEL_V2 = "eleven_multilingual_v2";
 const encodeFileName = (text: string, name: string, gender: string) => {
     // return encodeURIComponent(`${text.slice(0, 20)}-${name}-${gender}`);
     return `${text.slice(0, 20)}-${name}-${gender}`;
+};
+
+const downloadAudioFromUrl = async (url: string) => {
+    const response = await fetch(url);
+    const audioBlob = await response.blob();
+    const headers = new Headers();
+    headers.set("Content-Type", "audio/mpeg");
+
+    return new Response(audioBlob, {
+        status: 200,
+        headers
+    });
 }
 
 export async function GET(request: NextRequest) {
@@ -31,7 +43,7 @@ export async function GET(request: NextRequest) {
 
     for (const blob of blobs) {
         if (blob.pathname === path) {
-            return NextResponse.json({url: blob.downloadUrl});
+            return downloadAudioFromUrl(blob.downloadUrl);
         }
     }
 
@@ -67,5 +79,5 @@ export async function GET(request: NextRequest) {
         contentType: 'audio/mpeg'
     });
 
-    return NextResponse.json({url: downloadUrl});
+    return downloadAudioFromUrl(downloadUrl);
 }
