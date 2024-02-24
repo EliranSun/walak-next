@@ -18,7 +18,7 @@ const downloadAudioFromUrl = async (url: string) => {
     const headers = new Headers();
     headers.set("Content-Type", "audio/mpeg");
 
-    return new Response(audioBlob, {
+    return new NextResponse(audioBlob, {
         status: 200,
         headers
     });
