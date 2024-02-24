@@ -19,7 +19,8 @@ const downloadAudioFromUrl = async (url: string) => {
     return new NextResponse(audioBlob, {
         status: 200,
         headers: {
-            "Content-Type": "audio/mpeg"
+            "Content-Type": "audio/mpeg",
+            "Access-Control-Allow-Origin": "https://html-classic.itch.zone"
         }
     });
 }
