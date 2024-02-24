@@ -15,12 +15,12 @@ const encodeFileName = (text: string, name: string, gender: string) => {
 const downloadAudioFromUrl = async (url: string) => {
     const response = await fetch(url);
     const audioBlob = await response.blob();
-    const headers = new Headers();
-    headers.set("Content-Type", "audio/mpeg");
 
     return new NextResponse(audioBlob, {
         status: 200,
-        headers
+        headers: {
+            "Content-Type": "audio/mpeg"
+        }
     });
 }
 
