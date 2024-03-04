@@ -1,5 +1,5 @@
-import {NextRequest, NextResponse} from "next/server";
-import {put, list} from "@vercel/blob";
+import { NextRequest, NextResponse } from "next/server";
+import { put, list } from "@vercel/blob";
 
 const API_URL = "https://api.elevenlabs.io/v1/text-to-speech";
 const MALE_VOICE_ID = "pNInz6obpgDQGcFmaJgB" // adam
@@ -19,10 +19,8 @@ const downloadAudioFromUrl = async (url: string) => {
     return new NextResponse(audioBlob, {
         status: 200,
         headers: {
-            // "Content-Type": "audio/mpeg",
-            // "Access-Control-Allow-Origin": "https://html-classic.itch.zone",
-            "Content-Type": "*",
-            "Access-Control-Allow-Origin": "*"
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "https://html-classic.itch.zone",
         }
     });
 }
@@ -42,11 +40,15 @@ export async function GET(request: NextRequest) {
     const fileName = encodeFileName(text, name, gender);
     const path = `games/ryan-is-cold/${fileName}.mp3`;
 
-    const {blobs} = await list();
+    const { blobs } = await list();
 
     for (const blob of blobs) {
         if (blob.pathname === path) {
-            return downloadAudioFromUrl(blob.downloadUrl);
+            // return downloadAudioFromUrl(blob.downloadUrl);
+            return NextResponse.json({
+                downloadUrl: blob.downloadUrl,
+                audioClipLength: 5
+            });
         }
     }
 
@@ -77,10 +79,14 @@ export async function GET(request: NextRequest) {
     });
 
     const results = await response.blob();
-    const {downloadUrl} = await put(path, results, {
+    const { downloadUrl } = await put(path, results, {
         access: 'public',
         contentType: 'audio/mpeg'
     });
 
-    return downloadAudioFromUrl(downloadUrl);
+    // return downloadAudioFromUrl(downloadUrl);
+    return NextResponse.json({
+        downloadUrl,
+        audioClipLength: 5
+    });
 }
