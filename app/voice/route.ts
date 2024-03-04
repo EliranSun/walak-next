@@ -12,6 +12,16 @@ const encodeFileName = (text: string, name: string, gender: string) => {
     return `${text.slice(0, 20)}-${name}-${gender}`;
 };
 
+const jsonResponse = (data: any) => {
+    return new NextResponse(JSON.stringify(data), {
+        status: 200,
+        headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "https://html-classic.itch.zone",
+        }
+    });
+}
+
 const downloadAudioFromUrl = async (url: string) => {
     const response = await fetch(url);
     const audioBlob = await response.blob();
@@ -32,7 +42,7 @@ export async function GET(request: NextRequest) {
     const name = searchParams.get("name");
 
     if (!gender || !text || !name) {
-        return NextResponse.json({
+        return jsonResponse({
             error: "text, name and gender are required fields"
         });
     }
@@ -45,7 +55,7 @@ export async function GET(request: NextRequest) {
     for (const blob of blobs) {
         if (blob.pathname === path) {
             // return downloadAudioFromUrl(blob.downloadUrl);
-            return NextResponse.json({
+            return jsonResponse({
                 downloadUrl: blob.downloadUrl,
                 audioClipLength: 5
             });
@@ -85,7 +95,7 @@ export async function GET(request: NextRequest) {
     });
 
     // return downloadAudioFromUrl(downloadUrl);
-    return NextResponse.json({
+    return jsonResponse({
         downloadUrl,
         audioClipLength: 5
     });
