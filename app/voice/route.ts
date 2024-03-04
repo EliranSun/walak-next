@@ -22,7 +22,7 @@ const jsonResponse = (data: any) => {
     });
 }
 
-const downloadAudioFromUrl = async (url: string) => {
+const audioResponse = async (url: string) => {
     const response = await fetch(url);
     const audioBlob = await response.blob();
 
@@ -42,9 +42,13 @@ export async function GET(request: NextRequest) {
     const name = searchParams.get("name");
 
     if (!gender || !text || !name) {
-        return jsonResponse({
-            error: "text, name and gender are required fields"
-        });
+        return new NextResponse("Missing parameters", {
+            status: 500,
+            headers: {
+                "Content-Type": "text/plain",
+                "Access-Control-Allow-Origin": "https://html-classic.itch.zone",
+            }
+        })
     }
 
     const fileName = encodeFileName(text, name, gender);
@@ -54,11 +58,11 @@ export async function GET(request: NextRequest) {
 
     for (const blob of blobs) {
         if (blob.pathname === path) {
-            // return downloadAudioFromUrl(blob.downloadUrl);
-            return jsonResponse({
-                downloadUrl: blob.downloadUrl,
-                audioClipLength: 5
-            });
+            return audioResponse(blob.downloadUrl);
+            // return jsonResponse({
+            //     downloadUrl: blob.downloadUrl,
+            //     audioClipLength: 5
+            // });
         }
     }
 
@@ -94,9 +98,9 @@ export async function GET(request: NextRequest) {
         contentType: 'audio/mpeg'
     });
 
-    // return downloadAudioFromUrl(downloadUrl);
-    return jsonResponse({
-        downloadUrl,
-        audioClipLength: 5
-    });
+    return audioResponse(downloadUrl);
+    // return jsonResponse({
+    //     downloadUrl,
+    //     audioClipLength: 5
+    // });
 }
