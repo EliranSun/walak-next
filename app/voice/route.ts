@@ -1,5 +1,5 @@
-import { NextRequest, NextResponse } from "next/server";
-import { put, list } from "@vercel/blob";
+import {NextRequest, NextResponse} from "next/server";
+import {put, list} from "@vercel/blob";
 
 const API_URL = "https://api.elevenlabs.io/v1/text-to-speech";
 const MALE_VOICE_ID = "pNInz6obpgDQGcFmaJgB" // adam
@@ -7,9 +7,13 @@ const FEMALE_VOICE_ID = "ThT5KcBeYPX3keUQqHPh" // dorothy
 const MODEL_V1 = "eleven_multilingual_v1";
 const MODEL_V2 = "eleven_multilingual_v2";
 
-const encodeFileName = (text: string, name: string, gender: string) => {
-    // return encodeURIComponent(`${text.slice(0, 20)}-${name}-${gender}`);
-    return `${text.slice(0, 20)}-${name}-${gender}`;
+const encodeFileName = (text: string, name: string, gender: string, partner?: string) => {
+    let encoded = `${text.slice(0, 20)}-${name}-${gender}`
+    if (partner) {
+        encoded += `-${partner}`;
+    }
+
+    return encoded.replace(/[^a-zA-Z0-9-]/g, "_");
 };
 
 const jsonResponse = (data: any) => {
@@ -30,6 +34,7 @@ const audioResponse = async (url: string) => {
         status: 200,
         headers: {
             "Content-Type": "application/json",
+            "Content-Length": audioBlob.size.toString(),
             "Access-Control-Allow-Origin": "https://html-classic.itch.zone",
         }
     });
@@ -40,6 +45,7 @@ export async function GET(request: NextRequest) {
     const gender = searchParams.get("gender");
     const text = searchParams.get("text");
     const name = searchParams.get("name");
+    const partner = searchParams.get("partner");
 
     if (!gender || !text || !name) {
         return new NextResponse("Missing parameters", {
@@ -51,18 +57,14 @@ export async function GET(request: NextRequest) {
         })
     }
 
-    const fileName = encodeFileName(text, name, gender);
+    const fileName = encodeFileName(text, name, gender, partner || "");
     const path = `games/ryan-is-cold/${fileName}.mp3`;
 
-    const { blobs } = await list();
+    const {blobs} = await list();
 
     for (const blob of blobs) {
         if (blob.pathname === path) {
             return audioResponse(blob.downloadUrl);
-            // return jsonResponse({
-            //     downloadUrl: blob.downloadUrl,
-            //     audioClipLength: 5
-            // });
         }
     }
 
@@ -93,7 +95,7 @@ export async function GET(request: NextRequest) {
     });
 
     const results = await response.blob();
-    const { downloadUrl } = await put(path, results, {
+    const {downloadUrl} = await put(path, results, {
         access: 'public',
         contentType: 'audio/mpeg'
     });
