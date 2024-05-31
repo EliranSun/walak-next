@@ -12,7 +12,7 @@ export const AboutParagraph = ({isShort}: { isShort?: boolean }) => {
 
         return t.rich(key, {
             div: (chunks) => <div>{chunks}</div>,
-            p: (chunks) => <p>{chunks}</p>,
+            p: (chunks) => <p className="mb-2">{chunks}</p>,
             strong: (chunks) => <strong>{chunks}</strong>
         });
     }, [isShort]);
