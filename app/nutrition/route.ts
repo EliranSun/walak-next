@@ -17,8 +17,12 @@ export async function GET(request: NextRequest) {
 
         const content = await chat(getFoodNutritionPrompt(food));
         console.log({content});
-        return NextResponse.json({
-            content,
+        return new NextResponse(JSON.stringify(content), {
+            status: 200,
+            headers: {
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "https://trackers-seven.vercel.app/",
+            }
         });
     } catch (error) {
         console.error(error);
