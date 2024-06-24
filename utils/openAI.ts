@@ -1,7 +1,7 @@
 import OpenAI from "openai";
 
 const openai = new OpenAI({
-    apiKey: "sk-proj-Axqb4TptAhtI6yaifxrpT3BlbkFJBtEKykFkTGDGvwVyMPUO",
+    apiKey: process.env.OPEN_AI_KEY,
 });
 
 export const chat = async (prompt: string) => {
