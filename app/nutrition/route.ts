@@ -4,7 +4,16 @@ import {NextRequest, NextResponse} from "next/server";
 
 export async function GET(request: NextRequest) {
     try {
-        const content = await chat(getFoodNutritionPrompt());
+        const searchParams = request.nextUrl.searchParams;
+        const food = searchParams.get("food");
+
+        if (!food) {
+            return NextResponse.json({
+                error: "Missing required fields."
+            });
+        }
+        
+        const content = await chat(getFoodNutritionPrompt(food));
         return NextResponse.json({
             content,
         });
