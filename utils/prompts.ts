@@ -4,25 +4,25 @@ const CHAPTER_CHARACTER_LIMIT_MIN = 600;
 const storyLimitMessage = `The chapter must be between ${CHAPTER_CHARACTER_LIMIT_MIN} and ${CHAPTER_CHARACTER_LIMIT_MAX} characters long!`;
 
 export const firstChapterPrompt = ({
-   title,
-   siblingName,
-   siblingType,
-   feeling,
-   genre,
-   currentTime
-}: {
-   title: string,
-   siblingName: string,
-   siblingType: string,
-   feeling: string,
-   genre: string,
-   currentTime: string
+                                       title,
+                                       siblingName,
+                                       siblingType,
+                                       feeling,
+                                       genre,
+                                       currentTime
+                                   }: {
+    title: string,
+    siblingName: string,
+    siblingType: string,
+    feeling: string,
+    genre: string,
+    currentTime: string
 }) => {
-   const timeHour = currentTime.split(":")[0];
-   const isMorning = Number(timeHour) < 12 && Number(timeHour) > 6;
-   // const timeMessage = `In addition include the current time - ${currentTime} - somehow in the chapter.`;
+    const timeHour = currentTime.split(":")[0];
+    const isMorning = Number(timeHour) < 12 && Number(timeHour) > 6;
+    // const timeMessage = `In addition include the current time - ${currentTime} - somehow in the chapter.`;
 
-   return `
+    return `
    You are a professional storyteller.
     
    Write a short first chapter for a story using simple and clear English with a title of "${title}".
@@ -44,50 +44,50 @@ export const firstChapterPrompt = ({
    Output nothing but the story chapter!`;
 };
 export const nthChapterPrompt = ({
-   title,
-   chapterNumber,
-   theStoryThusFar,
-   siblingType,
-   siblingName,
-   feeling,
-   genre,
-   chosenOption
-}: {
-   title: string,
-   chapterNumber: number,
-   theStoryThusFar: string,
-   siblingType: string,
-   siblingName: string,
-   currentTime: string,
-   feeling: string,
-   genre: string,
-   chosenOption: number
+                                     title,
+                                     chapterNumber,
+                                     theStoryThusFar,
+                                     siblingType,
+                                     siblingName,
+                                     feeling,
+                                     genre,
+                                     chosenOption
+                                 }: {
+    title: string,
+    chapterNumber: number,
+    theStoryThusFar: string,
+    siblingType: string,
+    siblingName: string,
+    currentTime: string,
+    feeling: string,
+    genre: string,
+    chosenOption: number
 }) => {
-   let storyExtraDirection = "";
-   switch (chapterNumber) {
-      case 5:
-         storyExtraDirection = "The story is past the middle point now. It should present a conflict or a problem.";
-         break;
+    let storyExtraDirection = "";
+    switch (chapterNumber) {
+        case 5:
+            storyExtraDirection = "The story is past the middle point now. It should present a conflict or a problem.";
+            break;
 
-      case 6:
-         storyExtraDirection = "The story will be resolved in the next chapter. Start to wrap things up.";
-         break;
+        case 6:
+            storyExtraDirection = "The story will be resolved in the next chapter. Start to wrap things up.";
+            break;
 
-      case 7:
-         storyExtraDirection = "This is the final chapter. The story should be resolved now.";
-         break;
-   }
+        case 7:
+            storyExtraDirection = "This is the final chapter. The story should be resolved now.";
+            break;
+    }
 
-   // const timeMessage = `In addition include the current time - ${currentTime} - somehow in the chapter.`;
+    // const timeMessage = `In addition include the current time - ${currentTime} - somehow in the chapter.`;
 
-   const optionsMessage = `
+    const optionsMessage = `
     Most importantly - at the end of the chapter present two options for the reader to choose from. 
     These choices will affect the rest of the story. Return these options in the following format:
       [*option 1*] 
       [*option 2*]
    `;
 
-   return `
+    return `
    You are a professional storyteller.
    Write a chapter for a story using simple and clear English, based on the title "${title}", based of the story thus far below, and based on a previous
    choice made by the reader. 
@@ -114,16 +114,16 @@ export const nthChapterPrompt = ({
 };
 
 export const getFirstChapterPrompt = ({
-   genre = 'sci-fi',
-   theme = 'betrayal',
-   siblingName = ''
-}: {
-   genre: string,
-   theme: string,
-   siblingName: string
+                                          genre = 'sci-fi',
+                                          theme = 'betrayal',
+                                          siblingName = ''
+                                      }: {
+    genre: string,
+    theme: string,
+    siblingName: string
 }) => {
-   const relation = siblingName.toLowerCase() === 'nofar' ? 'girlfriend' : 'sibling';
-   return `
+    const relation = siblingName.toLowerCase() === 'nofar' ? 'girlfriend' : 'sibling';
+    return `
 You are a professional storyteller.
 Create a first short chapter in a story that will have 7 chapters. The genre of the chapter should be ${genre} and the theme of the story should be ${theme}. 
 The story should involve me, Eliran and my ${relation} ${siblingName} The story should be told from the perspective of ${siblingName}. 
@@ -137,18 +137,18 @@ Output nothing but the story chapter!
 };
 
 export const getNewChapterPrompt = ({
-   genre = 'sci-fi',
-   theme = 'betrayal',
-   previousChapters,
-   readerChoice,
-}: {
-   siblingName: string,
-   genre: string,
-   theme: string,
-   previousChapters: string,
-   readerChoice: string,
+                                        genre = 'sci-fi',
+                                        theme = 'betrayal',
+                                        previousChapters,
+                                        readerChoice,
+                                    }: {
+    siblingName: string,
+    genre: string,
+    theme: string,
+    previousChapters: string,
+    readerChoice: string,
 }) => {
-   return `
+    return `
 You are a professional storyteller. 
 Continue a short story by creating a new chapter for it, based on the previous chapters, and based on the reader's choice provided. 
 The story should conclude at chapter 7. This is chapter number ${previousChapters.length + 1}.
@@ -166,4 +166,13 @@ ${previousChapters.trim()}
 ===
 Reader's choose option number: ${readerChoice}
     `
+};
+
+export const getFoodNutritionPrompt = (food = "Chocolate, 85%, 4 cubes") => {
+    return `
+How many calories, protein and carbon are in a ${food}?
+Output the answer in a JSON format, for example:
+{ calories: 200, protein: 10, carbon: 20 }
+make sure to output nothing but a valid JSON object.
+   `;
 };
