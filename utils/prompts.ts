@@ -172,7 +172,7 @@ export const getFoodNutritionPrompt = (food = "Chocolate, 85%, 4 cubes") => {
     return `
 How many calories, protein and carbon are in a ${food}?
 Output the answer in a JSON format, for example:
-{ calories: 200, protein: 10, carbon: 20 }
+{ calories: 200, protein: 10, carbs: 20 }
 make sure to output nothing but a valid JSON object.
    `;
 };
