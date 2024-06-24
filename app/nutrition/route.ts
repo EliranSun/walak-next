@@ -24,7 +24,7 @@ export async function GET(request: NextRequest) {
                 "Access-Control-Allow-Origin": "https://trackers-seven.vercel.app/",
             }
         });
-    } catch (error) {
+    } catch (error: any) {
         console.error(error);
         return NextResponse.json({
             errorMessage: error.message,
