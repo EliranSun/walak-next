@@ -7,13 +7,16 @@ export async function GET(request: NextRequest) {
         const searchParams = request.nextUrl.searchParams;
         const food = searchParams.get("food");
 
+        console.log({food});
+
         if (!food) {
             return NextResponse.json({
                 error: "Missing required fields."
             });
         }
-        
+
         const content = await chat(getFoodNutritionPrompt(food));
+        console.log({content});
         return NextResponse.json({
             content,
         });
