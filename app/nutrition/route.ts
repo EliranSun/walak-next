@@ -20,7 +20,7 @@ export async function GET(request: NextRequest) {
             status: 200,
             headers: {
                 "Content-Type": "application/json",
-                "Access-Control-Allow-Origin": "https://trackers-seven.vercel.app/",
+                "Access-Control-Allow-Origin": "https://trackers-seven.vercel.app",
             }
         });
     } catch (error: any) {
