@@ -14,6 +14,8 @@ export async function GET(request: NextRequest) {
 	return new Response(feeds.join("\n"), {
 		headers: {
 			"Content-Type": "application/xml",
+			"Cache-Control": "no-store",
+			Pragma: "no-cache",
 		},
 	});
 }
