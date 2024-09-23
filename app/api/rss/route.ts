@@ -17,6 +17,7 @@ export async function GET(request: NextRequest) {
 		headers: {
 			"Content-Type": "application/xml",
 			"Cache-Control": "no-store, max-age=0",
+			"Access-Control-Allow-Origin": "*",
 		},
 	});
 }
