@@ -6,6 +6,8 @@ export async function GET(request: NextRequest) {
 	const urls = [
 		"https://www.ynet.co.il/Integration/StoryRss1854.xml",
 		"https://www.wired.com/feed/rss",
+		"https://www.wired.com/feed/category/business/latest/rss",
+		"https://www.wired.com/feed/category/gear/latest/rss",
 	];
 
 	const responses = await Promise.all(
