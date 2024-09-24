@@ -9,7 +9,6 @@ export async function GET(request: NextRequest) {
 		"https://www.wired.com/feed/category/business/latest/rss",
 		"https://www.wired.com/feed/category/gear/latest/rss",
 		"https://feeds.bbci.co.uk/news/world/rss.xml",
-		"https://www.nytimes.com/svc/collections/v1/publish/https://www.nytimes.com/section/world/rss.xml",
 		"https://www.washingtontimes.com/rss/headlines/news/world",
 	];
 
