@@ -8,6 +8,7 @@ export async function GET(request: NextRequest) {
 		"https://www.wired.com/feed/rss",
 		"https://www.wired.com/feed/category/business/latest/rss",
 		"https://www.wired.com/feed/category/gear/latest/rss",
+		"https://feeds.bbci.co.uk/news/world/rss.xml",
 	];
 
 	const responses = await Promise.all(
