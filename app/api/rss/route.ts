@@ -10,7 +10,9 @@ export async function GET(request: NextRequest) {
 		"https://www.wired.com/feed/category/gear/latest/rss",
 		"https://feeds.bbci.co.uk/news/world/rss.xml",
 		"https://www.washingtontimes.com/rss/headlines/news/world",
-		"https://www.geektime.co.il/feed/",
+		"https://www.geektime.co.il/feed/", // FIXME: Has other content type
+		"https://www.calcalist.co.il/GeneralRSS/0,16335,L-8,00.xml",
+		"https://www.globes.co.il/webservice/rss/rssfeeder.asmx/FeederNode?iID=2",
 	];
 
 	const responses = await Promise.all(
