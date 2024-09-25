@@ -10,7 +10,7 @@ export async function GET(request: NextRequest) {
 		"https://www.wired.com/feed/category/gear/latest/rss",
 		"https://feeds.bbci.co.uk/news/world/rss.xml",
 		"https://www.washingtontimes.com/rss/headlines/news/world",
-		"http://www.geektime.co.il/feed/",
+		"https://www.geektime.co.il/feed/",
 	];
 
 	const responses = await Promise.all(
