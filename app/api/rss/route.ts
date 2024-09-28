@@ -14,6 +14,9 @@ export async function GET(request: NextRequest) {
 		"https://www.geektime.co.il/feed/", // FIXME: Has other content type
 		"https://www.calcalist.co.il/GeneralRSS/0,16335,L-8,00.xml",
 		"https://www.globes.co.il/webservice/rss/rssfeeder.asmx/FeederNode?iID=2",
+		"https://www.theverge.com/rss/index.xml",
+		"https://globalnews.ca/feed/",
+		"https://www.theguardian.com/world/rss",
 	];
 
 	const responses = await Promise.all(
