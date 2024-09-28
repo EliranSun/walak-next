@@ -1,4 +1,10 @@
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
+import OpenAI from "openai";
+
+const openai = new OpenAI({
+	apiKey: process.env.OPENAI_API_KEY
+});
+
 
 export const dynamic = 'force-dynamic';
 
@@ -27,4 +33,29 @@ export async function GET(request: NextRequest) {
 			"Access-Control-Allow-Origin": "*",
 		},
 	});
+}
+
+export async function POST(request: NextRequest) {
+    const { question, link, title } = await request.json();
+
+    if (!link || !title) {
+        return NextResponse.json({ error: "Missing question or link or title" }, { status: 400 });
+    }
+
+    const prompt = `
+	Answer the following question using the information in this article/website. If you cannot access the link or article, answer from your knowledge or search the internet. Make the answer short - no longer than 40 words. Also if you cannot access the link, do not state so - just answer the question. if no question provided, just summarize the article. Question: "${question}" article link: ${link} article title: "${title}".`;
+
+    try {
+        const completion = await openai.chat.completions.create({
+            model: "gpt-4o",
+            messages: [{ role: "user", content: prompt }],
+        });
+
+        const answer = completion.choices[0]?.message?.content || "Unable to generate an answer.";
+
+        return NextResponse.json({ answer, prompt });
+    } catch (error) {
+        console.error("Error querying OpenAI:", error);
+        return NextResponse.json({ error: "Failed to generate an answer" }, { status: 500 });
+    }
 }
