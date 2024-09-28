@@ -38,7 +38,13 @@ export async function POST(request: NextRequest) {
     const { question, link, title } = await request.json();
 
     if (!link || !title) {
-        return NextResponse.json({ error: "Missing question or link or title" }, { status: 400 });
+        return NextResponse.json({ error: "Missing question or link or title" }, { 
+			status: 400,
+			headers: {
+				"Content-Type": "application/json",
+				"Access-Control-Allow-Origin": "*",
+			},
+		});
     }
 
     const prompt = `
@@ -52,9 +58,21 @@ export async function POST(request: NextRequest) {
 
         const answer = completion.choices[0]?.message?.content || "Unable to generate an answer.";
 
-        return NextResponse.json({ answer, prompt });
+        return NextResponse.json({ answer, prompt }, {
+			status: 200,
+			headers: {
+				"Content-Type": "application/json",
+				"Access-Control-Allow-Origin": "*",
+			},
+		});
     } catch (error) {
         console.error("Error querying OpenAI:", error);
-        return NextResponse.json({ error: "Failed to generate an answer" }, { status: 500 });
+        return NextResponse.json({ error: "Failed to generate an answer" }, {
+			status: 500,
+			headers: {
+				"Content-Type": "application/json",
+				"Access-Control-Allow-Origin": "*",
+			},
+		});
     }
 }
