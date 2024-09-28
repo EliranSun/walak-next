@@ -1,5 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import OpenAI from "openai";
+import { parseString } from 'xml2js';
+import { promisify } from 'util';
+
+const parseXml = promisify(parseString);
 
 export const dynamic = 'force-dynamic';
 
@@ -22,11 +26,28 @@ export async function GET(request: NextRequest) {
 	const responses = await Promise.all(
 		urls.map((url) => fetch(url, { cache: "no-store" }))
 	);
+
 	const feeds = await Promise.all(responses.map((res) => res.text()));
 
-	return new Response(feeds.join("\n"), {
+	const parsedFeeds = await Promise.all(feeds.map(async (feed) => {
+		try {
+			const result = await parseXml(feed);
+			return result.rss.channel[0].item || [];
+		} catch (error) {
+			console.error('Error parsing feed:', error);
+			return [];
+		}
+	}));
+
+	const jsonResponse = parsedFeeds.flat();
+	const sortedFeeds = jsonResponse.sort((a, b) => {
+		const dateA = new Date(a.pubDate[0]);
+		const dateB = new Date(b.pubDate[0]);
+		return dateB.getTime() - dateA.getTime(); // Sort in descending order (newest first)
+	});
+
+	return NextResponse.json(sortedFeeds, {
 		headers: {
-			"Content-Type": "application/xml",
 			"Cache-Control": "no-store, max-age=0",
 			"Access-Control-Allow-Origin": "*",
 		},
