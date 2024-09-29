@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-// import OpenAI from "openai";
+import OpenAI from "openai";
 import { parseString } from "xml2js";
 import { promisify } from "util";
 
