@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import OpenAI from "openai";
 import { parseString } from "xml2js";
 import { promisify } from "util";
 
@@ -52,8 +51,8 @@ export async function GET() {
 	const parsedFeeds = await Promise.all(
 		feeds.map(async (feed) => {
 			try {
-				const sanitizedFeed = sanitizeXml(feed);
-				const result = (await parseXml(sanitizedFeed)) as RssResult;
+				// const sanitizedFeed = sanitizeXml(feed);
+				const result = (await parseXml(feed)) as RssResult;
 				return result.rss.channel[0].item.map((item) => {
 					return {
 						title: item.title[0],
@@ -90,6 +89,7 @@ export async function GET() {
 }
 
 export async function POST(request: NextRequest) {
+	const OpenAI = require("openai");
 	const openai = new OpenAI({
 		apiKey: process.env.OPENAI_API_KEY,
 	});
