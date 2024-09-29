@@ -3,11 +3,27 @@ import OpenAI from "openai";
 import { parseString } from "xml2js";
 import { promisify } from "util";
 
-const parseXml = promisify(parseString);
+
+interface RssResult {
+	rss: {
+		channel: [
+			{
+				language: string[];
+				item: Array<{
+					title: string[];
+					link: string[];
+					description: string[];
+					pubDate: string[];
+					language: string[];
+				}>;
+			}
+		];
+	};
+}
 
 export const dynamic = "force-dynamic";
 
-export async function GET(request: NextRequest) {
+export async function GET() {
 	const urls = [
 		"https://www.ynet.co.il/Integration/StoryRss1854.xml",
 		"https://www.wired.com/feed/rss",
@@ -27,6 +43,35 @@ export async function GET(request: NextRequest) {
 	);
 
 	const feeds = await Promise.all(responses.map((res) => res.text()));
+	const parseXml = promisify(parseString);
+
+	const parsedFeeds = await Promise.all(
+		feeds.map(async (feed) => {
+			try {
+				const result = (await parseXml(feed)) as RssResult;
+				return result.rss.channel[0].item.map((item) => {
+					return {
+						title: item.title[0],
+						link: item.link[0],
+						description: item.description[0],
+						pubDate: item.pubDate[0],
+						language: result.rss.channel[0].language[0],
+					};
+				});
+			} catch (error) {
+				console.error("Error parsing feed:", error);
+				return [];
+			}
+		})
+	);
+
+	const jsonResponse = parsedFeeds.flat();
+
+	const sortedFeeds = jsonResponse.sort((a, b) => {
+		const dateA = new Date(a.pubDate);
+		const dateB = new Date(b.pubDate);
+		return dateB.getTime() - dateA.getTime(); // Sort in descending order (newest first)
+	});
 
 	const parsedFeeds = await Promise.all(
 		feeds.map(async (feed) => {
@@ -60,6 +105,7 @@ export async function GET(request: NextRequest) {
 		headers: {
 			"Cache-Control": "no-store, max-age=0",
 			"Access-Control-Allow-Origin": "*",
+			"Content-Type": "application/json",
 		},
 	});
 }
