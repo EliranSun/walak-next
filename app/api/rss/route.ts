@@ -74,8 +74,9 @@ export async function GET() {
 
 	const parsedFeeds = await Promise.all(
 		feeds.map(async (feed) => {
+			const sanitizedFeed = sanitizeText(escapeHtml(feed));
 			try {
-				const result = (await parseXml(feed)) as RssResult;
+				const result = (await parseXml(sanitizedFeed)) as RssResult;
 				return result.rss.channel[0].item.map((item) => {
 					return {
 						link: item.link[0],
@@ -112,7 +113,7 @@ export async function GET() {
 }
 
 export async function POST(request: NextRequest) {
-	// const OpenAI = require("openai");
+	const OpenAI = require("openai");
 	const openai = new OpenAI({
 		apiKey: process.env.OPENAI_API_KEY,
 	});
