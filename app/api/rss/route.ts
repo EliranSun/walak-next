@@ -75,8 +75,11 @@ export async function GET() {
 	const parsedFeeds = await Promise.all(
 		feeds.map(async (feed) => {
 			const sanitizedFeed = sanitizeText(escapeHtml(feed));
+			console.log({ sanitizedFeed });
+
 			try {
 				const result = (await parseXml(sanitizedFeed)) as RssResult;
+				console.log({ result });
 				return result.rss.channel[0].item.map((item) => {
 					return {
 						link: item.link[0],
