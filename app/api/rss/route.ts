@@ -49,7 +49,6 @@ export async function GET() {
 		"https://www.globes.co.il/webservice/rss/rssfeeder.asmx/FeederNode?iID=2",
 		"https://www.theverge.com/rss/index.xml",
 		"https://globalnews.ca/feed/",
-		"https://www.theguardian.com/world/rss",
 	];
 
 	const responses = await Promise.all(
