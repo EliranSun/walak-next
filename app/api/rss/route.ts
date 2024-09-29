@@ -3,26 +3,26 @@ import OpenAI from "openai";
 import { parseString } from "xml2js";
 import { promisify } from "util";
 
-interface RssResult {
-	rss: {
-		channel: [
-			{
-				language: string[];
-				item: Array<{
-					title: string[];
-					link: string[];
-					description: string[];
-					pubDate: string[];
-					language: string[];
-				}>;
-			}
-		];
-	};
-}
-
 export const dynamic = "force-dynamic";
 
 export async function GET() {
+	interface RssResult {
+		rss: {
+			channel: [
+				{
+					language: string[];
+					item: Array<{
+						title: string[];
+						link: string[];
+						description: string[];
+						pubDate: string[];
+						language: string[];
+					}>;
+				}
+			];
+		};
+	}
+
 	const urls = [
 		// "https://www.ynet.co.il/Integration/StoryRss1854.xml",
 		// "https://www.wired.com/feed/rss",
@@ -51,7 +51,7 @@ export async function GET() {
 				return result.rss.channel[0].item.map((item) => {
 					return {
 						title: item.title[0],
-						// link: item.link[0],
+						link: item.link[0],
 						description: item.description[0],
 						pubDate: item.pubDate[0],
 						language: result.rss.channel[0].language[0],
