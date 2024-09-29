@@ -4,6 +4,22 @@ import { promisify } from "util";
 
 export const dynamic = "force-dynamic";
 
+function removeUnicode(text: string) {
+	return text
+		.replaceAll("&#8226;", "•")
+		.replaceAll("&#34;", '"')
+		.replaceAll("&#8230;", "...")
+		.replaceAll("&#8211;", "-")
+		.replaceAll("&#039;", "'")
+		.replaceAll("&amp;", "&")
+		.replaceAll("&quot;", '"')
+		.replaceAll("&bull;", "•")
+		.replaceAll("&nbsp;", " ")
+		.replaceAll("&lt;", "<")
+		.replaceAll("&gt;", ">")
+		.replaceAll("&apos;", "'");
+}
+
 export async function GET() {
 	interface RssResult {
 		rss: {
@@ -45,7 +61,7 @@ export async function GET() {
 
 	// Add this function to sanitize XML
 	function sanitizeText(text: string): string {
-		return text.replace(/&(?!amp;|lt;|gt;|quot;|apos;)/g, "&amp;");
+		return text.replace(/&(?!amp;|lt;|gt;|quot;|apos;)/g, "");
 	}
 
 	function removeHtmlTags(text: string): string {
@@ -59,8 +75,8 @@ export async function GET() {
 				return result.rss.channel[0].item.map((item) => {
 					return {
 						link: item.link[0],
-						title: sanitizeText(removeHtmlTags(item.title[0])),
-						description: sanitizeText(removeHtmlTags(item.description[0])),
+						title: removeHtmlTags(removeUnicode(item.title[0])),
+						description: removeHtmlTags(removeUnicode(item.description[0])),
 						pubDate: item.pubDate[0],
 						language: result.rss.channel[0].language[0],
 					};
