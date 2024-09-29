@@ -5,9 +5,26 @@ import { promisify } from "util";
 
 const parseXml = promisify(parseString);
 
+interface RssResult {
+	rss: {
+		channel: [
+			{
+				language: string[];
+				item: Array<{
+					title: string[];
+					link: string[];
+					description: string[];
+					pubDate: string[];
+					language: string[];
+				}>;
+			}
+		];
+	};
+}
+
 export const dynamic = "force-dynamic";
 
-export async function GET(request: NextRequest) {
+export async function GET() {
 	const urls = [
 		"https://www.ynet.co.il/Integration/StoryRss1854.xml",
 		"https://www.wired.com/feed/rss",
@@ -31,7 +48,7 @@ export async function GET(request: NextRequest) {
 	const parsedFeeds = await Promise.all(
 		feeds.map(async (feed) => {
 			try {
-				const result = await parseXml(feed);
+				const result = (await parseXml(feed)) as RssResult;
 				return result.rss.channel[0].item.map((item) => {
 					return {
 						title: item.title[0],
