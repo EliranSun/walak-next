@@ -3,8 +3,6 @@ import OpenAI from "openai";
 import { parseString } from "xml2js";
 import { promisify } from "util";
 
-const parseXml = promisify(parseString);
-
 interface RssResult {
 	rss: {
 		channel: [
@@ -44,6 +42,7 @@ export async function GET() {
 	);
 
 	const feeds = await Promise.all(responses.map((res) => res.text()));
+	const parseXml = promisify(parseString);
 
 	const parsedFeeds = await Promise.all(
 		feeds.map(async (feed) => {
