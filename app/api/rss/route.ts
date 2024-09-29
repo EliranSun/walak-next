@@ -64,6 +64,10 @@ export async function GET() {
 		return text.replace(/&(?!amp;|lt;|gt;|quot;|apos;)/g, "");
 	}
 
+	function escapeHtml(text: string): string {
+		return text.replace(/&/g, "&amp;");
+	}
+
 	function removeHtmlTags(text: string): string {
 		return text.replace(/<[^>]*>?/g, "");
 	}
@@ -75,14 +79,16 @@ export async function GET() {
 				return result.rss.channel[0].item.map((item) => {
 					return {
 						link: item.link[0],
-						title: removeHtmlTags(removeUnicode(item.title[0])),
-						description: removeHtmlTags(removeUnicode(item.description[0])),
+						title: escapeHtml(removeHtmlTags(removeUnicode(item.title[0]))),
+						description: escapeHtml(
+							removeHtmlTags(removeUnicode(item.description[0]))
+						),
 						pubDate: item.pubDate[0],
 						language: result.rss.channel[0].language[0],
 					};
 				});
 			} catch (error) {
-				console.error("Error parsing feed:", error);
+				console.trace("Error parsing feed:", error);
 				return [];
 			}
 		})
@@ -106,7 +112,7 @@ export async function GET() {
 }
 
 export async function POST(request: NextRequest) {
-	const OpenAI = require("openai");
+	// const OpenAI = require("openai");
 	const openai = new OpenAI({
 		apiKey: process.env.OPENAI_API_KEY,
 	});
