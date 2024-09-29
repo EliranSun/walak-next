@@ -44,20 +44,23 @@ export async function GET() {
 	const parseXml = promisify(parseString);
 
 	// Add this function to sanitize XML
-	function sanitizeXml(xml: string): string {
-		return xml.replace(/&(?!amp;|lt;|gt;|quot;|apos;)/g, "&amp;");
+	function sanitizeText(text: string): string {
+		return text.replace(/&(?!amp;|lt;|gt;|quot;|apos;)/g, "&amp;");
+	}
+
+	function removeHtmlTags(text: string): string {
+		return text.replace(/<[^>]*>?/g, "");
 	}
 
 	const parsedFeeds = await Promise.all(
 		feeds.map(async (feed) => {
 			try {
-				// const sanitizedFeed = sanitizeXml(feed);
 				const result = (await parseXml(feed)) as RssResult;
 				return result.rss.channel[0].item.map((item) => {
 					return {
-						title: item.title[0],
 						link: item.link[0],
-						// description: item.description[0],
+						title: sanitizeText(removeHtmlTags(item.title[0])),
+						description: sanitizeText(removeHtmlTags(item.description[0])),
 						pubDate: item.pubDate[0],
 						language: result.rss.channel[0].language[0],
 					};
@@ -70,8 +73,6 @@ export async function GET() {
 	);
 
 	const jsonResponse = parsedFeeds.flat();
-
-	console.log({ parsedFeeds, jsonResponse });
 
 	const sortedFeeds = jsonResponse.sort((a, b) => {
 		const dateA = new Date(a.pubDate);
@@ -89,7 +90,7 @@ export async function GET() {
 }
 
 export async function POST(request: NextRequest) {
-	const OpenAI = require("openai");
+	// const OpenAI = require("openai");
 	const openai = new OpenAI({
 		apiKey: process.env.OPENAI_API_KEY,
 	});
