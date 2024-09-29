@@ -3,7 +3,6 @@ import OpenAI from "openai";
 import { parseString } from "xml2js";
 import { promisify } from "util";
 
-
 interface RssResult {
 	rss: {
 		channel: [
@@ -49,34 +48,6 @@ export async function GET() {
 		feeds.map(async (feed) => {
 			try {
 				const result = (await parseXml(feed)) as RssResult;
-				return result.rss.channel[0].item.map((item) => {
-					return {
-						title: item.title[0],
-						link: item.link[0],
-						description: item.description[0],
-						pubDate: item.pubDate[0],
-						language: result.rss.channel[0].language[0],
-					};
-				});
-			} catch (error) {
-				console.error("Error parsing feed:", error);
-				return [];
-			}
-		})
-	);
-
-	const jsonResponse = parsedFeeds.flat();
-
-	const sortedFeeds = jsonResponse.sort((a, b) => {
-		const dateA = new Date(a.pubDate);
-		const dateB = new Date(b.pubDate);
-		return dateB.getTime() - dateA.getTime(); // Sort in descending order (newest first)
-	});
-
-	const parsedFeeds = await Promise.all(
-		feeds.map(async (feed) => {
-			try {
-				const result = await parseXml(feed);
 				return result.rss.channel[0].item.map((item) => {
 					return {
 						title: item.title[0],
