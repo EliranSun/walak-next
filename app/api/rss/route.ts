@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-// import OpenAI from "openai";
+import OpenAI from "openai";
 import { parseString } from "xml2js";
 import { promisify } from "util";
 
@@ -51,7 +51,7 @@ export async function GET() {
 				return result.rss.channel[0].item.map((item) => {
 					return {
 						title: item.title[0],
-						link: item.link[0],
+						// link: item.link[0],
 						description: item.description[0],
 						pubDate: item.pubDate[0],
 						language: result.rss.channel[0].language[0],
