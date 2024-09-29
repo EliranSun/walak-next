@@ -44,10 +44,16 @@ export async function GET() {
 	const feeds = await Promise.all(responses.map((res) => res.text()));
 	const parseXml = promisify(parseString);
 
+	// Add this function to sanitize XML
+	function sanitizeXml(xml: string): string {
+		return xml.replace(/&(?!amp;|lt;|gt;|quot;|apos;)/g, "&amp;");
+	}
+
 	const parsedFeeds = await Promise.all(
 		feeds.map(async (feed) => {
 			try {
-				const result = (await parseXml(feed)) as RssResult;
+				const sanitizedFeed = sanitizeXml(feed);
+				const result = (await parseXml(sanitizedFeed)) as RssResult;
 				return result.rss.channel[0].item.map((item) => {
 					return {
 						title: item.title[0],
