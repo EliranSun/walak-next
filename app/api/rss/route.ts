@@ -66,7 +66,7 @@ export async function GET() {
 
 	const jsonResponse = parsedFeeds.flat();
 
-	console.log({ jsonResponse });
+	console.log({ parsedFeeds, jsonResponse });
 
 	const sortedFeeds = jsonResponse.sort((a, b) => {
 		const dateA = new Date(a.pubDate);
