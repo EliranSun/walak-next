@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import OpenAI from "openai";
+// import OpenAI from "openai";
 import { parseString } from "xml2js";
 import { promisify } from "util";
 
@@ -65,6 +65,8 @@ export async function GET() {
 	);
 
 	const jsonResponse = parsedFeeds.flat();
+
+	console.log({ jsonResponse });
 
 	const sortedFeeds = jsonResponse.sort((a, b) => {
 		const dateA = new Date(a.pubDate);
