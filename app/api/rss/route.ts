@@ -138,10 +138,12 @@ export async function POST(request: NextRequest) {
 	const prompt = `
 	Answer the following question using the information in this article/website. If you cannot access the link or article, answer from your knowledge or search the internet. Make the answer short - no longer than 40 words. Also if you cannot access the link, do not state so - just answer the question. if no question provided, just summarize the article. Question: "${question}" article link: ${link} article title: "${title}".`;
 
+const prompt2 = `Explain everything in the following title using the link provided. Everything = what, who, where and when. For example for a title like "WHO approves first mpox test for quick diagnosis" explain what is WHO, what is mpox and why should they approve it. Title: "${title}"; link: ${link}`;
+
 	try {
 		const completion = await openai.chat.completions.create({
 			model: "gpt-4o",
-			messages: [{ role: "user", content: prompt }],
+			messages: [{ role: "user", content: prompt2 }],
 		});
 
 		const answer =
@@ -149,7 +151,7 @@ export async function POST(request: NextRequest) {
 			"Unable to generate an answer.";
 
 		return NextResponse.json(
-			{ answer, prompt },
+			{ answer, prompt2 },
 			{
 				status: 200,
 				headers: {
