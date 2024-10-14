@@ -139,7 +139,20 @@ export async function POST(request: NextRequest) {
 	const prompt = `
 	Answer the following question using the information in this article/website. If you cannot access the link or article, answer from your knowledge or search the internet. Make the answer short - no longer than 40 words. Also if you cannot access the link, do not state so - just answer the question. if no question provided, just summarize the article. Question: "${question}" article link: ${link} article title: "${title}".`;
 
-	const prompt2 = `Explain everything in the following title using the link provided. Everything = what, who, where and when. For example for a title like "WHO approves first mpox test for quick diagnosis" explain what is WHO, what is mpox and why should they approve it. if you cannot access the link, do not say so - just explain the title from your knowledge. If the title is in another language than English do not state so and do not translate it. just explain it as you would as if it was english. Limit your response to about 60 words. Title: "${title}"; link: ${link}`;
+	const prompt2 = `
+Explain everything in the following article using the link and title provided. 
+Everything = what, who, where and when. 
+For example for a an articld like "WHO approves first mpox test for quick diagnosis" explain what is WHO, what is mpox and why should they approve it. 
+if you cannot access the link, simply add 🚫 emoji at the beginning of your response. 
+then just explain the title from your knowledge. 
+If the article is in another language than English do not state so and do not translate it. 
+just explain it as you would as if it was english. 
+Limit your response to about 90 words. 
+
+link: ${link}
+
+Title: "${title}"
+`;
 
 	try {
 		const completion = await openai.chat.completions.create({
