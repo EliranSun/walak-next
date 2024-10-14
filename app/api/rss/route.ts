@@ -83,7 +83,9 @@ export async function GET() {
 				const feed =
 					get(result, "rss.channel[0].item") ||
 					get(result, "channel[0].item") ||
-					get(result, "channel.item");
+					get(result, "channel.item") || [];
+
+				console.log(result, feed, sanitizedFeed);
 
 				return feed.map((item) => {
 					return {
@@ -148,7 +150,9 @@ export async function POST(request: NextRequest) {
 Explain everything in the following article using the link and title provided. 
 Everything = what, who, where and when. 
 For example for a an articld like "WHO approves first mpox test for quick diagnosis" explain what is WHO, what is mpox and why should they approve it. 
-if you cannot access the link, simply add 🚫 emoji at the beginning of your response. 
+If you cannot access the link, simply add 🚫 emoji at the beginning of your response.
+If you can access the link, add a ✅ emoji at the beginning of your response.
+Don't pretend to visit the link - actually try.
 then just explain the title from your knowledge. 
 If the article is in another language than English do not state so and do not translate it. 
 just explain it as you would as if it was english. 
