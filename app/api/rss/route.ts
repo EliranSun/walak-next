@@ -40,19 +40,19 @@ export async function GET() {
 	}
 
 	const urls = [
-		// "https://www.ynet.co.il/Integration/StoryRss1854.xml",
-		// "https://www.ynet.co.il/Integration/StoryRss2.xml",
-		// "https://www.wired.com/feed/rss",
-		// "https://www.wired.com/feed/category/business/latest/rss",
-		// "https://feeds.bbci.co.uk/news/world/rss.xml",
-		// "https://www.washingtontimes.com/rss/headlines/news/world",
-		// FIXME: Fails for illegal characters in the feed
+		"https://www.ynet.co.il/Integration/StoryRss1854.xml",
+		"https://www.ynet.co.il/Integration/StoryRss2.xml",
+		"https://www.wired.com/feed/rss",
+		"https://www.wired.com/feed/category/business/latest/rss",
+		"https://feeds.bbci.co.uk/news/world/rss.xml",
+		"https://www.washingtontimes.com/rss/headlines/news/world",
+		// FIXME: Geektime blocked by Cloudflare, contact geektime
 		// "https://www.geektime.co.il/feed/",
-		"https://www.geektime.co.il/tag/vmware/feed/"
-		// "https://www.calcalist.co.il/GeneralRSS/0,16335,L-8,00.xml",
-		// "https://www.globes.co.il/webservice/rss/rssfeeder.asmx/FeederNode?iID=2",
-		// "https://www.theverge.com/rss/index.xml",
-		// "https://globalnews.ca/feed/",
+		// "https://www.geektime.co.il/tag/vmware/feed/"
+		"https://www.calcalist.co.il/GeneralRSS/0,16335,L-8,00.xml",
+		"https://www.globes.co.il/webservice/rss/rssfeeder.asmx/FeederNode?iID=2",
+		"https://www.theverge.com/rss/index.xml",
+		"https://globalnews.ca/feed/",
 	];
 
 	const responses = await Promise.all(
