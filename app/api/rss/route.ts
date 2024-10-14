@@ -39,17 +39,18 @@ export async function GET() {
 	}
 
 	const urls = [
-		"https://www.ynet.co.il/Integration/StoryRss1854.xml",
-		"https://www.ynet.co.il/Integration/StoryRss2.xml",
-		"https://www.wired.com/feed/rss",
-		"https://www.wired.com/feed/category/business/latest/rss",
-		"https://feeds.bbci.co.uk/news/world/rss.xml",
-		"https://www.washingtontimes.com/rss/headlines/news/world",
-		// "https://www.geektime.co.il/feed/", // FIXME: Fails for illegal characters in the feed
-		"https://www.calcalist.co.il/GeneralRSS/0,16335,L-8,00.xml",
-		"https://www.globes.co.il/webservice/rss/rssfeeder.asmx/FeederNode?iID=2",
-		"https://www.theverge.com/rss/index.xml",
-		"https://globalnews.ca/feed/",
+		// "https://www.ynet.co.il/Integration/StoryRss1854.xml",
+		// "https://www.ynet.co.il/Integration/StoryRss2.xml",
+		// "https://www.wired.com/feed/rss",
+		// "https://www.wired.com/feed/category/business/latest/rss",
+		// "https://feeds.bbci.co.uk/news/world/rss.xml",
+		// "https://www.washingtontimes.com/rss/headlines/news/world",
+		// FIXME: Fails for illegal characters in the feed
+		"https://www.geektime.co.il/feed/",
+		// "https://www.calcalist.co.il/GeneralRSS/0,16335,L-8,00.xml",
+		// "https://www.globes.co.il/webservice/rss/rssfeeder.asmx/FeederNode?iID=2",
+		// "https://www.theverge.com/rss/index.xml",
+		// "https://globalnews.ca/feed/",
 	];
 
 	const responses = await Promise.all(
@@ -75,11 +76,9 @@ export async function GET() {
 	const parsedFeeds = await Promise.all(
 		feeds.map(async (feed) => {
 			const sanitizedFeed = sanitizeText(escapeHtml(feed));
-			console.log({ sanitizedFeed });
 
 			try {
 				const result = (await parseXml(sanitizedFeed)) as RssResult;
-				console.log({ result });
 				return result.rss.channel[0].item.map((item) => {
 					return {
 						link: item.link[0],
