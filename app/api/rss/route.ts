@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { parseString } from "xml2js";
 import { promisify } from "util";
+import { get } from "lodash";
 
 export const dynamic = "force-dynamic";
 
@@ -79,7 +80,12 @@ export async function GET() {
 
 			try {
 				const result = (await parseXml(sanitizedFeed)) as RssResult;
-				return result.rss.channel[0].item.map((item) => {
+				const feed =
+					get(result, "rss.channel[0].item") ||
+					get(result, "channel[0].item") ||
+					get(result, "channel.item");
+
+				return feed.map((item) => {
 					return {
 						link: item.link[0],
 						title: escapeHtml(removeHtmlTags(removeUnicode(item.title[0]))),
