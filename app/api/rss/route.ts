@@ -47,7 +47,8 @@ export async function GET() {
 		// "https://feeds.bbci.co.uk/news/world/rss.xml",
 		// "https://www.washingtontimes.com/rss/headlines/news/world",
 		// FIXME: Fails for illegal characters in the feed
-		"https://www.geektime.co.il/feed/",
+		// "https://www.geektime.co.il/feed/",
+		"https://www.geektime.co.il/tag/vmware/feed/"
 		// "https://www.calcalist.co.il/GeneralRSS/0,16335,L-8,00.xml",
 		// "https://www.globes.co.il/webservice/rss/rssfeeder.asmx/FeederNode?iID=2",
 		// "https://www.theverge.com/rss/index.xml",
