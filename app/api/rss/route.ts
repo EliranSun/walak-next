@@ -97,6 +97,7 @@ export async function GET() {
 						),
 						pubDate: item.pubDate[0],
 						language: result.rss.channel[0].language[0],
+						feedName: result.rss.channel[0].title[0],
 					};
 				});
 			} catch (error) {
