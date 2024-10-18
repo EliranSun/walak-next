@@ -45,9 +45,9 @@ interface RssResult {
 }
 
 export async function GET() {
-	let test = [];
-	const c = new Crawler({ maxConnections: 10 });
-	const crawlerResponse = await c.send("https://www.geektime.co.il/feed/");
+	// let test = [];
+	// const c = new Crawler({ maxConnections: 10 });
+	// const crawlerResponse = await c.send("https://www.geektime.co.il/feed/");
 
 	const urls = [
 		"https://www.ynet.co.il/Integration/StoryRss1854.xml",
@@ -68,7 +68,7 @@ export async function GET() {
 
 	const feeds = await Promise.all([
 		...responses.map((res) => res.text()),
-		crawlerResponse.body
+		// crawlerResponse.body
 	]);
 	const parseXml = promisify(parseString);
 
