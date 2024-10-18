@@ -27,6 +27,7 @@ export async function GET() {
 			channel: [
 				{
 					language: string[];
+					title: string[];
 					item: Array<{
 						title: string[];
 						link: string[];
