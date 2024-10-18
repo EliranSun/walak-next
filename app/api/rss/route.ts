@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { parseString } from "xml2js";
 import { promisify } from "util";
 import { get } from "lodash";
+import Crawler from "crawler";
+
 
 export const dynamic = "force-dynamic";
 
@@ -21,25 +23,30 @@ function removeUnicode(text: string) {
 		.replaceAll("&apos;", "'");
 }
 
-export async function GET() {
-	interface RssResult {
-		rss: {
-			channel: [
-				{
-					language: string[];
+
+interface RssResult {
+	rss: {
+		channel: [
+			{
+				language: string[];
+				title: string[];
+				item: Array<{
 					title: string[];
-					item: Array<{
-						title: string[];
-						link: string[];
-						description: string[];
-						pubDate: string[];
-						language: string[];
-						feedName: string[];
-					}>;
-				}
-			];
-		};
-	}
+					link: string[];
+					description: string[];
+					pubDate: string[];
+					language: string[];
+					feedName: string[];
+				}>;
+			}
+		];
+	};
+}
+
+export async function GET() {
+	let test = [];
+	const c = new Crawler({ maxConnections: 10 });
+	const crawlerResponse = await c.send("https://www.geektime.co.il/feed/");
 
 	const urls = [
 		"https://www.ynet.co.il/Integration/StoryRss1854.xml",
@@ -58,7 +65,12 @@ export async function GET() {
 		urls.map((url) => fetch(url))
 	);
 
-	const feeds = await Promise.all(responses.map((res) => res.text()));
+	// crawlerResponse.body
+
+	const feeds = await Promise.all([
+		...responses.map((res) => res.text()),
+		crawlerResponse.body
+	]);
 	const parseXml = promisify(parseString);
 
 	// Add this function to sanitize XML
@@ -84,8 +96,6 @@ export async function GET() {
 					get(result, "rss.channel[0].item") ||
 					get(result, "channel[0].item") ||
 					get(result, "channel.item") || [];
-
-				console.log(result.rss.channel);
 
 				return feed.map((item) => {
 					return {
