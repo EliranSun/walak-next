@@ -85,18 +85,16 @@ export async function GET() {
 					get(result, "channel[0].item") ||
 					get(result, "channel.item") || [];
 
-				console.log(result, feed, sanitizedFeed);
+				console.log(result.rss.channel);
 
 				return feed.map((item) => {
 					return {
 						link: item.link[0],
 						title: escapeHtml(removeHtmlTags(removeUnicode(item.title[0]))),
-						description: escapeHtml(
-							removeHtmlTags(removeUnicode(item.description[0]))
-						),
+						description: escapeHtml(removeHtmlTags(removeUnicode(item.description[0]))),
 						pubDate: item.pubDate[0],
 						language: result.rss.channel[0].language[0],
-						feedName: result.rss.channel[0].title[0],
+						feedName: result.rss.channel[0].title[0] || new URL(item.link[0]).hostname.replace("www.", "")
 					};
 				});
 			} catch (error) {
