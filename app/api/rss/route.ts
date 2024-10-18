@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { parseString } from "xml2js";
 import { promisify } from "util";
 import { get } from "lodash";
+// @ts-ignore
 import Crawler from "crawler";
 
 
@@ -64,8 +65,6 @@ export async function GET() {
 	const responses = await Promise.all(
 		urls.map((url) => fetch(url))
 	);
-
-	// crawlerResponse.body
 
 	const feeds = await Promise.all([
 		...responses.map((res) => res.text()),
