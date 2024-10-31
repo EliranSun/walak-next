@@ -15,22 +15,24 @@ export async function POST(request: NextRequest) {
 
 	const { data, error } = await supabase
 		.from("sleepTrack")
-		.insert({
-			duration: sleepData.sleep_duration,
-			sleep_start: sleepData.sleep_start,
-			sleep_end: sleepData.sleep_end,
-			rem: sleepData.rem,
-			deep: sleepData.deep,
-			protein: sleepData.protein,
-			carbs: sleepData.carbs,
-			fat: sleepData.fat,
-			sodium: sleepData.sodium,
-			last_alcohol: sleepData.last_alcohol,
-			last_food: sleepData.last_food,
-			last_caffeine: sleepData.last_caffeine,
-			last_exercise: sleepData.last_exercise,
-			last_screen: sleepData.last_screen,
-		})
+		.insert([
+			{
+				duration: sleepData.sleep_duration,
+				sleep_start: sleepData.sleep_start,
+				sleep_end: sleepData.sleep_end,
+				rem: sleepData.rem,
+				deep: sleepData.deep,
+				protein: sleepData.protein,
+				carbs: sleepData.carbs,
+				fat: sleepData.fat,
+				sodium: sleepData.sodium,
+				last_alcohol: sleepData.last_alcohol,
+				last_food: sleepData.last_food,
+				last_caffeine: sleepData.last_caffeine,
+				last_exercise: sleepData.last_exercise,
+				last_screen: sleepData.last_screen,
+			},
+		])
 		.select();
 
 	if (error) {
