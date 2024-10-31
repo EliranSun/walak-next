@@ -17,7 +17,7 @@ export async function POST(request: NextRequest) {
 		.from("sleepTrack")
 		.insert([
 			{
-				duration: sleepData.sleep_duration,
+				duration: sleepData.sleep_duration || "666",
 				sleep_start: sleepData.sleep_start,
 				sleep_end: sleepData.sleep_end,
 				rem: sleepData.rem,
