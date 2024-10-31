@@ -16,9 +16,9 @@ export async function POST(request: NextRequest) {
 	const { data, error } = await supabase
 		.from("sleepTrack")
 		.insert({
+			duration: sleepData.sleep_duration,
 			sleep_start: sleepData.sleep_start,
 			sleep_end: sleepData.sleep_end,
-			duration: sleepData.sleep_duration,
 			rem: sleepData.rem,
 			deep: sleepData.deep,
 			protein: sleepData.protein,
