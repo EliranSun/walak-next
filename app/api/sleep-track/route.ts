@@ -10,7 +10,7 @@ export async function POST(request: NextRequest) {
 	const lines = body.data.split("\n");
 	const sleepData = lines.map((line: string) => {
 		const [key, value] = line.split(":");
-		return { [snakeCase(key)]: value };
+		return { [snakeCase(key)]: value.slice(0, 5) };
 	});
 
 	const { data, error } = await supabase
