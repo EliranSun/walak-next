@@ -8,10 +8,11 @@ export async function POST(request: NextRequest) {
 	const body = await request.json();
 
 	const lines = body.data.split("\n");
-	const sleepData = lines.map((line: string) => {
+	const sleepData = lines.reduce((acc: any, line: string) => {
 		const [key, value] = line.split(":");
-		return { [snakeCase(key)]: value.slice(0, 5) };
-	});
+		acc[snakeCase(key)] = value.slice(0, 5);
+		return acc;
+	}, {});
 
 	const { data, error } = await supabase
 		.from("sleepTrack")
