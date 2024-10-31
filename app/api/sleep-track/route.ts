@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 import { snakeCase } from "lodash";
+
 export async function POST(request: NextRequest) {
 	const supabase = createServerComponentClient({ cookies });
 	const body = await request.json();
@@ -34,7 +35,13 @@ export async function POST(request: NextRequest) {
 
 	if (error) {
 		console.error(error);
-		return NextResponse.json({ error: error.message }, { status: 500 });
+		return NextResponse.json(
+			{
+				sleepData,
+				error: error.message,
+			},
+			{ status: 500 }
+		);
 	}
 
 	return NextResponse.json({ sleepData });
