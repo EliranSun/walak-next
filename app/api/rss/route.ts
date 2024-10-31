@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { parseString } from "xml2js";
 import { promisify } from "util";
 import { get } from "lodash";
+// @ts-ignore
+import Crawler from "crawler";
+
 
 export const dynamic = "force-dynamic";
 
@@ -21,44 +24,52 @@ function removeUnicode(text: string) {
 		.replaceAll("&apos;", "'");
 }
 
-export async function GET() {
-	interface RssResult {
-		rss: {
-			channel: [
-				{
+
+interface RssResult {
+	rss: {
+		channel: [
+			{
+				language: string[];
+				title: string[];
+				item: Array<{
+					title: string[];
+					link: string[];
+					description: string[];
+					pubDate: string[];
 					language: string[];
-					item: Array<{
-						title: string[];
-						link: string[];
-						description: string[];
-						pubDate: string[];
-						language: string[];
-					}>;
-				}
-			];
-		};
-	}
+					feedName: string[];
+				}>;
+			}
+		];
+	};
+}
+
+export async function GET() {
+	// let test = [];
+	// const c = new Crawler({ maxConnections: 10 });
+	// const crawlerResponse = await c.send("https://www.geektime.co.il/feed/");
 
 	const urls = [
-		// "https://www.ynet.co.il/Integration/StoryRss1854.xml",
-		// "https://www.ynet.co.il/Integration/StoryRss2.xml",
-		// "https://www.wired.com/feed/rss",
-		// "https://www.wired.com/feed/category/business/latest/rss",
-		// "https://feeds.bbci.co.uk/news/world/rss.xml",
-		// "https://www.washingtontimes.com/rss/headlines/news/world",
-		// FIXME: Fails for illegal characters in the feed
-		"https://www.geektime.co.il/feed/",
-		// "https://www.calcalist.co.il/GeneralRSS/0,16335,L-8,00.xml",
-		// "https://www.globes.co.il/webservice/rss/rssfeeder.asmx/FeederNode?iID=2",
-		// "https://www.theverge.com/rss/index.xml",
-		// "https://globalnews.ca/feed/",
+		"https://www.ynet.co.il/Integration/StoryRss1854.xml",
+		"https://www.ynet.co.il/Integration/StoryRss2.xml",
+		"https://www.wired.com/feed/rss",
+		"https://www.wired.com/feed/category/business/latest/rss",
+		"https://feeds.bbci.co.uk/news/world/rss.xml",
+		"https://www.washingtontimes.com/rss/headlines/news/world",
+		"https://www.calcalist.co.il/GeneralRSS/0,16335,L-8,00.xml",
+		"https://www.globes.co.il/webservice/rss/rssfeeder.asmx/FeederNode?iID=2",
+		"https://www.theverge.com/rss/index.xml",
+		"https://globalnews.ca/feed/",
 	];
 
 	const responses = await Promise.all(
-		urls.map((url) => fetch(url, { cache: "no-store" }))
+		urls.map((url) => fetch(url))
 	);
 
-	const feeds = await Promise.all(responses.map((res) => res.text()));
+	const feeds = await Promise.all([
+		...responses.map((res) => res.text()),
+		// crawlerResponse.body
+	]);
 	const parseXml = promisify(parseString);
 
 	// Add this function to sanitize XML
@@ -83,17 +94,16 @@ export async function GET() {
 				const feed =
 					get(result, "rss.channel[0].item") ||
 					get(result, "channel[0].item") ||
-					get(result, "channel.item");
+					get(result, "channel.item") || [];
 
 				return feed.map((item) => {
 					return {
 						link: item.link[0],
 						title: escapeHtml(removeHtmlTags(removeUnicode(item.title[0]))),
-						description: escapeHtml(
-							removeHtmlTags(removeUnicode(item.description[0]))
-						),
+						description: escapeHtml(removeHtmlTags(removeUnicode(item.description[0]))),
 						pubDate: item.pubDate[0],
 						language: result.rss.channel[0].language[0],
+						feedName: result.rss.channel[0].title[0] || new URL(item.link[0]).hostname.replace("www.", "")
 					};
 				});
 			} catch (error) {
@@ -148,7 +158,9 @@ export async function POST(request: NextRequest) {
 Explain everything in the following article using the link and title provided. 
 Everything = what, who, where and when. 
 For example for a an articld like "WHO approves first mpox test for quick diagnosis" explain what is WHO, what is mpox and why should they approve it. 
-if you cannot access the link, simply add 🚫 emoji at the beginning of your response. 
+If you cannot access the link, simply add 🚫 emoji at the beginning of your response.
+If you can access the link, add a ✅ emoji at the beginning of your response.
+Don't pretend to visit the link - actually try.
 then just explain the title from your knowledge. 
 If the article is in another language than English do not state so and do not translate it. 
 just explain it as you would as if it was english. 
