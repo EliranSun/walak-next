@@ -49,3 +49,16 @@ export async function POST(request: NextRequest) {
 
 	return NextResponse.json({ data, sleepData });
 }
+
+export async function GET(request: NextRequest) {
+	const supabase = createServerComponentClient({ cookies });
+	const date = request.nextUrl.searchParams.get("date");
+
+	const { data, error } = await supabase
+		.from("sleepTrack")
+		.select()
+		.gte('created_at', `${date}T00:00:00Z`)
+		.lt('created_at', `${date}T23:59:59Z`);
+
+	return NextResponse.json({ data, error });
+}
