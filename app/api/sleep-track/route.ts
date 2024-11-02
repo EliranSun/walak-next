@@ -60,5 +60,11 @@ export async function GET(request: NextRequest) {
 		.gte('created_at', `${date}T00:00:00Z`)
 		.lt('created_at', `${date}T23:59:59Z`);
 
-	return NextResponse.json({ data, error });
+return NextResponse.json({ data, error }, {
+		headers: {
+			"Cache-Control": "no-store, max-age=0",
+			"Access-Control-Allow-Origin": "*",
+			"Content-Type": "application/json",
+		},
+	});
 }
