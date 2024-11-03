@@ -53,18 +53,22 @@ export async function POST(request: NextRequest) {
 export async function GET(request: NextRequest) {
 	const supabase = createServerComponentClient({ cookies });
 	const date = request.nextUrl.searchParams.get("date");
+	const dateOneWeekAgo = new Date(new Date().setDate(new Date().getDate() - 7));
 
 	const { data, error } = await supabase
 		.from("sleepTrack")
 		.select()
-		.gte('created_at', `${date}T00:00:00Z`)
-		.lt('created_at', `${date}T23:59:59Z`);
+		.gte("created_at", `${dateOneWeekAgo}T00:00:00Z`)
+		.lt("created_at", `${date}T23:59:59Z`);
 
-return NextResponse.json({ data, error }, {
-		headers: {
-			"Cache-Control": "no-store, max-age=0",
-			"Access-Control-Allow-Origin": "*",
-			"Content-Type": "application/json",
-		},
-	});
+	return NextResponse.json(
+		{ data, error },
+		{
+			headers: {
+				"Cache-Control": "no-store, max-age=0",
+				"Access-Control-Allow-Origin": "*",
+				"Content-Type": "application/json",
+			},
+		}
+	);
 }
