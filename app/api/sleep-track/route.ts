@@ -53,12 +53,34 @@ export async function POST(request: NextRequest) {
 export async function GET(request: NextRequest) {
 	const supabase = createServerComponentClient({ cookies });
 	const date = request.nextUrl.searchParams.get("date");
-	const dateOneWeekAgo = new Date(new Date().setDate(new Date().getDate() - 7));
+	const dateKey = {
+		day: Number(date?.split("-")[2]),
+		month: Number(date?.split("-")[1]),
+		year: Number(date?.split("-")[0]),
+	};
+
+	if (!dateKey.day || !dateKey.month || !dateKey.year) {
+		return NextResponse.json({ error: "Invalid date" }, { status: 400 });
+	}
+
+	const dateOneWeekAgo = new Date(
+		new Date(dateKey.year, dateKey.month, dateKey.day).getTime() -
+			7 * 24 * 60 * 60 * 1000
+	);
+
+	const dateOneWeekAgoKey = {
+		day: dateOneWeekAgo?.toISOString().split("-")[2],
+		month: dateOneWeekAgo?.toISOString().split("-")[1],
+		year: dateOneWeekAgo?.toISOString().split("-")[0],
+	};
 
 	const { data, error } = await supabase
 		.from("sleepTrack")
 		.select()
-		.gte("created_at", `${dateOneWeekAgo}T00:00:00Z`)
+		.gte(
+			"created_at",
+			`${dateOneWeekAgoKey.year}-${dateOneWeekAgoKey.month}-${dateOneWeekAgoKey.day}T00:00:00Z`
+		)
 		.lt("created_at", `${date}T23:59:59Z`);
 
 	return NextResponse.json(
