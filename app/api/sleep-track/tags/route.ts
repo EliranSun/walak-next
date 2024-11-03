@@ -15,7 +15,7 @@ export async function POST(request: NextRequest) {
 		);
 	}
 
-	const { data: existingTags, error: existingTagsError } = await supabase
+	const { data: existingTagsData, error: existingTagsError } = await supabase
 		.from("sleepTrack")
 		.select("tags")
 		.eq("id", entryId);
@@ -27,11 +27,14 @@ export async function POST(request: NextRequest) {
 		);
 	}
 
-	console.log({ existingTags });
+	const existingTags = existingTagsData[0].tags || [];
+	const newTags = existingTags.includes(tag)
+		? existingTags.filter((t: string) => t !== tag)
+		: existingTags.concat(tag);
 
 	const { data, error } = await supabase
 		.from("sleepTrack")
-		.update({ tags: (existingTags[0].tags || []).concat(tag) })
+		.update({ tags: newTags })
 		.eq("id", entryId)
 		.select();
 
