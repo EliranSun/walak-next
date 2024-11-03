@@ -53,10 +53,14 @@ export async function POST(request: NextRequest) {
 export async function GET(request: NextRequest) {
 	const supabase = createServerComponentClient({ cookies });
 	const date = request.nextUrl.searchParams.get("date");
+
+	// Helper function to pad numbers to 2 digits
+	const padToTwoDigits = (num: number) => num.toString().padStart(2, "0");
+
 	const dateKey = {
-		day: Number(date?.split("-")[2]),
-		month: Number(date?.split("-")[1]),
-		year: Number(date?.split("-")[0]),
+		day: padToTwoDigits(Number(date?.split("-")[2])),
+		month: padToTwoDigits(Number(date?.split("-")[1])),
+		year: date?.split("-")[0],
 	};
 
 	if (!dateKey.day || !dateKey.month || !dateKey.year) {
@@ -64,14 +68,18 @@ export async function GET(request: NextRequest) {
 	}
 
 	const dateOneWeekAgo = new Date(
-		new Date(dateKey.year, dateKey.month, dateKey.day).getTime() -
+		new Date(
+			Number(dateKey.year),
+			Number(dateKey.month) - 1,
+			Number(dateKey.day)
+		).getTime() -
 			7 * 24 * 60 * 60 * 1000
 	);
 
 	const dateOneWeekAgoKey = {
-		day: dateOneWeekAgo?.toISOString().split("-")[2],
-		month: dateOneWeekAgo?.toISOString().split("-")[1],
-		year: dateOneWeekAgo?.toISOString().split("-")[0],
+		day: padToTwoDigits(Number(dateOneWeekAgo.getDate())),
+		month: padToTwoDigits(Number(dateOneWeekAgo.getMonth() + 1)),
+		year: dateOneWeekAgo.getFullYear().toString(),
 	};
 
 	const gteKey = `${dateOneWeekAgoKey.year}-${dateOneWeekAgoKey.month}-${dateOneWeekAgoKey.day}T00:00:00Z`;
