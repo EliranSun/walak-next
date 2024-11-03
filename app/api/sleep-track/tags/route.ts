@@ -15,14 +15,21 @@ export async function POST(request: NextRequest) {
 		);
 	}
 
-	const response = await supabase
+	const { data: existingTags, error: existingTagsError } = await supabase
 		.from("sleep_track_tags")
 		.select("tags")
 		.eq("id", entryId);
 
+	if (existingTagsError) {
+		return NextResponse.json(
+			{ error: existingTagsError.message },
+			{ status: 500 }
+		);
+	}
+
 	const { data, error } = await supabase
 		.from("sleep_track_tags")
-		.update({ tags: response.data[0].tags.concat(tag) })
+		.update({ tags: existingTags[0].tags.concat(tag) })
 		.eq("id", entryId)
 		.select();
 
