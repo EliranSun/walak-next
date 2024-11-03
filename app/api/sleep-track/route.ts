@@ -74,17 +74,17 @@ export async function GET(request: NextRequest) {
 		year: dateOneWeekAgo?.toISOString().split("-")[0],
 	};
 
+	const gteKey = `${dateOneWeekAgoKey.year}-${dateOneWeekAgoKey.month}-${dateOneWeekAgoKey.day}T00:00:00Z`;
+	const ltKey = `${dateKey.year}-${dateKey.month}-${dateKey.day}T23:59:59Z`;
+
 	const { data, error } = await supabase
 		.from("sleepTrack")
 		.select()
-		.gte(
-			"created_at",
-			`${dateOneWeekAgoKey.year}-${dateOneWeekAgoKey.month}-${dateOneWeekAgoKey.day}T00:00:00Z`
-		)
-		.lt("created_at", `${date}T23:59:59Z`);
+		.gte("created_at", gteKey)
+		.lt("created_at", ltKey);
 
 	return NextResponse.json(
-		{ data, error },
+		{ data, gteKey, ltKey, error },
 		{
 			headers: {
 				"Cache-Control": "no-store, max-age=0",
