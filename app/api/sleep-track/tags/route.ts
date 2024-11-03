@@ -1,6 +1,7 @@
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
+import { sql } from "@vercel/postgres";
 
 export async function POST(request: NextRequest) {
 	const supabase = createServerComponentClient({ cookies });
@@ -17,7 +18,7 @@ export async function POST(request: NextRequest) {
 
 	const { data, error } = await supabase
 		.from("sleep_track_tags")
-		.update({ tag })
+		.update({ tags: sql`array_append(tags, ${tag})` })
 		.eq("id", entryId);
 
 	return NextResponse.json(
