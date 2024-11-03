@@ -27,9 +27,11 @@ export async function POST(request: NextRequest) {
 		);
 	}
 
+	console.log({ existingTags });
+
 	const { data, error } = await supabase
 		.from("sleepTrack")
-		.update({ tags: existingTags[0].tags.concat(tag) })
+		.update({ tags: (existingTags[0].tags || []).concat(tag) })
 		.eq("id", entryId)
 		.select();
 
