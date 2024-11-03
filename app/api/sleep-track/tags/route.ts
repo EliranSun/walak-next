@@ -38,7 +38,7 @@ export async function POST(request: NextRequest) {
 	}
 
 	return NextResponse.json(
-		{ data, success: true },
+		{ data, success: true, existingTags: existingTags },
 		{
 			headers: {
 				"Cache-Control": "no-store, max-age=0",
