@@ -89,7 +89,11 @@ export async function GET(request: NextRequest) {
 		.from("sleepTrack")
 		.select()
 		.gte("created_at", gteKey)
-		.lt("created_at", ltKey);
+		.lt("created_at", ltKey)
+		.order("created_at", { ascending: false })
+		.or(`and(created_at.gt.${gteKey},created_at.lt.${ltKey})`)
+		.not("created_at", "is", null)
+		.limit(7); // Limit to 7 entries (one per day)
 
 	return NextResponse.json(
 		{ data, gteKey, ltKey, error },
