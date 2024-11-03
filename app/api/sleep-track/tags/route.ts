@@ -16,7 +16,7 @@ export async function POST(request: NextRequest) {
 	}
 
 	const { data: existingTags, error: existingTagsError } = await supabase
-		.from("sleep_track_tags")
+		.from("sleepTrack")
 		.select("tags")
 		.eq("id", entryId);
 
@@ -28,7 +28,7 @@ export async function POST(request: NextRequest) {
 	}
 
 	const { data, error } = await supabase
-		.from("sleep_track_tags")
+		.from("sleepTrack")
 		.update({ tags: existingTags[0].tags.concat(tag) })
 		.eq("id", entryId)
 		.select();
