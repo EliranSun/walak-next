@@ -20,5 +20,14 @@ export async function POST(request: NextRequest) {
 		.update({ tag })
 		.eq("id", entryId);
 
-	return NextResponse.json({ data, error });
+	return NextResponse.json(
+		{ data, error },
+		{
+			headers: {
+				"Cache-Control": "no-store, max-age=0",
+				"Access-Control-Allow-Origin": "*",
+				"Content-Type": "application/json",
+			},
+		}
+	);
 }
