@@ -90,13 +90,28 @@ export async function GET(request: NextRequest) {
 		.select()
 		.gte("created_at", gteKey)
 		.lt("created_at", ltKey)
-		.order("created_at", { ascending: false })
-		.or(`and(created_at.gt.${gteKey},created_at.lt.${ltKey})`)
-		.not("created_at", "is", null)
-		.limit(7); // Limit to 7 entries (one per day)
+		.order("created_at", { ascending: false });
+
+	if (error) {
+		return NextResponse.json({ error }, { status: 500 });
+	}
+
+	// Group entries by date and keep only the latest entry per day
+	const lastEntriesPerDay = data?.reduce((acc: any[], entry) => {
+		const date = entry.created_at.split("T")[0]; // Get just the date part
+		const existingEntry = acc.find(
+			(item) => item.created_at.split("T")[0] === date
+		);
+
+		if (!existingEntry) {
+			acc.push(entry);
+		}
+
+		return acc;
+	}, []);
 
 	return NextResponse.json(
-		{ data, gteKey, ltKey, error },
+		{ data: lastEntriesPerDay, error },
 		{
 			headers: {
 				"Cache-Control": "no-store, max-age=0",
