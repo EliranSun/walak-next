@@ -72,8 +72,8 @@ export async function GET(request: NextRequest) {
     }
 
     const voiceId = gender.toLowerCase() === "male"
-        ? MALE_VOICE_ID
-        : CHARLOTTE_VOICE_ID;
+        ? CHARLOTTE_VOICE_ID
+        : MALE_VOICE_ID;
 
     const modelId = voiceId === MALE_VOICE_ID
         ? MODEL_V2
