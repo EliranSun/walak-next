@@ -1,9 +1,12 @@
-import {NextRequest, NextResponse} from "next/server";
-import {put, list} from "@vercel/blob";
+import { NextRequest, NextResponse } from "next/server";
+import { put, list } from "@vercel/blob";
 
 const API_URL = "https://api.elevenlabs.io/v1/text-to-speech";
+
 const MALE_VOICE_ID = "pNInz6obpgDQGcFmaJgB" // adam
 const FEMALE_VOICE_ID = "ThT5KcBeYPX3keUQqHPh" // dorothy
+const CHARLOTTE_VOICE_ID = "XB0fDUnXU5powFXDhCwa" // charlotte
+
 const MODEL_V1 = "eleven_multilingual_v1";
 const MODEL_V2 = "eleven_multilingual_v2";
 
@@ -60,7 +63,7 @@ export async function GET(request: NextRequest) {
     const fileName = encodeFileName(text, name, gender, partner || "");
     const path = `games/ryan-is-cold/${fileName}.mp3`;
 
-    const {blobs} = await list();
+    const { blobs } = await list();
 
     for (const blob of blobs) {
         if (blob.pathname === path) {
@@ -70,7 +73,7 @@ export async function GET(request: NextRequest) {
 
     const voiceId = gender.toLowerCase() === "male"
         ? MALE_VOICE_ID
-        : FEMALE_VOICE_ID;
+        : CHARLOTTE_VOICE_ID;
 
     const modelId = voiceId === MALE_VOICE_ID
         ? MODEL_V2
@@ -84,7 +87,7 @@ export async function GET(request: NextRequest) {
             voice_settings: {
                 similarity_boost: 0.52,
                 stability: 0.71,
-                style: 0,
+                style: 0.19,
                 use_speaker_boost: true
             }
         }),
@@ -95,7 +98,7 @@ export async function GET(request: NextRequest) {
     });
 
     const results = await response.blob();
-    const {downloadUrl} = await put(path, results, {
+    const { downloadUrl } = await put(path, results, {
         access: 'public',
         contentType: 'audio/mpeg'
     });
