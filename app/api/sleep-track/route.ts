@@ -9,7 +9,7 @@ export async function POST(request: NextRequest) {
 
 	const lines = body.data.split("\n");
 	const sleepData = lines.reduce((acc: any, line: string) => {
-		const [key, value] = line.split(":");
+		const [key, value] = line.split("::");
 		acc[snakeCase(key)] = value.trim();
 		return acc;
 	}, {});
