@@ -32,6 +32,7 @@ export async function POST(request: NextRequest) {
 				last_caffeine: sleepData.last_caffeine,
 				last_exercise: sleepData.last_exercise,
 				last_screen: sleepData.last_screen,
+				wrist_temperature: sleepData.wrist_temperature,
 			},
 		])
 		.select();
@@ -73,7 +74,7 @@ export async function GET(request: NextRequest) {
 			Number(dateKey.month) - 1,
 			Number(dateKey.day)
 		).getTime() -
-			7 * 24 * 60 * 60 * 1000
+		7 * 24 * 60 * 60 * 1000
 	);
 
 	const dateOneWeekAgoKey = {
