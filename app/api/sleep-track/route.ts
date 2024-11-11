@@ -18,21 +18,23 @@ export async function POST(request: NextRequest) {
 		.from("sleepTrack")
 		.insert([
 			{
-				duration: sleepData.sleep_duration,
-				sleep_start: sleepData.sleep_start,
-				sleep_end: sleepData.sleep_end,
-				rem: sleepData.rem,
-				deep: sleepData.deep,
-				protein: sleepData.protein,
-				carbs: sleepData.carbs,
-				fat: sleepData.fat,
-				sodium: sleepData.sodium,
-				last_alcohol: sleepData.last_alcohol,
-				last_food: sleepData.last_food,
-				last_caffeine: sleepData.last_caffeine,
-				last_exercise: sleepData.last_exercise,
-				last_screen: sleepData.last_screen,
-				wrist_temperature: sleepData.wrist_temperature,
+				duration: sleepData.sleep_duration || "-",
+				sleep_start: sleepData.sleep_start || "-",
+				sleep_end: sleepData.sleep_end || "-",
+				rem: sleepData.rem || "-",
+				deep: sleepData.deep || "-",
+				protein: sleepData.protein || "-",
+				carbs: sleepData.carbs || "-",
+				fat: sleepData.fat || "-",
+				sodium: sleepData.sodium || "-",
+				last_alcohol: sleepData.last_alcohol || "-",
+				last_food: sleepData.last_food || "-",
+				last_caffeine: sleepData.last_caffeine || "-",
+				last_exercise: sleepData.last_exercise || "-",
+				last_screen: sleepData.last_screen || "-",
+				wrist_temperature: sleepData.wrist_temperature || null,
+				feeling: sleepData.feeling || "-",
+				tags: sleepData.tags || [],
 			},
 		])
 		.select();
@@ -74,7 +76,7 @@ export async function GET(request: NextRequest) {
 			Number(dateKey.month) - 1,
 			Number(dateKey.day)
 		).getTime() -
-		7 * 24 * 60 * 60 * 1000
+			7 * 24 * 60 * 60 * 1000
 	);
 
 	const dateOneWeekAgoKey = {
