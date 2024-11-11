@@ -14,10 +14,14 @@ export async function POST(request: NextRequest) {
 		return acc;
 	}, {});
 
+	// Get today's date in the format YYYY-MM-DD
+	const today = new Date().toISOString().split("T")[0];
+
 	const { data, error } = await supabase
 		.from("sleepTrack")
 		.insert([
 			{
+				date: today,
 				duration: sleepData.sleep_duration || "-",
 				sleep_start: sleepData.sleep_start || "-",
 				sleep_end: sleepData.sleep_end || "-",
