@@ -86,8 +86,8 @@ export async function GET(request: NextRequest) {
             text,
             voice_settings: {
                 similarity_boost: 0.52,
-                stability: 0.71,
-                style: 0.19,
+                stability: 0.75,
+                style: 0.10,
                 use_speaker_boost: true
             }
         }),
