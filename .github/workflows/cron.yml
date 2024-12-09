@@ -1,0 +1,13 @@
+name: Daily Message Cron
+on:
+  schedule:
+    - cron: '0 10 * * *'  # Runs at 10 AM UTC daily
+jobs:
+  cron:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call Message API
+        run: |
+          curl -X GET ${{ secrets.VERCEL_URL }}/api/cron
+        env:
+          VERCEL_URL: ${{ secrets.VERCEL_URL }} 
