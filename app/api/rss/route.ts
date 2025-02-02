@@ -60,6 +60,8 @@ export async function GET() {
 		"https://www.globes.co.il/webservice/rss/rssfeeder.asmx/FeederNode?iID=2",
 		"https://www.theverge.com/rss/index.xml",
 		"https://globalnews.ca/feed/",
+		"https://9to5mac.com/feed/",
+		"https://pcmag.com/feeds/rss/latest",
 	];
 
 	const responses = await Promise.all(
