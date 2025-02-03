@@ -62,6 +62,7 @@ export async function GET() {
 		"https://globalnews.ca/feed/",
 		"https://9to5mac.com/feed/",
 		"https://pcmag.com/feeds/rss/latest",
+		"https://old.reddit.com/r/bulletjournal/",
 	];
 
 	const responses = await Promise.all(
