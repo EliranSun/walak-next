@@ -50,7 +50,7 @@ export async function GET() {
 	// const crawlerResponse = await c.send("https://www.geektime.co.il/feed/");
 
 	const urls = [
-		"https://www.ynet.co.il/Integration/StoryRss1854.xml",
+		// "https://www.ynet.co.il/Integration/StoryRss1854.xml",
 		"https://www.ynet.co.il/Integration/StoryRss2.xml",
 		"https://www.wired.com/feed/rss",
 		"https://www.wired.com/feed/category/business/latest/rss",
