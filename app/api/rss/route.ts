@@ -64,6 +64,7 @@ export async function GET() {
 		// "https://pcmag.com/feeds/rss/latest",
 		// "https://old.reddit.com/r/news/",
 		"https://kyivindependent.com/feed",
+		"https://www.kyivpost.com/feed"
 	];
 
 	const responses = await Promise.all(
