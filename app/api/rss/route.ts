@@ -162,7 +162,7 @@ Explain everything in the following title simply.
 assume no previous knowledge exists, so explain idioms, concepts, ideas, notions, etc. 
 Explain the history as well as far as your knowledge goes. what led up to this point. who is involved,
 what is at stakes, etc. bottom line is - as a reader i need to fully understand the title and context 
-after reading your explanation. m
+after reading your explanation.
 
 Title: "${title}"
 `;
