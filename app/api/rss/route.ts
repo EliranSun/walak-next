@@ -52,7 +52,7 @@ export async function GET() {
 	const urls = [
 		// "https://www.ynet.co.il/Integration/StoryRss1854.xml",
 		"https://www.ynet.co.il/Integration/StoryRss2.xml",
-		"https://www.wired.com/feed/rss",
+		// "https://www.wired.com/feed/rss",
 		// "https://www.wired.com/feed/category/business/latest/rss",
 		"https://feeds.bbci.co.uk/news/world/rss.xml",
 		"https://www.washingtontimes.com/rss/headlines/news/world",
