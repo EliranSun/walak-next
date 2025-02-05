@@ -5,7 +5,7 @@ import { get } from "lodash";
 // @ts-ignore
 import Crawler from "crawler";
 
-
+export const maxDuration = 60;
 export const dynamic = "force-dynamic";
 
 function removeUnicode(text: string) {
