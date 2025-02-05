@@ -53,16 +53,16 @@ export async function GET() {
 		// "https://www.ynet.co.il/Integration/StoryRss1854.xml",
 		"https://www.ynet.co.il/Integration/StoryRss2.xml",
 		"https://www.wired.com/feed/rss",
-		"https://www.wired.com/feed/category/business/latest/rss",
+		// "https://www.wired.com/feed/category/business/latest/rss",
 		"https://feeds.bbci.co.uk/news/world/rss.xml",
 		"https://www.washingtontimes.com/rss/headlines/news/world",
 		"https://www.calcalist.co.il/GeneralRSS/0,16335,L-8,00.xml",
 		"https://www.globes.co.il/webservice/rss/rssfeeder.asmx/FeederNode?iID=2",
-		"https://www.theverge.com/rss/index.xml",
+		// "https://www.theverge.com/rss/index.xml",
 		"https://globalnews.ca/feed/",
-		"https://9to5mac.com/feed/",
-		"https://pcmag.com/feeds/rss/latest",
-		"https://old.reddit.com/r/news/",
+		// "https://9to5mac.com/feed/",
+		// "https://pcmag.com/feeds/rss/latest",
+		// "https://old.reddit.com/r/news/",
 	];
 
 	const responses = await Promise.all(
