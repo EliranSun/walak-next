@@ -68,6 +68,9 @@ export async function GET() {
 		"https://www.themoscowtimes.com/rss/news",
 	"https://www.polygon.com/rss/features/index.xml",
 "https://www.techradar.com/uk/feeds/articletype/feature",
+"https://www.ynet.co.il/Integration/StoryRss194.xml",
+"https://www.ynet.co.il/Integration/StoryRss544.xml",
+"https://www.ynet.co.il/Integration/StoryRss6.xml",
 	];
 
 	const responses = await Promise.all(
