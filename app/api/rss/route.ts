@@ -213,7 +213,7 @@ export async function POST(request: NextRequest) {
 		} else {
 			let titles = "";
 			for (const item of items) {
-				const { question, link, title, description, source } = items[0];
+				const { question, link, title, description, source } = item;
 				titles += `${title}; `;
 			}
 
