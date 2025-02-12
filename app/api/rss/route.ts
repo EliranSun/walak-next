@@ -66,12 +66,12 @@ export async function GET() {
 		"https://kyivindependent.com/feed",
 		"https://www.kyivpost.com/feed",
 		"https://www.themoscowtimes.com/rss/news",
-	"https://www.polygon.com/rss/features/index.xml",
-"https://www.techradar.com/uk/feeds/articletype/feature",
-"https://www.ynet.co.il/Integration/StoryRss194.xml",
-"https://www.ynet.co.il/Integration/StoryRss544.xml",
-"https://www.ynet.co.il/Integration/StoryRss6.xml",
-"https://www.goodnewsnetwork.org/category/news/feed/",
+		"https://www.polygon.com/rss/features/index.xml",
+		"https://www.techradar.com/uk/feeds/articletype/feature",
+		"https://www.ynet.co.il/Integration/StoryRss194.xml",
+		"https://www.ynet.co.il/Integration/StoryRss544.xml",
+		"https://www.ynet.co.il/Integration/StoryRss6.xml",
+		"https://www.goodnewsnetwork.org/category/news/feed/",
 	];
 
 	const responses = await Promise.all(
@@ -148,13 +148,13 @@ export async function POST(request: NextRequest) {
 		apiKey: process.env.OPENAI_API_KEY,
 	});
 
-	const { question, link, title } = await request.json();
+	const items = await request.json();
 
-	if (!link || !title) {
+	if (items.length === 0) {
 		return NextResponse.json(
-			{ error: "Missing question or link or title" },
+			{ error: "Failed to generate an answer" },
 			{
-				status: 400,
+				status: 500,
 				headers: {
 					"Content-Type": "application/json",
 					"Access-Control-Allow-Origin": "*",
@@ -163,42 +163,87 @@ export async function POST(request: NextRequest) {
 		);
 	}
 
-	const prompt = `
-	Answer the following question using the information in this article/website. If you cannot access the link or article, answer from your knowledge or search the internet. Make the answer short - no longer than 40 words. Also if you cannot access the link, do not state so - just answer the question. if no question provided, just summarize the article. Question: "${question}" article link: ${link} article title: "${title}".`;
-
-	const prompt2 = `
-Explain everything in the following title simply and plainly.
-assume no previous knowledge exists, so explain idioms, concepts, ideas, notions, etc. 
-Explain the history as well as far as your knowledge goes. what led up to this point. who is involved,
-what is at stakes, etc. bottom line is - as a reader i need to fully understand the title and context 
-after reading your explanation.
-
-Limit your resonse to around 400 characters. 
-Do not explain yourself or explain what you are doing and why - just provide the data. 
-
-Title: "${title}"
-`;
-
 	try {
-		const completion = await openai.chat.completions.create({
-			model: "gpt-4o",
-			messages: [{ role: "user", content: prompt2 }],
-		});
-
-		const answer = 
-			completion.choices[0]?.message?.content ||
-			"Unable to generate an answer.";
-
-		return NextResponse.json(
-			{ answer, prompt2 },
-			{
-				status: 200,
-				headers: {
-					"Content-Type": "application/json",
-					"Access-Control-Allow-Origin": "*",
-				},
+		if (items.length === 1) {
+			const { question, link, title } = items[0];
+			if (!link || !title) {
+				return NextResponse.json(
+					{ error: "Missing question or link or title" },
+					{
+						status: 400,
+						headers: {
+							"Content-Type": "application/json",
+							"Access-Control-Allow-Origin": "*",
+						},
+					}
+				);
 			}
-		);
+
+			const prompt = `
+				Explain everything in the following title simply and plainly.
+				assume no previous knowledge exists, so explain idioms, concepts, ideas, notions, etc. 
+				Explain the history as well as far as your knowledge goes. what led up to this point. who is involved,
+				what is at stakes, etc. bottom line is - as a reader i need to fully understand the title and context 
+				after reading your explanation.
+				
+				Limit your resonse to around 400 characters. 
+				Do not explain yourself or explain what you are doing and why - just provide the data. 
+				
+				Title: "${title}"`;
+
+			const completion = await openai.chat.completions.create({
+				model: "gpt-4o",
+				messages: [{ role: "user", content: prompt }],
+			});
+
+			const answer =
+				completion.choices[0]?.message?.content ||
+				"Unable to generate an answer.";
+
+			return NextResponse.json(
+				{ answer, prompt },
+				{
+					status: 200,
+					headers: {
+						"Content-Type": "application/json",
+						"Access-Control-Allow-Origin": "*",
+					},
+				}
+			);
+		} else {
+			let titles = "";
+			for (const item of items) {
+				const { question, link, title, description, source } = items[0];
+				titles += `${title}; `;
+			}
+
+			const prompt = `You are a news AI being used inside an app. 
+			Aggregate and sum up the following news articles titles in an engaging yet simple way. create a headlines "story" if possible.
+			Do not sum or aggregate all titles - take into account only the titles with most significant among them all.
+			Group the summeries via location or source if provided.
+			
+			Titles: ${titles}`;
+			
+			const completion = await openai.chat.completions.create({
+				model: "gpt-4o",
+				messages: [{ role: "user", content: prompt }],
+			});
+
+			const answer =
+				completion.choices[0]?.message?.content ||
+				"Unable to generate an answer.";
+
+			return NextResponse.json(
+				{ answer, prompt },
+				{
+					status: 200,
+					headers: {
+						"Content-Type": "application/json",
+						"Access-Control-Allow-Origin": "*",
+					},
+				}
+			);
+		}
 	} catch (error) {
 		console.error("Error querying OpenAI:", error);
 		return NextResponse.json(
