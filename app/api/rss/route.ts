@@ -214,16 +214,19 @@ export async function POST(request: NextRequest) {
 			let titles = "";
 			for (const item of items) {
 				const { question, link, title, description, source } = item;
-				titles += `${title}:${description}; `;
+				titles += `${title}: ${description};
+
+ `;
 			}
 
 			const prompt = `You are a news AI being used inside an app. 
 			Aggregate and sum up the following news articles titles and their description in an engaging yet simple way. 
 			create a headlines "story" if possible.
-			Do not sum or aggregate all titles - take into account only the titles with most significant among them all.
-			Group the summeries via location or source if provided.
+Try and summarize all titles, and be brief about each if needed. 
+it should be a couple of minutes read.
+			Group the summeries via location, topic or source if provided.
 			
-			Titles: ${titles}`;
+			Titles and descriptions: ${titles}`;
 
 			const completion = await openai.chat.completions.create({
 				model: "gpt-4o",
