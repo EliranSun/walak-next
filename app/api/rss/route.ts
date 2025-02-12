@@ -201,7 +201,7 @@ export async function POST(request: NextRequest) {
 				"Unable to generate an answer.";
 
 			return NextResponse.json(
-				{ answer, prompt },
+				{ answer, prompt, type: "single-item" },
 				{
 					status: 200,
 					headers: {
@@ -223,7 +223,7 @@ export async function POST(request: NextRequest) {
 			Group the summeries via location or source if provided.
 			
 			Titles: ${titles}`;
-			
+
 			const completion = await openai.chat.completions.create({
 				model: "gpt-4o",
 				messages: [{ role: "user", content: prompt }],
@@ -234,7 +234,7 @@ export async function POST(request: NextRequest) {
 				"Unable to generate an answer.";
 
 			return NextResponse.json(
-				{ answer, prompt },
+				{ answer, prompt, titles, type: "multiple-items" },
 				{
 					status: 200,
 					headers: {
