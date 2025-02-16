@@ -75,6 +75,7 @@ export async function GET() {
 		"https://rss.app/feeds/NetYGb6mBKYI6yHO.xml",
 		"https://rss.app/feeds/bIsQkfgBDkpxGA1u.xml",
 		"https://rss.app/feeds/Tr1dHVID5Cf80Oo0.xml",
+		"https://rss.app/feeds/lTh88HQFcOpFpsIK.xml",
 	];
 
 	const responses = await Promise.all(
