@@ -72,6 +72,9 @@ export async function GET() {
 		"https://www.ynet.co.il/Integration/StoryRss544.xml",
 		"https://www.ynet.co.il/Integration/StoryRss6.xml",
 		"https://www.goodnewsnetwork.org/category/news/feed/",
+		"https://rss.app/feeds/NetYGb6mBKYI6yHO.xml",
+		"https://rss.app/feeds/bIsQkfgBDkpxGA1u.xml",
+		"https://rss.app/feeds/Tr1dHVID5Cf80Oo0.xml",
 	];
 
 	const responses = await Promise.all(
