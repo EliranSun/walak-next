@@ -10,6 +10,13 @@ const CHARLOTTE_VOICE_ID = "XB0fDUnXU5powFXDhCwa" // charlotte
 const MODEL_V1 = "eleven_multilingual_v1";
 const MODEL_V2 = "eleven_multilingual_v2";
 
+const VoiceIds = {
+    Charlotte: { id: CHARLOTTE_VOICE_ID, model: MODEL_V2 },
+    Adam: { id: MALE_VOICE_ID, model: MODEL_V2 },
+    Dorothy: { id: FEMALE_VOICE_ID, model: MODEL_V1 }
+};
+
+
 const encodeFileName = (text: string, name: string, gender: string, partner?: string) => {
     let encoded = `${text.slice(0, 20)}-${name}-${gender}`
     if (partner) {
@@ -18,16 +25,6 @@ const encodeFileName = (text: string, name: string, gender: string, partner?: st
 
     return encoded.replace(/[^a-zA-Z0-9-]/g, "_");
 };
-
-const jsonResponse = (data: any) => {
-    return new NextResponse(JSON.stringify(data), {
-        status: 200,
-        headers: {
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "https://html-classic.itch.zone",
-        }
-    });
-}
 
 const audioResponse = async (url: string) => {
     const response = await fetch(url);
@@ -49,6 +46,7 @@ export async function GET(request: NextRequest) {
     const text = searchParams.get("text");
     const name = searchParams.get("name");
     const partner = searchParams.get("partner");
+    const actorName = searchParams.get("actorName");
 
     if (!gender || !text || !name) {
         return new NextResponse("Missing parameters", {
@@ -71,13 +69,17 @@ export async function GET(request: NextRequest) {
         }
     }
 
-    const voiceId = gender.toLowerCase() === "male"
+    let voiceId = gender.toLowerCase() === "male"
         ? CHARLOTTE_VOICE_ID
         : MALE_VOICE_ID;
-
-    const modelId = voiceId === MALE_VOICE_ID
+    let modelId = voiceId === MALE_VOICE_ID
         ? MODEL_V2
         : MODEL_V1;
+
+    if (actorName !== "") {
+        voiceId = VoiceIds[actorName as keyof typeof VoiceIds].id;
+        modelId = VoiceIds[actorName as keyof typeof VoiceIds].model;
+    }
 
     const response = await fetch(`${API_URL}/${voiceId}`, {
         method: "POST",
