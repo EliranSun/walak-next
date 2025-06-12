@@ -1,5 +1,5 @@
-import { NextRequest, NextResponse } from "next/server";
-import { put } from "@vercel/blob";
+import { NextResponse } from "next/server";
+import { put, get } from "@vercel/blob";
 
 export const maxDuration = 60;
 export const dynamic = "force-dynamic";
