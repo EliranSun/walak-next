@@ -66,7 +66,9 @@ export async function GET(request) {
         });
 
         if (blobs[0]) {
-            data = JSON.parse(blobs[0].text);
+            const downloadUrl = blobs[0].downloadUrl;
+            const response = await fetch(downloadUrl);
+            data = await response.json();
         }
     } catch (error) {
         return new NextResponse(error.message, {
