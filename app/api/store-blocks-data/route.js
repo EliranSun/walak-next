@@ -11,8 +11,12 @@ const Headers = {
 };
 
 export async function POST(request) {
-    const data = request?.body;
-    if (!data) {
+    const body = JSON.parse(request?.body);
+
+    const data = body?.data;
+    const key = body?.key;
+
+    if (!data || !key) {
         return new NextResponse("Missing parameters", {
             status: 500,
             headers: Headers
@@ -21,7 +25,7 @@ export async function POST(request) {
 
     let fileUrl;
     try {
-        const {url} = await put(`blocks/${new Date().toISOString()}.json`, data, {access: 'public'});
+        const {url} = await put(`blocks/${key}.json`, data, {access: 'public'});
         fileUrl = url;
     } catch (error) {
         return new NextResponse(error.message, {
