@@ -46,3 +46,30 @@ export async function POST(request) {
         headers: Headers
     });
 }
+
+export async function GET(request) {
+    const { searchParams } = new URL(request.url);
+    const key = searchParams.get('key');
+
+    if (!key) {
+        return new NextResponse("Missing parameters", {
+            status: 500,
+            headers: Headers
+        });
+    }
+
+    let data;
+    try {
+        const { text } = await get(`blocks/${key}.json`);
+        data = JSON.parse(text);
+    } catch (error) {
+        return new NextResponse(error.message, {
+            status: 500,
+            headers: Headers
+        });
+    }
+
+    return NextResponse.json(data, {
+        headers: Headers
+    });
+}
