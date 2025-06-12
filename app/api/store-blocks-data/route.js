@@ -11,7 +11,9 @@ const Headers = {
 };
 
 export async function POST(request) {
-    const body = JSON.parse(request?.body);
+    const body = request?.body;
+
+    console.log(JSON.stringify(body));
 
     const data = body?.data;
     const key = body?.key;
