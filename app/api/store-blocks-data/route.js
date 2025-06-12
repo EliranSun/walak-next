@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { put, list } from "@vercel/blob";
 
-export const maxDuration = 60;
+export const maxDuration = 0;
 export const dynamic = "force-dynamic";
 
 const Headers = {
