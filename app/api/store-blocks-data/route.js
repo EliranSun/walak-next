@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { put, get } from "@vercel/blob";
+import { put, list } from "@vercel/blob";
 
 export const maxDuration = 60;
 export const dynamic = "force-dynamic";
@@ -60,8 +60,12 @@ export async function GET(request) {
 
     let data;
     try {
-        const { text } = await get(`blocks/${key}.json`);
-        data = JSON.parse(text);
+        const { blobs } = await list({
+            prefix: `blocks/${key}.json`,
+            limit: 1
+        });
+
+        data = JSON.parse(blobs[0].text);
     } catch (error) {
         return new NextResponse(error.message, {
             status: 500,
