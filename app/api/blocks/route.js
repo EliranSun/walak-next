@@ -5,7 +5,7 @@ export const maxDuration = 60;
 export const dynamic = "force-dynamic";
 
 export async function POST(request) {
-    const data = request?.body?.data;
+    const data = request?.body;
     if (!data) {
         return new NextResponse("Missing parameters", {
             status: 500,
@@ -21,7 +21,8 @@ export async function POST(request) {
 
     return NextResponse.json({
         success: true,
-        url
+        url,
+        data
     }, {
         headers: {
             "Cache-Control": "no-store, max-age=0",
