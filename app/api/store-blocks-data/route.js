@@ -11,9 +11,7 @@ const Headers = {
 };
 
 export async function POST(request) {
-    const body = request?.body;
-
-    console.log(JSON.stringify(body));
+    const body = await request.json();
 
     const data = body?.data;
     const key = body?.key;
@@ -27,7 +25,7 @@ export async function POST(request) {
 
     let fileUrl;
     try {
-        const {url} = await put(`blocks/${key}.json`, data, {access: 'public'});
+        const { url } = await put(`blocks/${key}.json`, data, { access: 'public' });
         fileUrl = url;
     } catch (error) {
         return new NextResponse(error.message, {
