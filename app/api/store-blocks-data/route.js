@@ -58,7 +58,7 @@ export async function GET(request) {
         });
     }
 
-    let data = {};
+    let data = [];
     try {
         const { blobs } = await list({
             prefix: `blocks/${key}.json`,
