@@ -25,7 +25,7 @@ export async function POST(request) {
 
     let fileUrl;
     try {
-        const { url } = await put(`blocks/${key}.json`, data, { access: 'public' });
+        const { url } = await put(`blocks/${key}.json`, JSON.stringify(data), { access: 'public' });
         fileUrl = url;
     } catch (error) {
         return new NextResponse(error.message, {
