@@ -58,14 +58,16 @@ export async function GET(request) {
         });
     }
 
-    let data;
+    let data = {};
     try {
         const { blobs } = await list({
             prefix: `blocks/${key}.json`,
             limit: 1
         });
 
-        data = JSON.parse(blobs[0].text);
+        if (blobs[0]) {
+            data = JSON.parse(blobs[0].text);
+        }
     } catch (error) {
         return new NextResponse(error.message, {
             status: 500,
