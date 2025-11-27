@@ -3,6 +3,21 @@ import { ObjectId } from "mongodb";
 import { getDb } from "@/utils/db";
 
 const COLLECTION_NAME = "logs";
+const corsHeaders: Record<string, string> = {
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "GET,POST,PUT,DELETE,OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type, Authorization",
+};
+
+const withCors = (response: NextResponse) => {
+    Object.entries(corsHeaders).forEach(([key, value]) => {
+        response.headers.set(key, value);
+    });
+    return response;
+};
+
+const respondWithCors = (data: unknown, init?: ResponseInit) =>
+    withCors(NextResponse.json(data, init));
 
 const buildQueryFromSearchParams = (searchParams: URLSearchParams) => {
     const query: Record<string, unknown> = {};
@@ -42,22 +57,22 @@ export const GET = async (request: Request) => {
         if (id) {
             const objectId = parseObjectId(id);
             if (!objectId) {
-                return NextResponse.json({ message: "Invalid id" }, { status: 400 });
+                return respondWithCors({ message: "Invalid id" }, { status: 400 });
             }
 
             const log = await collection.findOne({ _id: objectId });
             if (!log) {
-                return NextResponse.json({ message: "Log not found" }, { status: 404 });
+                return respondWithCors({ message: "Log not found" }, { status: 404 });
             }
-            return NextResponse.json(log);
+            return respondWithCors(log);
         }
 
         const query = buildQueryFromSearchParams(searchParams);
         const logs = await collection.find(query).sort({ date: -1 }).toArray();
-        return NextResponse.json(logs);
+        return respondWithCors(logs);
     } catch (error) {
         console.error("GET /api/logs failed:", error);
-        return NextResponse.json({ message: "Failed to fetch logs" }, { status: 500 });
+        return respondWithCors({ message: "Failed to fetch logs" }, { status: 500 });
     }
 };
 
@@ -65,7 +80,7 @@ export const POST = async (request: Request) => {
     try {
         const body = await request.json();
         if (!body?.name || !body?.date || !body?.category) {
-            return NextResponse.json(
+            return respondWithCors(
                 { message: "Name, date and category are required" },
                 { status: 400 }
             );
@@ -74,13 +89,13 @@ export const POST = async (request: Request) => {
         const collection = await getCollection();
         const result = await collection.insertOne(body);
 
-        return NextResponse.json(
+        return respondWithCors(
             { insertedId: result.insertedId, ...body },
             { status: 201 }
         );
     } catch (error) {
         console.error("POST /api/logs failed:", error);
-        return NextResponse.json({ message: "Failed to create log" }, { status: 500 });
+        return respondWithCors({ message: "Failed to create log" }, { status: 500 });
     }
 };
 
@@ -90,10 +105,10 @@ export const PUT = async (request: Request) => {
         const { id, ...updates } = body || {};
 
         if (!id) {
-            return NextResponse.json({ message: "id is required" }, { status: 400 });
+            return respondWithCors({ message: "id is required" }, { status: 400 });
         }
         if (Object.keys(updates).length === 0) {
-            return NextResponse.json(
+            return respondWithCors(
                 { message: "At least one field to update is required" },
                 { status: 400 }
             );
@@ -101,7 +116,7 @@ export const PUT = async (request: Request) => {
 
         const objectId = parseObjectId(id);
         if (!objectId) {
-            return NextResponse.json({ message: "Invalid id" }, { status: 400 });
+            return respondWithCors({ message: "Invalid id" }, { status: 400 });
         }
 
         const collection = await getCollection();
@@ -112,13 +127,13 @@ export const PUT = async (request: Request) => {
         );
 
         if (!value) {
-            return NextResponse.json({ message: "Log not found" }, { status: 404 });
+            return respondWithCors({ message: "Log not found" }, { status: 404 });
         }
 
-        return NextResponse.json(value);
+        return respondWithCors(value);
     } catch (error) {
         console.error("PUT /api/logs failed:", error);
-        return NextResponse.json({ message: "Failed to update log" }, { status: 500 });
+        return respondWithCors({ message: "Failed to update log" }, { status: 500 });
     }
 };
 
@@ -128,24 +143,26 @@ export const DELETE = async (request: Request) => {
         const id = searchParams.get("id");
 
         if (!id) {
-            return NextResponse.json({ message: "id is required" }, { status: 400 });
+            return respondWithCors({ message: "id is required" }, { status: 400 });
         }
 
         const objectId = parseObjectId(id);
         if (!objectId) {
-            return NextResponse.json({ message: "Invalid id" }, { status: 400 });
+            return respondWithCors({ message: "Invalid id" }, { status: 400 });
         }
 
         const collection = await getCollection();
         const result = await collection.deleteOne({ _id: objectId });
 
         if (result.deletedCount === 0) {
-            return NextResponse.json({ message: "Log not found" }, { status: 404 });
+            return respondWithCors({ message: "Log not found" }, { status: 404 });
         }
 
-        return NextResponse.json({ deletedId: id });
+        return respondWithCors({ deletedId: id });
     } catch (error) {
         console.error("DELETE /api/logs failed:", error);
-        return NextResponse.json({ message: "Failed to delete log" }, { status: 500 });
+        return respondWithCors({ message: "Failed to delete log" }, { status: 500 });
     }
 };
+
+export const OPTIONS = async () => withCors(new NextResponse(null, { status: 204 }));
