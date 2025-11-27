@@ -7,15 +7,15 @@ export const dynamic = "force-dynamic";
 
 const COLLECTION_NAME = "logs";
 
-const respondWithCors = (data: unknown, init?: ResponseInit) =>
-    NextResponse.json(data, {
-        status: 200,
-        headers: {
-            "Cache-Control": "no-store, max-age=0",
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "*"
-        }
-    });
+// const respondWithCors = (data: unknown, init?: ResponseInit) =>
+//     NextResponse.json(data, {
+//         status: 200,
+//         headers: {
+//             "Cache-Control": "no-store, max-age=0",
+//             "Content-Type": "application/json",
+//             "Access-Control-Allow-Origin": "*"
+//         }
+//     });
 
 const buildQueryFromSearchParams = (searchParams: URLSearchParams) => {
     const query: Record<string, unknown> = {};
@@ -46,6 +46,12 @@ const parseObjectId = (id: string) => {
     }
 };
 
+const headers = {
+    "Cache-Control": "no-store, max-age=0",
+    "Content-Type": "application/json",
+    "Access-Control-Allow-Origin": "*"
+}
+
 export async function GET(request: NextRequest) {
     try {
         const collection = await getCollection();
@@ -55,22 +61,25 @@ export async function GET(request: NextRequest) {
         if (id) {
             const objectId = parseObjectId(id);
             if (!objectId) {
-                return respondWithCors({ message: "Invalid id" }, { status: 400 });
+                return NextResponse.json({ message: "Invalid id" }, {
+                    status: 400,
+                    headers
+                });
             }
 
             const log = await collection.findOne({ _id: objectId });
             if (!log) {
-                return respondWithCors({ message: "Log not found" }, { status: 404 });
+                return NextResponse.json({ message: "Log not found" }, { status: 404, headers });
             }
-            return respondWithCors(log);
+            return NextResponse.json(log, { headers });
         }
 
         const query = buildQueryFromSearchParams(searchParams);
         const logs = await collection.find(query).sort({ date: -1 }).toArray();
-        return respondWithCors(logs);
+        return NextResponse.json(logs, { headers });
     } catch (error) {
         console.error("GET /api/logs failed:", error);
-        return respondWithCors({ message: "Failed to fetch logs" }, { status: 500 });
+        return NextResponse.json({ message: "Failed to fetch logs" }, { status: 500, headers });
     }
 };
 
