@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { ObjectId } from "mongodb";
 import { getDb } from "@/utils/db";
 
@@ -42,7 +42,7 @@ const parseObjectId = (id: string) => {
     }
 };
 
-export const GET = async (request: Request) => {
+export const GET = async (request: NextRequest) => {
     try {
         const collection = await getCollection();
         const { searchParams } = new URL(request.url);
@@ -70,7 +70,7 @@ export const GET = async (request: Request) => {
     }
 };
 
-export const POST = async (request: Request) => {
+export const POST = async (request: NextRequest) => {
     try {
         const body = await request.json();
         if (!body?.name || !body?.date || !body?.category) {
@@ -93,7 +93,7 @@ export const POST = async (request: Request) => {
     }
 };
 
-export const PUT = async (request: Request) => {
+export const PUT = async (request: NextRequest) => {
     try {
         const body = await request.json();
         const { id, ...updates } = body || {};
@@ -131,7 +131,7 @@ export const PUT = async (request: Request) => {
     }
 };
 
-export const DELETE = async (request: Request) => {
+export const DELETE = async (request: NextRequest) => {
     try {
         const { searchParams } = new URL(request.url);
         const id = searchParams.get("id");
