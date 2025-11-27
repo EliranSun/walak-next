@@ -9,7 +9,7 @@ const COLLECTION_NAME = "logs";
 
 const respondWithCors = (data: unknown, init?: ResponseInit) =>
     NextResponse.json(data, {
-        ...(init || {}),
+        status: 200,
         headers: {
             "Content-Type": "application/json",
             "Access-Control-Allow-Origin": "*"
