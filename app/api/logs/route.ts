@@ -1,95 +1,79 @@
 import { NextRequest, NextResponse } from "next/server";
-// import { ObjectId } from "mongodb";
-// import { getDb } from "@/utils/db";
+import { ObjectId } from "mongodb";
+import { getDb } from "@/utils/db";
 
 export const maxDuration = 60;
 export const dynamic = "force-dynamic";
 
 const COLLECTION_NAME = "logs";
 
-// const respondWithCors = (data: unknown, init?: ResponseInit) =>
-//     NextResponse.json(data, {
-//         status: 200,
-//         headers: {
-//             "Cache-Control": "no-store, max-age=0",
-//             "Content-Type": "application/json",
-//             "Access-Control-Allow-Origin": "*"
-//         }
-//     });
+const respondWithCors = (data: unknown, init?: ResponseInit) =>
+    NextResponse.json(data, {
+        status: 200,
+        headers: {
+            "Cache-Control": "no-store, max-age=0",
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*"
+        }
+    });
 
-// const buildQueryFromSearchParams = (searchParams: URLSearchParams) => {
-//     const query: Record<string, unknown> = {};
+const buildQueryFromSearchParams = (searchParams: URLSearchParams) => {
+    const query: Record<string, unknown> = {};
 
-//     if (searchParams.get("name")) {
-//         query.name = searchParams.get("name");
-//     }
-//     if (searchParams.get("category")) {
-//         query.category = searchParams.get("category");
-//     }
-//     if (searchParams.get("date")) {
-//         query.date = searchParams.get("date");
-//     }
+    if (searchParams.get("name")) {
+        query.name = searchParams.get("name");
+    }
+    if (searchParams.get("category")) {
+        query.category = searchParams.get("category");
+    }
+    if (searchParams.get("date")) {
+        query.date = searchParams.get("date");
+    }
 
-//     return query;
-// };
+    return query;
+};
 
-// const getCollection = async () => {
-//     const db = await getDb();
-//     return db.collection(COLLECTION_NAME);
-// };
+const getCollection = async () => {
+    const db = await getDb();
+    return db.collection(COLLECTION_NAME);
+};
 
-// const parseObjectId = (id: string) => {
-//     try {
-//         return new ObjectId(id);
-//     } catch {
-//         return null;
-//     }
-// };
-
-const headers = {
-    "Cache-Control": "no-store, max-age=0",
-    "Content-Type": "application/json",
-    "Access-Control-Allow-Origin": "*"
-}
+const parseObjectId = (id: string) => {
+    try {
+        return new ObjectId(id);
+    } catch {
+        return null;
+    }
+};
 
 export async function GET(request: NextRequest) {
     try {
-        // const collection = await getCollection();
+        const collection = await getCollection();
         const searchParams = request.nextUrl.searchParams;
-        // const { searchParams } = new URL(request.url);
         const id = searchParams.get("id");
 
-        // if (id) {
-        //     const objectId = parseObjectId(id);
-        //     if (!objectId) {
-        //         return NextResponse.json({ message: "Invalid id" }, {
-        //             status: 400,
-        //             headers
-        //         });
-        //     }
-
-        //     const log = await collection.findOne({ _id: objectId });
-        //     if (!log) {
-        //         return NextResponse.json({ message: "Log not found" }, { status: 404, headers });
-        //     }
-        //     return NextResponse.json(log, { headers });
-        // }
-
-        // const query = buildQueryFromSearchParams(searchParams);
-        // const logs = await collection.find(query).sort({ date: -1 }).toArray();
-        // return NextResponse.json(logs, { headers });
-        return NextResponse.json({ test: 1 }, {
-            headers: {
-                "Access-Control-Allow-Origin": "*"
+        if (id) {
+            const objectId = parseObjectId(id);
+            if (!objectId) {
+                return NextResponse.json({ message: "Invalid id" }, {
+                    status: 400,
+                    headers
+                });
             }
-        });
+
+            const log = await collection.findOne({ _id: objectId });
+            if (!log) {
+                return respondWithCors({ message: "Log not found" }, { status: 404 });
+            }
+            return respondWithCors(log);
+        }
+
+        const query = buildQueryFromSearchParams(searchParams);
+        const logs = await collection.find(query).sort({ date: -1 }).toArray();
+        return respondWithCors(logs);
     } catch (error) {
         console.error("GET /api/logs failed:", error);
-        return NextResponse.json({ message: "Failed to fetch logs" }, {
-            status: 500, headers: {
-                "Access-Control-Allow-Origin": "*"
-            }
-        });
+        return respondWithCors({ message: "Failed to fetch logs" }, { status: 500 });
     }
 };
 
