@@ -9,7 +9,7 @@ const respondWithCors = (data: unknown, init?: ResponseInit) =>
         ...(init || {}),
         headers: {
             "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "*"
+            "Access-Control-Allow-Origin": "https://blocks-v3.vercel.app/"
         }
     });
 
@@ -51,50 +51,22 @@ export const GET = async (request: NextRequest) => {
         if (id) {
             const objectId = parseObjectId(id);
             if (!objectId) {
-                return NextResponse.json({ message: "Invalid id" }, {
-                    status: 400,
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Access-Control-Allow-Origin": "*"
-                    }
-                });
+                return respondWithCors({ message: "Invalid id" }, { status: 400 });
             }
 
             const log = await collection.findOne({ _id: objectId });
             if (!log) {
-                return NextResponse.json({ message: "Log not found" }, {
-                    status: 404,
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Access-Control-Allow-Origin": "*"
-                    }
-                });
+                return respondWithCors({ message: "Log not found" }, { status: 404 });
             }
-            return NextResponse.json(log, {
-                headers: {
-                    "Content-Type": "application/json",
-                    "Access-Control-Allow-Origin": "*"
-                }
-            });
+            return respondWithCors(log);
         }
 
         const query = buildQueryFromSearchParams(searchParams);
         const logs = await collection.find(query).sort({ date: -1 }).toArray();
-        return NextResponse.json(logs, {
-            headers: {
-                "Content-Type": "application/json",
-                "Access-Control-Allow-Origin": "*"
-            }
-        });
+        return respondWithCors(logs);
     } catch (error) {
         console.error("GET /api/logs failed:", error);
-        return NextResponse.json({ message: "Failed to fetch logs" }, {
-            status: 500,
-            headers: {
-                "Content-Type": "application/json",
-                "Access-Control-Allow-Origin": "*"
-            }
-        });
+        return respondWithCors({ message: "Failed to fetch logs" }, { status: 500 });
     }
 };
 
