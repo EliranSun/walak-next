@@ -3,20 +3,15 @@ import { ObjectId } from "mongodb";
 import { getDb } from "@/utils/db";
 
 const COLLECTION_NAME = "logs";
-const corsHeaders: Record<string, string> = {
-    "Content-Type": "application/json",
-    "Access-Control-Allow-Origin": "*"
-};
-
-const withCors = (response: NextResponse) => {
-    Object.entries(corsHeaders).forEach(([key, value]) => {
-        response.headers.set(key, value);
-    });
-    return response;
-};
 
 const respondWithCors = (data: unknown, init?: ResponseInit) =>
-    withCors(NextResponse.json(data, init));
+    NextResponse.json(data, {
+        ...(init || {}),
+        headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*"
+        }
+    });
 
 const buildQueryFromSearchParams = (searchParams: URLSearchParams) => {
     const query: Record<string, unknown> = {};
