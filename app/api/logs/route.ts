@@ -17,21 +17,21 @@ const COLLECTION_NAME = "logs";
 //         }
 //     });
 
-const buildQueryFromSearchParams = (searchParams: URLSearchParams) => {
-    const query: Record<string, unknown> = {};
+// const buildQueryFromSearchParams = (searchParams: URLSearchParams) => {
+//     const query: Record<string, unknown> = {};
 
-    if (searchParams.get("name")) {
-        query.name = searchParams.get("name");
-    }
-    if (searchParams.get("category")) {
-        query.category = searchParams.get("category");
-    }
-    if (searchParams.get("date")) {
-        query.date = searchParams.get("date");
-    }
+//     if (searchParams.get("name")) {
+//         query.name = searchParams.get("name");
+//     }
+//     if (searchParams.get("category")) {
+//         query.category = searchParams.get("category");
+//     }
+//     if (searchParams.get("date")) {
+//         query.date = searchParams.get("date");
+//     }
 
-    return query;
-};
+//     return query;
+// };
 
 // const getCollection = async () => {
 //     const db = await getDb();
@@ -75,7 +75,7 @@ export async function GET(request: NextRequest) {
         //     return NextResponse.json(log, { headers });
         // }
 
-        const query = buildQueryFromSearchParams(searchParams);
+        // const query = buildQueryFromSearchParams(searchParams);
         // const logs = await collection.find(query).sort({ date: -1 }).toArray();
         // return NextResponse.json(logs, { headers });
         return NextResponse.json({ test: 1 }, {
