@@ -77,10 +77,18 @@ export async function GET(request: NextRequest) {
         const query = buildQueryFromSearchParams(searchParams);
         // const logs = await collection.find(query).sort({ date: -1 }).toArray();
         // return NextResponse.json(logs, { headers });
-        return NextResponse.json({ test: 1 }, { headers });
+        return NextResponse.json({ test: 1 }, {
+            headers: {
+                "Access-Control-Allow-Origin": "*"
+            }
+        });
     } catch (error) {
         console.error("GET /api/logs failed:", error);
-        return NextResponse.json({ message: "Failed to fetch logs" }, { status: 500, headers });
+        return NextResponse.json({ message: "Failed to fetch logs" }, {
+            status: 500, headers: {
+                "Access-Control-Allow-Origin": "*"
+            }
+        });
     }
 };
 
