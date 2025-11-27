@@ -45,7 +45,7 @@ const parseObjectId = (id: string) => {
     }
 };
 
-export const GET = async (request: NextRequest) => {
+export async function GET(request: NextRequest) {
     try {
         const collection = await getCollection();
         const { searchParams } = new URL(request.url);
@@ -73,7 +73,7 @@ export const GET = async (request: NextRequest) => {
     }
 };
 
-export const POST = async (request: NextRequest) => {
+export async function POST(request: NextRequest) {
     try {
         const body = await request.json();
         if (!body?.name || !body?.date || !body?.category) {
@@ -96,7 +96,7 @@ export const POST = async (request: NextRequest) => {
     }
 };
 
-export const PUT = async (request: NextRequest) => {
+export async function PUT(request: NextRequest) {
     try {
         const body = await request.json();
         const { id, ...updates } = body || {};
@@ -134,7 +134,7 @@ export const PUT = async (request: NextRequest) => {
     }
 };
 
-export const DELETE = async (request: NextRequest) => {
+export async function DELETE(request: NextRequest) {
     try {
         const { searchParams } = new URL(request.url);
         const id = searchParams.get("id");
