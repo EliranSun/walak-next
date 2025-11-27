@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { ObjectId } from "mongodb";
 import { getDb } from "@/utils/db";
 
+export const maxDuration = 60;
+export const dynamic = "force-dynamic";
+
 const COLLECTION_NAME = "logs";
 
 const respondWithCors = (data: unknown, init?: ResponseInit) =>
@@ -9,7 +12,7 @@ const respondWithCors = (data: unknown, init?: ResponseInit) =>
         ...(init || {}),
         headers: {
             "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "https://blocks-v3.vercel.app/"
+            "Access-Control-Allow-Origin": "*"
         }
     });
 
