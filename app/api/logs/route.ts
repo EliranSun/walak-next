@@ -55,7 +55,8 @@ const headers = {
 export async function GET(request: NextRequest) {
     try {
         // const collection = await getCollection();
-        const { searchParams } = new URL(request.url);
+        const searchParams = request.nextUrl.searchParams;
+        // const { searchParams } = new URL(request.url);
         const id = searchParams.get("id");
 
         // if (id) {
