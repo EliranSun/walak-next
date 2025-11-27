@@ -158,5 +158,3 @@ export const DELETE = async (request: Request) => {
         return respondWithCors({ message: "Failed to delete log" }, { status: 500 });
     }
 };
-
-export const OPTIONS = async () => withCors(new NextResponse(null, { status: 204 }));
