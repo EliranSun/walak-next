@@ -51,22 +51,50 @@ export const GET = async (request: NextRequest) => {
         if (id) {
             const objectId = parseObjectId(id);
             if (!objectId) {
-                return respondWithCors({ message: "Invalid id" }, { status: 400 });
+                return NextResponse.json({ message: "Invalid id" }, {
+                    status: 400,
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Access-Control-Allow-Origin": "*"
+                    }
+                });
             }
 
             const log = await collection.findOne({ _id: objectId });
             if (!log) {
-                return respondWithCors({ message: "Log not found" }, { status: 404 });
+                return NextResponse.json({ message: "Log not found" }, {
+                    status: 404,
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Access-Control-Allow-Origin": "*"
+                    }
+                });
             }
-            return respondWithCors(log);
+            return NextResponse.json(log, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Access-Control-Allow-Origin": "*"
+                }
+            });
         }
 
         const query = buildQueryFromSearchParams(searchParams);
         const logs = await collection.find(query).sort({ date: -1 }).toArray();
-        return respondWithCors(logs);
+        return NextResponse.json(logs, {
+            headers: {
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "*"
+            }
+        });
     } catch (error) {
         console.error("GET /api/logs failed:", error);
-        return respondWithCors({ message: "Failed to fetch logs" }, { status: 500 });
+        return NextResponse.json({ message: "Failed to fetch logs" }, {
+            status: 500,
+            headers: {
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "*"
+            }
+        });
     }
 };
 
