@@ -11,6 +11,7 @@ const respondWithCors = (data: unknown, init?: ResponseInit) =>
     NextResponse.json(data, {
         status: 200,
         headers: {
+            "Cache-Control": "no-store, max-age=0",
             "Content-Type": "application/json",
             "Access-Control-Allow-Origin": "*"
         }
