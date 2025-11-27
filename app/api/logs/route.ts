@@ -55,9 +55,8 @@ export async function GET(request: NextRequest) {
         if (id) {
             const objectId = parseObjectId(id);
             if (!objectId) {
-                return NextResponse.json({ message: "Invalid id" }, {
-                    status: 400,
-                    headers
+                return respondWithCors({ message: "Invalid id" }, {
+                    status: 400
                 });
             }
 
