@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { ObjectId } from "mongodb";
 import { getDb } from "@/utils/db";
+import { ObjectId } from "mongodb";
 
 export const maxDuration = 60;
 export const dynamic = "force-dynamic";
