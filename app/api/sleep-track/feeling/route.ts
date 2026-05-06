@@ -1,6 +1,7 @@
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
+import { retryFetchFailed } from "@/utils/retryFetchFailed";
 
 export async function POST(request: NextRequest) {
 	const supabase = createServerComponentClient({ cookies });
@@ -15,11 +16,11 @@ export async function POST(request: NextRequest) {
 		);
 	}
 
-	const { data, error } = await supabase
+	const { data, error } = await retryFetchFailed(() => supabase
 		.from("sleepTrack")
 		.update({ feeling })
 		.eq("id", entryId)
-		.select();
+		.select());
 
 	if (error) {
 		return NextResponse.json({ error: error.message }, { status: 500 });

@@ -7,15 +7,22 @@ export const dynamic = "force-dynamic";
 
 const COLLECTION_NAME = "logs";
 
-const respondWithCors = (data: unknown, init?: ResponseInit) =>
-    NextResponse.json(data, {
-        status: 200,
-        headers: {
-            "Cache-Control": "no-store, max-age=0",
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "*"
-        }
-    });
+const DEFAULT_HEADERS: Record<string, string> = {
+    "Cache-Control": "no-store, max-age=0",
+    "Content-Type": "application/json",
+    "Access-Control-Allow-Origin": "*",
+};
+
+const buildResponder = (_request: NextRequest) =>
+    (data: unknown, init?: ResponseInit) =>
+        NextResponse.json(data, {
+            ...init,
+            status: init?.status ?? 200,
+            headers: {
+                ...DEFAULT_HEADERS,
+                ...(init?.headers as Record<string, string> | undefined),
+            },
+        });
 
 const buildQueryFromSearchParams = (searchParams: URLSearchParams) => {
     const query: Record<string, unknown> = {};
@@ -47,6 +54,7 @@ const parseObjectId = (id: string) => {
 };
 
 export async function GET(request: NextRequest) {
+    const respond = buildResponder(request);
     try {
         const collection = await getCollection();
         const searchParams = request.nextUrl.searchParams;
@@ -55,32 +63,31 @@ export async function GET(request: NextRequest) {
         if (id) {
             const objectId = parseObjectId(id);
             if (!objectId) {
-                return respondWithCors({ message: "Invalid id" }, {
-                    status: 400
-                });
+                return respond({ message: "Invalid id" }, { status: 400 });
             }
 
             const log = await collection.findOne({ _id: objectId });
             if (!log) {
-                return respondWithCors({ message: "Log not found" }, { status: 404 });
+                return respond({ message: "Log not found" }, { status: 404 });
             }
-            return respondWithCors(log);
+            return respond(log);
         }
 
         const query = buildQueryFromSearchParams(searchParams);
         const logs = await collection.find(query).sort({ date: -1 }).toArray();
-        return respondWithCors(logs);
+        return respond(logs);
     } catch (error) {
         console.error("GET /api/logs failed:", error);
-        return respondWithCors({ message: "Failed to fetch logs" }, { status: 500 });
+        return respond({ message: "Failed to fetch logs" }, { status: 500 });
     }
 };
 
 export async function POST(request: NextRequest) {
+    const respond = buildResponder(request);
     try {
         const body = await request.json();
         if (!body?.name || !body?.date || !body?.category) {
-            return respondWithCors(
+            return respond(
                 { message: "Name, date and category are required" },
                 { status: 400 }
             );
@@ -89,26 +96,27 @@ export async function POST(request: NextRequest) {
         const collection = await getCollection();
         const result = await collection.insertOne(body);
 
-        return respondWithCors(
+        return respond(
             { insertedId: result.insertedId, ...body },
             { status: 201 }
         );
     } catch (error) {
         console.error("POST /api/logs failed:", error);
-        return respondWithCors({ message: "Failed to create log" }, { status: 500 });
+        return respond({ message: "Failed to create log" }, { status: 500 });
     }
 };
 
 export async function PUT(request: NextRequest) {
+    const respond = buildResponder(request);
     try {
         const body = await request.json();
         const { id, ...updates } = body || {};
 
         if (!id) {
-            return respondWithCors({ message: "id is required" }, { status: 400 });
+            return respond({ message: "id is required" }, { status: 400 });
         }
         if (Object.keys(updates).length === 0) {
-            return respondWithCors(
+            return respond(
                 { message: "At least one field to update is required" },
                 { status: 400 }
             );
@@ -116,7 +124,7 @@ export async function PUT(request: NextRequest) {
 
         const objectId = parseObjectId(id);
         if (!objectId) {
-            return respondWithCors({ message: "Invalid id" }, { status: 400 });
+            return respond({ message: "Invalid id" }, { status: 400 });
         }
 
         const collection = await getCollection();
@@ -127,41 +135,42 @@ export async function PUT(request: NextRequest) {
         );
 
         if (!value) {
-            return respondWithCors({ message: "Log not found" }, { status: 404 });
+            return respond({ message: "Log not found" }, { status: 404 });
         }
 
-        return respondWithCors(value);
+        return respond(value);
     } catch (error) {
         console.error("PUT /api/logs failed:", error);
-        return respondWithCors({ message: "Failed to update log" }, { status: 500 });
+        return respond({ message: "Failed to update log" }, { status: 500 });
     }
 };
 
 export async function DELETE(request: NextRequest) {
+    const respond = buildResponder(request);
     try {
         const { searchParams } = new URL(request.url);
         const id = searchParams.get("id");
 
         if (!id) {
-            return respondWithCors({ message: "id is required" }, { status: 400 });
+            return respond({ message: "id is required" }, { status: 400 });
         }
 
         const objectId = parseObjectId(id);
         if (!objectId) {
-            return respondWithCors({ message: "Invalid id" }, { status: 400 });
+            return respond({ message: "Invalid id" }, { status: 400 });
         }
 
         const collection = await getCollection();
         const result = await collection.deleteOne({ _id: objectId });
 
         if (result.deletedCount === 0) {
-            return respondWithCors({ message: "Log not found" }, { status: 404 });
+            return respond({ message: "Log not found" }, { status: 404 });
         }
 
-        return respondWithCors({ deletedId: id });
+        return respond({ deletedId: id });
     } catch (error) {
         console.error("DELETE /api/logs failed:", error);
-        return respondWithCors({ message: "Failed to delete log" }, { status: 500 });
+        return respond({ message: "Failed to delete log" }, { status: 500 });
     }
 };
 
