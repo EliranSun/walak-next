@@ -1,6 +1,7 @@
 import {createServerComponentClient} from "@supabase/auth-helpers-nextjs";
 import {cookies} from "next/headers";
 import Post from "@/types/Post";
+import {retryFetchFailed} from "@/utils/retryFetchFailed";
 
 const AVERAGE_HUMAN_READING_SPEED = 190;
 
@@ -12,10 +13,10 @@ export const calculateReadingTime = (text: string) => {
 
 export const getPosts = async () => {
     const supabase = createServerComponentClient({cookies})
-    const {data, error} = await supabase
+    const {data, error} = await retryFetchFailed(() => supabase
         .from('posts')
         .select('*, postAuthors:postAuthors!postId (authorId:authors!id(name))')
-        .order('createdAt', {ascending: false});
+        .order('createdAt', {ascending: false}));
 
     const posts = (data || []).map((post: Post) => {
         return {
@@ -30,11 +31,11 @@ export const getPosts = async () => {
 
 export const getPost = async (id: number) => {
     const supabase = createServerComponentClient({cookies})
-    const {data, error} = await supabase
+    const {data, error} = await retryFetchFailed(() => supabase
         .from('posts')
         .select('*, postAuthors(author:authors(*))')
         .eq('id', id)
-        .single();
+        .single());
 
     console.log({data});
 

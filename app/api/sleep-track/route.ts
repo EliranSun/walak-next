@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 import { snakeCase } from "lodash";
+import { retryFetchFailed } from "@/utils/retryFetchFailed";
 
 export async function POST(request: NextRequest) {
 	const supabase = createServerComponentClient({ cookies });
@@ -17,7 +18,7 @@ export async function POST(request: NextRequest) {
 	// Get today's date in the format YYYY-MM-DD
 	const today = new Date().toISOString().split("T")[0];
 
-	const { data, error } = await supabase
+	const { data, error } = await retryFetchFailed(() => supabase
 		.from("sleepTrack")
 		.insert([
 			{
@@ -41,7 +42,7 @@ export async function POST(request: NextRequest) {
 				tags: sleepData.tags || [],
 			},
 		])
-		.select();
+		.select());
 
 	if (error) {
 		console.error(error);
@@ -92,12 +93,12 @@ export async function GET(request: NextRequest) {
 	const gteKey = `${dateOneWeekAgoKey.year}-${dateOneWeekAgoKey.month}-${dateOneWeekAgoKey.day}T00:00:00Z`;
 	const ltKey = `${dateKey.year}-${dateKey.month}-${dateKey.day}T23:59:59Z`;
 
-	const { data, error } = await supabase
+	const { data, error } = await retryFetchFailed(() => supabase
 		.from("sleepTrack")
 		.select()
 		.gte("created_at", gteKey)
 		.lt("created_at", ltKey)
-		.order("created_at", { ascending: false });
+		.order("created_at", { ascending: false }));
 
 	if (error) {
 		return NextResponse.json({ error }, { status: 500 });
