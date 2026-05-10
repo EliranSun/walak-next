@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getDb } from "@/utils/db";
-import { ObjectId } from "mongodb";
+import { getDb, resetMongoClient } from "@/utils/db";
+import { MongoNetworkError, MongoServerSelectionError, ObjectId } from "mongodb";
 
 export const maxDuration = 60;
 export const dynamic = "force-dynamic";
@@ -53,6 +53,16 @@ const parseObjectId = (id: string) => {
     }
 };
 
+const isTransientMongoError = (error: unknown) =>
+    error instanceof MongoNetworkError ||
+    error instanceof MongoServerSelectionError;
+
+const handleMongoError = async (error: unknown) => {
+    if (isTransientMongoError(error)) {
+        await resetMongoClient();
+    }
+};
+
 export async function GET(request: NextRequest) {
     const respond = buildResponder(request);
     try {
@@ -78,6 +88,7 @@ export async function GET(request: NextRequest) {
         return respond(logs);
     } catch (error) {
         console.error("GET /api/logs failed:", error);
+        await handleMongoError(error);
         return respond({ message: "Failed to fetch logs" }, { status: 500 });
     }
 };
@@ -102,6 +113,7 @@ export async function POST(request: NextRequest) {
         );
     } catch (error) {
         console.error("POST /api/logs failed:", error);
+        await handleMongoError(error);
         return respond({ message: "Failed to create log" }, { status: 500 });
     }
 };
@@ -141,6 +153,7 @@ export async function PUT(request: NextRequest) {
         return respond(value);
     } catch (error) {
         console.error("PUT /api/logs failed:", error);
+        await handleMongoError(error);
         return respond({ message: "Failed to update log" }, { status: 500 });
     }
 };
@@ -170,6 +183,7 @@ export async function DELETE(request: NextRequest) {
         return respond({ deletedId: id });
     } catch (error) {
         console.error("DELETE /api/logs failed:", error);
+        await handleMongoError(error);
         return respond({ message: "Failed to delete log" }, { status: 500 });
     }
 };

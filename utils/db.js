@@ -7,24 +7,25 @@ if (!uri) {
     throw new Error("Missing MONGODB_URI environment variable.");
 }
 
-let cachedClient = null;
+let clientPromise = null;
 
-export const getMongoClient = async () => {
-    if (!cachedClient) {
-        cachedClient = new MongoClient(uri, {
-            serverSelectionTimeoutMS: 5000,
-            socketTimeoutMS: 20000,
-            connectTimeoutMS: 5000,
-        });
-        try {
-            await cachedClient.connect();
-        } catch (error) {
-            cachedClient = null;
-            throw error;
-        }
+const connect = () => {
+    const client = new MongoClient(uri, {
+        serverSelectionTimeoutMS: 10000,
+        socketTimeoutMS: 20000,
+        connectTimeoutMS: 10000,
+    });
+    return client.connect().catch((error) => {
+        clientPromise = null;
+        throw error;
+    });
+};
+
+export const getMongoClient = () => {
+    if (!clientPromise) {
+        clientPromise = connect();
     }
-
-    return cachedClient;
+    return clientPromise;
 };
 
 export const getDb = async (dbName = defaultDbName) => {
@@ -32,9 +33,16 @@ export const getDb = async (dbName = defaultDbName) => {
     return client.db(dbName);
 };
 
-export const closeMongoClient = async () => {
-    if (cachedClient) {
-        await cachedClient.close();
-        cachedClient = null;
+export const resetMongoClient = async () => {
+    const pending = clientPromise;
+    clientPromise = null;
+    if (!pending) return;
+    try {
+        const client = await pending;
+        await client.close();
+    } catch {
+        // ignore — we're discarding this client anyway
     }
 };
+
+export const closeMongoClient = resetMongoClient;
