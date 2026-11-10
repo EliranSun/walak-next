@@ -44,6 +44,89 @@ interface RssResult {
 	};
 }
 
+// Reddit, among others, rejects requests without a User-Agent.
+const USER_AGENT = "Mozilla/5.0 (compatible; walak-news-reader/1.0)";
+const FEED_TIMEOUT_MS = 10_000;
+
+async function fetchFeedText(url: string): Promise<string> {
+	try {
+		const res = await fetch(url, {
+			headers: {
+				"User-Agent": USER_AGENT,
+				Accept: "application/rss+xml, application/atom+xml, application/xml, text/xml;q=0.9, */*;q=0.8",
+			},
+			signal: AbortSignal.timeout(FEED_TIMEOUT_MS),
+			cache: "no-store",
+		});
+
+		if (!res.ok) {
+			console.warn(`Feed ${url} responded ${res.status}`);
+			return "";
+		}
+
+		return await res.text();
+	} catch (error) {
+		console.warn(`Feed ${url} failed:`, error);
+		return "";
+	}
+}
+
+// xml2js gives either a string or { _: text, $: attributes } depending on
+// whether the element has attributes.
+type XmlNode = string | { _?: string; $?: Record<string, string> };
+
+interface AtomResult {
+	feed?: {
+		$?: Record<string, string>;
+		title?: XmlNode[];
+		entry?: Array<{
+			title?: XmlNode[];
+			link?: Array<{ $?: { href?: string; rel?: string } }>;
+			content?: XmlNode[];
+			summary?: XmlNode[];
+			published?: string[];
+			updated?: string[];
+		}>;
+	};
+}
+
+function nodeText(node?: XmlNode): string {
+	if (!node) return "";
+	return typeof node === "string" ? node : node._ || "";
+}
+
+// Atom feeds (Reddit's .rss endpoints are Atom, not RSS 2.0).
+function parseAtomFeed(result: AtomResult, clean: (text: string) => string) {
+	const feed = result.feed!;
+	const feedTitle = nodeText(feed.title?.[0]);
+	const language = feed.$?.["xml:lang"] || "en";
+	// Reddit titles its feeds by bare subreddit name ("news"); show "r/news".
+	const isReddit = (feed.entry || []).some((e) => e.link?.[0]?.$?.href?.includes("reddit.com"));
+	const feedName = isReddit && feedTitle && !feedTitle.startsWith("r/") ? `r/${feedTitle}` : feedTitle;
+
+	return (feed.entry || []).flatMap((entry) => {
+		const link =
+			entry.link?.find((l) => !l.$?.rel || l.$.rel === "alternate")?.$?.href ||
+			entry.link?.[0]?.$?.href;
+		const title = nodeText(entry.title?.[0]);
+		if (!link || !title) return [];
+
+		const body = nodeText(entry.summary?.[0]) || nodeText(entry.content?.[0]);
+		// Reddit's content is the post's HTML boilerplate ("submitted by ... [link] [comments]"),
+		// which is noise as a summary.
+		const description = /submitted by/i.test(body) ? "" : clean(body).trim();
+
+		return [{
+			link,
+			title: clean(title),
+			description,
+			pubDate: entry.published?.[0] || entry.updated?.[0] || "",
+			language,
+			feedName: feedName || new URL(link).hostname.replace("www.", ""),
+		}];
+	});
+}
+
 export async function GET() {
 	// let test = [];
 	// const c = new Crawler({ maxConnections: 10 });
@@ -62,7 +145,7 @@ export async function GET() {
 		"https://globalnews.ca/feed/",
 		// "https://9to5mac.com/feed/",
 		// "https://pcmag.com/feeds/rss/latest",
-		"https://old.reddit.com/r/news/",
+		"https://www.reddit.com/r/news/.rss",
 		"https://kyivindependent.com/feed",
 		"https://www.kyivpost.com/feed",
 		"https://www.themoscowtimes.com/rss/news",
@@ -79,14 +162,9 @@ export async function GET() {
 	"https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml",
 	];
 
-	const responses = await Promise.all(
-		urls.map((url) => fetch(url))
-	);
-
-	const feeds = await Promise.all([
-		...responses.map((res) => res.text()),
-		// crawlerResponse.body
-	]);
+	// Each feed is fetched on its own so one slow, failing or blocked site
+	// drops only its own stories instead of failing the whole response.
+	const feeds = await Promise.all(urls.map(fetchFeedText));
 	const parseXml = promisify(parseString);
 
 	// Add this function to sanitize XML
@@ -106,8 +184,17 @@ export async function GET() {
 		feeds.map(async (feed) => {
 			const sanitizedFeed = sanitizeText(escapeHtml(feed));
 
+			if (!feed) return [];
+
 			try {
-				const result = (await parseXml(sanitizedFeed)) as RssResult;
+				const result = (await parseXml(sanitizedFeed)) as RssResult & AtomResult;
+
+				if (result?.feed) {
+					return parseAtomFeed(result, (text) =>
+						escapeHtml(removeHtmlTags(removeUnicode(text)))
+					);
+				}
+
 				const feed =
 					get(result, "rss.channel[0].item") ||
 					get(result, "channel[0].item") ||
